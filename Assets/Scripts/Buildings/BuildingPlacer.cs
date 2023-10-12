@@ -48,15 +48,18 @@ public class BuildingPlacer : MonoBehaviour
 
     }
 
-    void PreparePlacedBuilding(int buildingDataIndex)
+    void PreparePlacedBuilding(int _buildingDataIndex)
     {
+        Debug.Log($"_buildingDataIndex: {_buildingDataIndex}");
+        Debug.Log($"Global.BUILDING_DATA.Length: {Global.BUILDING_DATA.Length}");
+
         // destroy the previous "phantom" if there is one
         if (placedBuilding != null && !placedBuilding.IsFixed)
         {
             Destroy(placedBuilding.Transform.gameObject);
         }
         Building _building = new Building(
-            Global.BUILDING_DATA[buildingDataIndex]
+            Global.BUILDING_DATA[_buildingDataIndex]
         );
       
         _building.Transform.GetComponent<BuildingManager>().Initialize(_building);   // link the data into the manager

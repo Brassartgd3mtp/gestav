@@ -6,14 +6,14 @@ using UnityEngine;
 [RequireComponent(typeof(BoxCollider))]
 public class BuildingManager : MonoBehaviour
 {
-    private BoxCollider collider;
+    private BoxCollider _collider;
 
     private Building building = null;
     private int nCollisions = 0;
 
     public void Initialize(Building _building)
     {
-        collider = GetComponent<BoxCollider>();
+        _collider = GetComponent<BoxCollider>();
         building = _building;
     }
 
@@ -53,8 +53,8 @@ public class BuildingManager : MonoBehaviour
 
         // get 4 bottom corner positions
         Vector3 p = transform.position;
-        Vector3 c = collider.center;
-        Vector3 e = collider.size / 2f;
+        Vector3 c = _collider.center;
+        Vector3 e = _collider.size / 2f;
         float _bottomHeight = c.y - e.y + 0.5f;
         Vector3[] _bottomCorners = new Vector3[]
         {
