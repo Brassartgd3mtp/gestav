@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 public class BuildingPlacer : MonoBehaviour
 {
@@ -10,12 +11,7 @@ public class BuildingPlacer : MonoBehaviour
     private RaycastHit raycastHit;
     private Vector3 lastPlacementPosition;
 
-    void Start()
-    {
-        // for now, we'll automatically pick our first
-        // building type as the type we want to build
-        PreparePlacedBuilding(0);
-    }
+
 
     void Update()
     {
@@ -39,7 +35,7 @@ public class BuildingPlacer : MonoBehaviour
                 lastPlacementPosition = raycastHit.point;
             }
 
-            if (placedBuilding.HasValidPlacement && Input.GetMouseButtonDown(0))
+            if (placedBuilding.HasValidPlacement && Input.GetMouseButtonDown(0) && !EventSystem.current.IsPointerOverGameObject())
             {
                 PlaceBuilding(); 
             }
@@ -48,10 +44,13 @@ public class BuildingPlacer : MonoBehaviour
 
     }
 
+    public void SelectPlacedBuilding(int _buildingDataIndex) //pass a building type index to to have a new "phantom" building
+    {
+        PreparePlacedBuilding(_buildingDataIndex);
+    }
+
     void PreparePlacedBuilding(int _buildingDataIndex)
     {
-        Debug.Log($"_buildingDataIndex: {_buildingDataIndex}");
-        Debug.Log($"Global.BUILDING_DATA.Length: {Global.BUILDING_DATA.Length}");
 
         // destroy the previous "phantom" if there is one
         if (placedBuilding != null && !placedBuilding.IsFixed)

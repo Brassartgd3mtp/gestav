@@ -9,6 +9,8 @@ public class Global
 
     public static BuildingData[] BUILDING_DATA = new BuildingData[]
     {
-        new BuildingData("Building", 100)
+        new BuildingData("Mine", 20),
+        new BuildingData("Forge", 30),
+        new BuildingData("Workshop", 40)
     };
 }
