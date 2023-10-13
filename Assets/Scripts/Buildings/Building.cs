@@ -26,7 +26,6 @@ public class Building //This script handles the instances of the buildings
         data = _data;
         currentHealth = _data.HP; //set the current health of the building to be the one set in the data script
 
-        Debug.Log($"data.Code: {data.Code}");
         GameObject g = GameObject.Instantiate(Resources.Load($"Prefabs/Buildings/{data.Code}")) as GameObject; // instantiate the gameobject from the prefab located in our resources folder
         transform = g.transform;
 
