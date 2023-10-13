@@ -4,7 +4,7 @@ using UnityEngine;
 
 
 [RequireComponent(typeof(BoxCollider))]
-public class BuildingManager : MonoBehaviour
+public class BuildingManager : UnitManager
 {
     private BoxCollider _collider;
 

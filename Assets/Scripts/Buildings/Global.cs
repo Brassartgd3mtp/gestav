@@ -13,4 +13,6 @@ public class Global
         new BuildingData("Forge", 30),
         new BuildingData("Workshop", 40)
     };
+
+    public static List<UnitManager> SELECTED_UNITS = new List<UnitManager>();
 }

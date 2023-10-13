@@ -97,7 +97,7 @@ GameObject:
   - component: {fileID: 5397181130447003597}
   m_Layer: 0
   m_Name: Forge
-  m_TagString: Untagged
+  m_TagString: Unit
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
