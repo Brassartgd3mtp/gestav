@@ -3,52 +3,57 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-
+// Enumeration to represent the building placement state
 public enum BuildingPlacement
 {
-    VALID,
-    FIXED,
-    INVALID
+    VALID,   // Valid placement
+    FIXED,   // Placement fixed
+    INVALID  // Invalid placement
 };
 
-public class Building //This script handles the instances of the buildings
+// Class representing a building in the game
+public class Building
 {
-    public BuildingData data;
-    private Transform transform;
-    private BuildingPlacement placement;
-    private int currentHealth;
-    private List<Material> _materials;
+    public BuildingData data;              // Building data
+    private Transform transform;           // Reference to the building's Transform component
+    private BuildingPlacement placement;   // Building placement state
+    private int currentHealth;             // Current health points of the building
+    private List<Material> _materials;    // List of materials for rendering
 
-    private BuildingManager buildingManager;
+    private BuildingManager buildingManager;  // Building manager
 
-    public Building(BuildingData _data) //create a new Building instance using a BuildingData reference so it has all the required metadata
+    // Constructor for the Building class
+    public Building(BuildingData _data)
     {
         data = _data;
-        currentHealth = _data.HP; //set the current health of the building to be the one set in the data script
+        currentHealth = _data.HP;
 
-        GameObject g = GameObject.Instantiate(Resources.Load($"Prefabs/Buildings/{data.Code}")) as GameObject; // instantiate the gameobject from the prefab located in our resources folder
+        // Instantiate a GameObject based on the building's code from a prefab
+        GameObject g = GameObject.Instantiate(Resources.Load($"Prefabs/Buildings/{data.Code}")) as GameObject;
         transform = g.transform;
 
-        // set building mode as "valid" placement
+        // Set the placement state to "valid"
         placement = BuildingPlacement.VALID;
 
+        // Copy the initial rendering materials to the _materials list
         _materials = new List<Material>();
         foreach (Material material in transform.Find("Mesh").GetComponent<Renderer>().materials)
         {
             _materials.Add(new Material(material));
         }
 
-        // (set the materials to match the "valid" initial state)
+        // Set the materials to match the "valid" initial state
         buildingManager = g.GetComponent<BuildingManager>();
         placement = BuildingPlacement.VALID;
         SetMaterials();
     }
 
-
+    // Method to set the building's materials
     public void SetMaterials() { SetMaterials(placement); }
     public void SetMaterials(BuildingPlacement _placement)
     {
         List<Material> materials;
+
         if (_placement == BuildingPlacement.VALID)
         {
             Material refMaterial = Resources.Load("Materials/Valid") as Material;
@@ -73,44 +78,57 @@ public class Building //This script handles the instances of the buildings
         }
         else
         {
-            return;
+            return;  // If the placement state is not recognized, do nothing
         }
+
+        // Apply the materials to the building's rendering
         transform.Find("Mesh").GetComponent<Renderer>().materials = materials.ToArray();
     }
 
-
-
-
+    // Method to place the building
     public void Place()
     {
-        // set placement state
+        // Set the placement state to "fixed"
         placement = BuildingPlacement.FIXED;
-        // change building materials
+
+        // Change the building's materials
         SetMaterials();
-        // remove "is trigger" flag from box collider to allow
-        // for collisions with units
+
+        // Remove the "isTrigger" flag from the collider to allow collisions with units
         transform.GetComponent<BoxCollider>().isTrigger = false;
     }
 
-
+    // Method to check if the building's placement is valid
     public void CheckValidPlacement()
     {
         if (placement == BuildingPlacement.FIXED) return;
+
+        // Check the placement with the building manager
         placement = buildingManager.CheckPlacement()
             ? BuildingPlacement.VALID
             : BuildingPlacement.INVALID;
     }
 
-    public void SetPosition(Vector3 _position) // set the position of the object in the scene
+    // Method to set the position of the building in the scene
+    public void SetPosition(Vector3 _position)
     {
         transform.position = _position;
     }
 
+    // Property to get the building's code
     public string Code { get => data.Code; }
+
+    // Property to get the building's Transform
     public Transform Transform { get => transform; }
-    public int HP { get => currentHealth; set => currentHealth = value; } // setter will allow a quick way to update the HP form outside the class
+
+    // Property to get and set the current health points of the building
+    public int HP { get => currentHealth; set => currentHealth = value; }
+
+    // Property to get the maximum health points of the building
     public int MaxHP { get => data.HP; }
-    public int DataIndex // gives us the index of the abstract building type data instance in the global list
+
+    // Property to get the index of the building's data in the global list
+    public int DataIndex
     {
         get
         {
@@ -121,10 +139,13 @@ public class Building //This script handles the instances of the buildings
                     return i;
                 }
             }
-            return -1;
+            return -1;  // Return -1 if the data is not found
         }
     }
+
+    // Property to check if the building is fixed in place
     public bool IsFixed { get => placement == BuildingPlacement.FIXED; }
+
+    // Property to check if the building has a valid placement
     public bool HasValidPlacement { get => placement == BuildingPlacement.VALID; }
 }
-

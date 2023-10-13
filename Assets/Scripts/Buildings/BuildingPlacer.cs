@@ -17,7 +17,7 @@ public class BuildingPlacer : MonoBehaviour
     {
         if (placedBuilding != null)
         {
-            if (Input.GetMouseButtonDown(1))
+            if (Input.GetKeyDown(KeyCode.Escape))
             {
                 CancelPlacedBuilding();
                 return;
@@ -35,7 +35,7 @@ public class BuildingPlacer : MonoBehaviour
                 lastPlacementPosition = raycastHit.point;
             }
 
-            if (placedBuilding.HasValidPlacement && Input.GetMouseButtonDown(0) && !EventSystem.current.IsPointerOverGameObject())
+            if (placedBuilding.HasValidPlacement && Input.GetMouseButtonUp(0) && !EventSystem.current.IsPointerOverGameObject())
             {
                 PlaceBuilding(); 
             }
