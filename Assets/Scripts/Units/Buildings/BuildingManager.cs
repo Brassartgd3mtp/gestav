@@ -2,21 +2,18 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-// Required component for the script, automatically adds a BoxCollider if it's not present
-[RequireComponent(typeof(BoxCollider))]
+
 public class BuildingManager : UnitManager
 {
-    private BoxCollider _collider;  // Reference to the BoxCollider component
 
-    private Building building = null;  // Reference to the building managed by this script
-    private int nCollisions = 0;  // Counter for collision events
-
-    // Initialize the BuildingManager with a specific building
-    public void Initialize(Building _building)
+    private Building building;
+    protected override Unit Unit
     {
-        _collider = GetComponent<BoxCollider>();  // Get the BoxCollider component
-        building = _building;  // Set the managed building
+        get { return building; }
+        set { building = value is Building ? (Building)value : null; }
     }
+
+    private int nCollisions = 0;  // Counter for collision events
 
     // Called when another collider enters this object's trigger area
     private void OnTriggerEnter(Collider other)

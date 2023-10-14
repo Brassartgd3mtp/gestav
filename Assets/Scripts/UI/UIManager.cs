@@ -28,10 +28,9 @@ public class UIManager : MonoBehaviour
             BuildingData data = Global.BUILDING_DATA[i];
             GameObject button = Instantiate(buildingButtonPrefab, buildingMenu);
             button.name = data.unitName;
-            button.transform.Find("Text").GetComponent< TextMeshProUGUI>().text = data.unitName;
+            button.transform.Find("Text").GetComponent<TextMeshProUGUI>().text = data.unitName;
             Button b = button.GetComponent<Button>();
             buildingButtons[data.code] = b;
-
 
 
             // Add a listener to the button to handle the selection of the building type
@@ -45,4 +44,5 @@ public class UIManager : MonoBehaviour
         // Use a lambda expression to add a listener that selects the corresponding building type
         b.onClick.AddListener(() => buildingPlacer.SelectPlacedBuilding(i));
     }
+
 }

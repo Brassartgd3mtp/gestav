@@ -9,10 +9,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8582d150e895b944caa03186b6322cd1, type: 3}
-  m_Name: Mine
+  m_Script: {fileID: 11500000, guid: b6b6c9f6b8612fe40972b1523317a814, type: 3}
+  m_Name: Worker
   m_EditorClassIdentifier: 
-  code: Mine
-  unitName: Mine
-  healthpoints: 20
-  prefab: {fileID: 8316421863545563184, guid: b3215528c0f48d34daea3a8b308fe6f4, type: 3}
+  code: Worker
+  unitName: Worker
+  healthpoints: 0
+  prefab: {fileID: 0}

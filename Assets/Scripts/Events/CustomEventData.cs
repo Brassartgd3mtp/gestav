@@ -6,12 +6,11 @@ using UnityEngine.Events;
 // This script stores the data associated with our events
 public class CustomEventData : MonoBehaviour
 {
-    public BuildingData buildingData; // Data associated with the event
+    public UnitData unitData;
 
-    // Constructor for CustomEventData that initializes it with BuildingData
-    public CustomEventData(BuildingData _buildingData)
+    public CustomEventData(UnitData unitData)
     {
-        this.buildingData = _buildingData;
+        this.unitData = unitData;
     }
 }
 

@@ -2,9 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[RequireComponent(typeof(BoxCollider))]
 public class UnitManager : MonoBehaviour
 {
     public GameObject selectionCircle; // Reference to the selection circle object
+
+    protected BoxCollider _collider;
+    protected virtual Unit Unit { get; set; }
 
     // Called when the mouse is clicked on the unit
     private void OnMouseDown()
@@ -65,5 +69,11 @@ public class UnitManager : MonoBehaviour
         if (!Global.SELECTED_UNITS.Contains(this)) return;
         Global.SELECTED_UNITS.Remove(this);
         selectionCircle.SetActive(false);
+    }
+
+    public void Initialize(Unit _unit)
+    {
+        _collider = GetComponent<BoxCollider>();
+        Unit = _unit;
     }
 }

@@ -12,28 +12,19 @@ public enum BuildingPlacement
 };
 
 // Class representing a building in the game
-public class Building
+public class Building : Unit
 {
-    public BuildingData data;              // Building data
-    private Transform transform;           // Reference to the building's Transform component
     private BuildingPlacement placement;   // Building placement state
-    private int currentHealth;             // Current health points of the building
     private List<Material> _materials;    // List of materials for rendering
 
     private BuildingManager buildingManager;  // Building manager
 
     // Constructor for the Building class
-    public Building(BuildingData _data)
+    public Building(BuildingData _data) : base(_data)
     {
-        data = _data;
-        currentHealth = _data.healthpoints;
-
-        // Instantiate a GameObject based on the building's code from a prefab
-        GameObject g = GameObject.Instantiate(data.prefab) as GameObject;
-        transform = g.transform;
 
         // Set the materials to match the "valid" initial state
-        buildingManager = g.GetComponent<BuildingManager>();
+        buildingManager = Transform.GetComponent<BuildingManager>();
 
         // Copy the initial rendering materials to the _materials list
         _materials = new List<Material>();
@@ -85,17 +76,17 @@ public class Building
     }
 
     // Method to place the building
-    public void Place()
+    public override void Place()
     {
+        base.Place();
         // Set the placement state to "fixed"
         placement = BuildingPlacement.FIXED;
 
         // Change the building's materials
         SetMaterials();
-
-        // Remove the "isTrigger" flag from the collider to allow collisions with units
-        transform.GetComponent<BoxCollider>().isTrigger = false;
     }
+
+
 
     // Method to check if the building's placement is valid
     public void CheckValidPlacement()
@@ -107,24 +98,6 @@ public class Building
             ? BuildingPlacement.VALID
             : BuildingPlacement.INVALID;
     }
-
-    // Method to set the position of the building in the scene
-    public void SetPosition(Vector3 _position)
-    {
-        transform.position = _position;
-    }
-
-    // Property to get the building's code
-    public string Code { get => data.code; }
-
-    // Property to get the building's Transform
-    public Transform Transform { get => transform; }
-
-    // Property to get and set the current health points of the building
-    public int HP { get => currentHealth; set => currentHealth = value; }
-
-    // Property to get the maximum health points of the building
-    public int MaxHP { get => data.healthpoints; }
 
     // Property to get the index of the building's data in the global list
     public int DataIndex
