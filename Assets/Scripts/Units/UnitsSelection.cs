@@ -48,16 +48,16 @@ public class UnitsSelection : MonoBehaviour
     {
         if (isDraggingMouseBox)
         {
-            // Create a rect from both mouse positions
+            // Create a rectangle from both mouse positions
             var rect = Utils.GetScreenRect(dragStartPosition, Input.mousePosition);
             Utils.DrawScreenRect(rect, new Color(0.5f, 1f, 0.4f, 0.2f));
             Utils.DrawScreenRectBorder(rect, 1, new Color(0.5f, 1f, 0.4f));
         }
     }
 
-
     private void SelectUnitsInDraggingBox()
     {
+        // Calculate the selection bounds based on the dragged box
         Bounds selectionBounds = Utils.GetViewportBounds(
             Camera.main,
             dragStartPosition,
@@ -67,6 +67,7 @@ public class UnitsSelection : MonoBehaviour
         bool inBounds;
         foreach (GameObject unit in selectableUnits)
         {
+            // Check if the unit's position is within the selection bounds
             inBounds = selectionBounds.Contains(
                 Camera.main.WorldToViewportPoint(unit.transform.position)
             );
@@ -79,6 +80,7 @@ public class UnitsSelection : MonoBehaviour
 
     private void DeselectAllUnits()
     {
+        // Deselect all currently selected units
         List<UnitManager> selectedUnits = new List<UnitManager>(Global.SELECTED_UNITS);
         foreach (UnitManager um in selectedUnits)
             um.Deselect();

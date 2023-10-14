@@ -4,20 +4,22 @@ using UnityEngine;
 
 public class UnitManager : MonoBehaviour
 {
-    public GameObject selectionCircle;
+    public GameObject selectionCircle; // Reference to the selection circle object
 
-
+    // Called when the mouse is clicked on the unit
     private void OnMouseDown()
     {
         if (IsActive())
-            Select(true,Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift));
+            Select(true, Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift));
     }
 
+    // Check if the unit is active and can be selected
     protected virtual bool IsActive()
     {
         return true;
     }
 
+    // Utility method for selecting the unit
     private void SelectUtil()
     {
         if (Global.SELECTED_UNITS.Contains(this)) return;
@@ -25,17 +27,22 @@ public class UnitManager : MonoBehaviour
         selectionCircle.SetActive(true);
     }
 
-    public void Select() { Select(false, false); }
+    // Select the unit, allowing for multiple selections with or without the Shift key
+    public void Select()
+    {
+        Select(false, false);
+    }
+
     public void Select(bool _singleClick, bool _holdingShift)
     {
-        // basic case: using the selection box
+        // Basic case: using the selection box
         if (!_singleClick)
         {
             SelectUtil();
             return;
         }
 
-        // single click: check for shift key
+        // Single click: check for Shift key
         if (!_holdingShift)
         {
             List<UnitManager> selectedUnits = new List<UnitManager>(Global.SELECTED_UNITS);
@@ -52,12 +59,11 @@ public class UnitManager : MonoBehaviour
         }
     }
 
+    // Deselect the unit
     public void Deselect()
     {
         if (!Global.SELECTED_UNITS.Contains(this)) return;
         Global.SELECTED_UNITS.Remove(this);
         selectionCircle.SetActive(false);
     }
-
-
 }
