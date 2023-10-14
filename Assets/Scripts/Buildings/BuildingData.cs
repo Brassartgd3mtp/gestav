@@ -2,17 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BuildingData
+[CreateAssetMenu(fileName = "Building", menuName = "Scriptable Objects/Building", order = 1)]
+public class BuildingData : ScriptableObject
 {
-    private string code; // the unique code of the building (that will be used to get the proper prefab
-    private int healthPoints; //amount of healthpoints the instances of this reference will have when created
+    public string code;
+    public string unitName;
+    public int healthpoints;
+    public GameObject prefab;
 
-    public BuildingData(string _code, int _healthPoints)
-    {
-        code = _code;
-        healthPoints = _healthPoints;
-    }
-
-    public string Code { get => code; }
-    public int HP { get => healthPoints; }
 }

@@ -26,14 +26,14 @@ public class Building
     public Building(BuildingData _data)
     {
         data = _data;
-        currentHealth = _data.HP;
+        currentHealth = _data.healthpoints;
 
         // Instantiate a GameObject based on the building's code from a prefab
-        GameObject g = GameObject.Instantiate(Resources.Load($"Prefabs/Buildings/{data.Code}")) as GameObject;
+        GameObject g = GameObject.Instantiate(data.prefab) as GameObject;
         transform = g.transform;
 
-        // Set the placement state to "valid"
-        placement = BuildingPlacement.VALID;
+        // Set the materials to match the "valid" initial state
+        buildingManager = g.GetComponent<BuildingManager>();
 
         // Copy the initial rendering materials to the _materials list
         _materials = new List<Material>();
@@ -42,8 +42,7 @@ public class Building
             _materials.Add(new Material(material));
         }
 
-        // Set the materials to match the "valid" initial state
-        buildingManager = g.GetComponent<BuildingManager>();
+
         placement = BuildingPlacement.VALID;
         SetMaterials();
     }
@@ -116,7 +115,7 @@ public class Building
     }
 
     // Property to get the building's code
-    public string Code { get => data.Code; }
+    public string Code { get => data.code; }
 
     // Property to get the building's Transform
     public Transform Transform { get => transform; }
@@ -125,7 +124,7 @@ public class Building
     public int HP { get => currentHealth; set => currentHealth = value; }
 
     // Property to get the maximum health points of the building
-    public int MaxHP { get => data.HP; }
+    public int MaxHP { get => data.healthpoints; }
 
     // Property to get the index of the building's data in the global list
     public int DataIndex
@@ -134,7 +133,7 @@ public class Building
         {
             for (int i = 0; i < Global.BUILDING_DATA.Length; i++)
             {
-                if (Global.BUILDING_DATA[i].Code == data.Code)
+                if (Global.BUILDING_DATA[i].code == data.code)
                 {
                     return i;
                 }

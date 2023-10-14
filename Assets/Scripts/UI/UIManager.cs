@@ -10,25 +10,29 @@ public class UIManager : MonoBehaviour
     [SerializeField] private GameObject buildingButtonPrefab; // Prefab for building menu buttons
 
     private BuildingPlacer buildingPlacer; // Reference to the BuildingPlacer script
+    private Dictionary<string, Button> buildingButtons; // Dictionary to hold the building buttons
 
     private void Awake()
     {
         buildingPlacer = GetComponent<BuildingPlacer>(); // Get the BuildingPlacer component of the same GameObject
 
+
         // Create buttons for each building type
+
+        buildingButtons = new Dictionary<string, Button>();
+
         for (int i = 0; i < Global.BUILDING_DATA.Length; i++)
         {
-            // Instantiate a button prefab for each building type
-            GameObject button = GameObject.Instantiate(buildingButtonPrefab, buildingMenu);
 
-            // Set the name of the button to the building code for identification
-            string code = Global.BUILDING_DATA[i].Code;
-            button.name = code;
 
-            // Set the button's text to the building code
-            button.transform.Find("Text").GetComponent<TextMeshProUGUI>().text = code;
-
+            BuildingData data = Global.BUILDING_DATA[i];
+            GameObject button = Instantiate(buildingButtonPrefab, buildingMenu);
+            button.name = data.unitName;
+            button.transform.Find("Text").GetComponent< TextMeshProUGUI>().text = data.unitName;
             Button b = button.GetComponent<Button>();
+            buildingButtons[data.code] = b;
+
+
 
             // Add a listener to the button to handle the selection of the building type
             AddBuildingButtonListener(b, i);

@@ -78,7 +78,9 @@ public class BuildingPlacer : MonoBehaviour
     void PlaceBuilding()
     {
         placedBuilding.Place(); // Set the placement state to "fixed"
+
         // Continue building the same type of building
+
         PreparePlacedBuilding(placedBuilding.DataIndex);
     }
 }
