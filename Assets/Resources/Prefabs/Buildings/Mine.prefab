@@ -95,6 +95,7 @@ GameObject:
   - component: {fileID: 5638162224853076916}
   - component: {fileID: 6043932349711789998}
   - component: {fileID: 4476076860485327923}
+  - component: {fileID: -485740623328278625}
   m_Layer: 0
   m_Name: Mine
   m_TagString: Unit
@@ -180,6 +181,22 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!208 &-485740623328278625
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8316421863545563184}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 0.5, y: 0.5, z: 0.5}
+  m_MoveThreshold: 0.1
+  m_Carve: 0
+  m_CarveOnlyStationary: 1
+  m_Center: {x: 0, y: 0, z: 0}
+  m_TimeToStationary: 0.5
 --- !u!1 &8968449125538242080
 GameObject:
   m_ObjectHideFlags: 0
