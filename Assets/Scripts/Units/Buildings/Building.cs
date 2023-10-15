@@ -2,6 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UIElements;
+using Unity.AI.Navigation;
+using UnityEngine.AI;
 
 // Enumeration to represent the building placement state
 public enum BuildingPlacement
@@ -23,7 +25,7 @@ public class Building : Unit
     public Building(BuildingData _data) : base(_data)
     {
 
-        // Set the materials to match the "valid" initial state
+        
         buildingManager = Transform.GetComponent<BuildingManager>();
 
         // Copy the initial rendering materials to the _materials list
@@ -82,8 +84,13 @@ public class Building : Unit
         // Set the placement state to "fixed"
         placement = BuildingPlacement.FIXED;
 
-        // Change the building's materials
-        SetMaterials();
+            // Change the building's materials
+            SetMaterials();
+
+
+        //rebuild the navmesh
+        GameObject Ground = GameObject.Find("Ground");
+        Ground.GetComponent<NavMeshSurface>().BuildNavMesh();
     }
 
 

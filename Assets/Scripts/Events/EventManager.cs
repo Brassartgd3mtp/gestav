@@ -3,13 +3,16 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
+[System.Serializable]
+public class TypedEvent : UnityEvent<object> { }
+
 public class EventManager : MonoBehaviour
 {
-    private Dictionary<string, UnityEvent> events; // Dictionary to store events with no custom data
-    private static EventManager eventManager; // Singleton instance of the EventManager
-    private Dictionary<string, CustomEvent> typedEvents; // Dictionary to store events with custom data
 
-    // Singleton pattern to get an instance of EventManager
+    private Dictionary<string, UnityEvent> events;
+    private Dictionary<string, TypedEvent> typedEvents;
+    private static EventManager eventManager;
+
     public static EventManager instance
     {
         get
@@ -28,17 +31,15 @@ public class EventManager : MonoBehaviour
         }
     }
 
-    // Initialize event dictionaries
     void Init()
     {
         if (events == null)
         {
             events = new Dictionary<string, UnityEvent>();
-            typedEvents = new Dictionary<string, CustomEvent>();
+            typedEvents = new Dictionary<string, TypedEvent>();
         }
     }
 
-    // Add a listener to an event without custom data
     public static void AddListener(string _eventName, UnityAction _listener)
     {
         UnityEvent _evt = null;
@@ -53,8 +54,21 @@ public class EventManager : MonoBehaviour
             instance.events.Add(_eventName, _evt);
         }
     }
+    public static void AddListener(string _eventName, UnityAction<object> _listener)
+    {
+        TypedEvent _evt = null;
+        if (instance.typedEvents.TryGetValue(_eventName, out _evt))
+        {
+            _evt.AddListener(_listener);
+        }
+        else
+        {
+            _evt = new TypedEvent();
+            _evt.AddListener(_listener);
+            instance.typedEvents.Add(_eventName, _evt);
+        }
+    }
 
-    // Remove a listener from an event without custom data
     public static void RemoveListener(string _eventName, UnityAction _listener)
     {
         if (eventManager == null) return;
@@ -62,44 +76,23 @@ public class EventManager : MonoBehaviour
         if (instance.events.TryGetValue(_eventName, out _evt))
             _evt.RemoveListener(_listener);
     }
+    public static void RemoveListener(string _eventName, UnityAction<object> _listener)
+    {
+        if (eventManager == null) return;
+        TypedEvent _evt = null;
+        if (instance.typedEvents.TryGetValue(_eventName, out _evt))
+            _evt.RemoveListener(_listener);
+    }
 
-    // Trigger an event without custom data
     public static void TriggerEvent(string _eventName)
     {
         UnityEvent _evt = null;
         if (instance.events.TryGetValue(_eventName, out _evt))
             _evt.Invoke();
     }
-
-    // Add a listener to an event with custom data
-    public static void AddTypedListener(string _eventName, UnityAction<CustomEventData> _listener)
+    public static void TriggerEvent(string _eventName, object _data)
     {
-        CustomEvent _evt = null;
-        if (instance.typedEvents.TryGetValue(_eventName, out _evt))
-        {
-            _evt.AddListener(_listener);
-        }
-        else
-        {
-            _evt = new CustomEvent();
-            _evt.AddListener(_listener);
-            instance.typedEvents.Add(_eventName, _evt);
-        }
-    }
-
-    // Remove a listener from an event with custom data
-    public static void RemoveTypedListener(string _eventName, UnityAction<CustomEventData> _listener)
-    {
-        if (eventManager == null) return;
-        CustomEvent _evt = null;
-        if (instance.typedEvents.TryGetValue(_eventName, out _evt))
-            _evt.RemoveListener(_listener);
-    }
-
-    // Trigger an event with custom data
-    public static void TriggerTypedEvent(string _eventName, CustomEventData _data)
-    {
-        CustomEvent _evt = null;
+        TypedEvent _evt = null;
         if (instance.typedEvents.TryGetValue(_eventName, out _evt))
             _evt.Invoke(_data);
     }
