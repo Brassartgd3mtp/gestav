@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 8742815548975518459}
   - component: {fileID: 9048371616509492559}
   - component: {fileID: 2381565808768823020}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Mesh
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -96,7 +96,7 @@ GameObject:
   - component: {fileID: 549576076700245493}
   - component: {fileID: 5397181130447003597}
   - component: {fileID: 4861557067850865161}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Forge
   m_TagString: Unit
   m_Icon: {fileID: 0}
@@ -208,7 +208,7 @@ GameObject:
   - component: {fileID: 9184813882411914014}
   - component: {fileID: 1691347048671132010}
   - component: {fileID: 4386028880176488289}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Circle
   m_TagString: Untagged
   m_Icon: {fileID: 0}

@@ -34,8 +34,34 @@ public class GameManager : MonoBehaviour
             {
                 foreach (UnitManager um in Global.SELECTED_UNITS)
                     if (um.GetType() == typeof(CharacterManager))
+                    {
                         ((CharacterManager)um).MoveTo(raycastHit.point);
+                        ((CharacterManager)um).ExitGatheringMode();
+                    }
             }
+
+
+            if (Global.SELECTED_UNITS.Count > 0 && Input.GetMouseButtonUp(1))
+            {
+                ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+                if (Physics.Raycast(
+                    ray,
+                    out raycastHit,
+                    1000f,
+                    Global.RESOURCE_LAYER_MASK
+                ))
+                {
+                    foreach (UnitManager um in Global.SELECTED_UNITS)
+                        if (um.GetType() == typeof(CharacterManager))
+                        {
+                            ((CharacterManager)um).MoveTo(raycastHit.point);
+                            ((CharacterManager)um).EnterGatheringMode();
+                        }
+
+                }
+
+            }
+
         }
     }
 }

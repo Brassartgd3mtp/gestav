@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 1579053265083461528}
   - component: {fileID: 9177215340386137077}
   - component: {fileID: 8947780487493554752}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Circle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -94,7 +94,7 @@ GameObject:
   - component: {fileID: 7917235572540915458}
   - component: {fileID: 1121181931489380616}
   - component: {fileID: 6022310498299618594}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Mesh
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -179,7 +179,7 @@ GameObject:
   - component: {fileID: 8312090575765766807}
   - component: {fileID: 8482933962476777727}
   - component: {fileID: 4894805048222983043}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Workshop
   m_TagString: Unit
   m_Icon: {fileID: 0}

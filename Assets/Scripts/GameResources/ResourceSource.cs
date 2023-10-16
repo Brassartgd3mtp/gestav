@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 
 public class ResourceSource
@@ -7,6 +8,7 @@ public class ResourceSource
     protected ResourceSourceData data;
     protected Transform resourceTransform;
     protected int currentAmount;
+    private ResourceManager resourceManager;
 
     public ResourceSource(ResourceSourceData _data)
     {
@@ -16,7 +18,11 @@ public class ResourceSource
         // Instantiate a GameObject based on the unit's code from a prefab
         GameObject g = GameObject.Instantiate(data.prefab) as GameObject;
         resourceTransform = g.transform;
+
+        resourceManager = Transform.GetComponent<ResourceManager>();
     }
+
+
 
     public ResourceSourceData Data { get => data; }
 

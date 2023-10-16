@@ -6,6 +6,8 @@ TagManager:
   tags:
   - Terrain
   - Unit
+  - Resource
+  - ResourceArea
   layers:
   - Default
   - TransparentFX
@@ -17,10 +19,10 @@ TagManager:
   - 
   - 
   - Terrain
-  - 
-  - 
-  - 
-  - 
+  - Building
+  - ResourceInterract
+  - Worker
+  - Resource
   - 
   - 
   - 
