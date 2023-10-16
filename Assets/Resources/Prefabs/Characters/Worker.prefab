@@ -100,6 +100,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   selectionCircle: {fileID: 7468847321277890802}
   agent: {fileID: 1689742863027917839}
+  stoppingDistance: 0.3
+  stoppingMultiplicator: 0.3
 --- !u!195 &1689742863027917839
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -111,9 +113,9 @@ NavMeshAgent:
   m_AgentTypeID: 0
   m_Radius: 0.75
   m_Speed: 6
-  m_Acceleration: 1.5
+  m_Acceleration: 10
   avoidancePriority: 50
-  m_AngularSpeed: 120
+  m_AngularSpeed: 360
   m_StoppingDistance: 0.25
   m_AutoTraverseOffMeshLink: 1
   m_AutoBraking: 1
