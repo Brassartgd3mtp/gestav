@@ -165,7 +165,7 @@ GameObject:
   - component: {fileID: 794663862827617751}
   - component: {fileID: 4477381340426299441}
   - component: {fileID: 3392996915552143194}
-  - component: {fileID: 2613496599359821908}
+  - component: {fileID: 3326192364433379775}
   m_Layer: 0
   m_Name: ResourceSpot
   m_TagString: Resource
@@ -256,7 +256,7 @@ MonoBehaviour:
   onQuantityChange:
     m_PersistentCalls:
       m_Calls: []
---- !u!114 &2613496599359821908
+--- !u!114 &3326192364433379775
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}

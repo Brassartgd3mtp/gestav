@@ -10,19 +10,18 @@ public class CharacterManager : UnitManager
 
     private Character character;
 
-    public WorkerInventory workerInventory;
-    public InventoryObject inventory;
-    private Item item;
-
 
     private ResourceSpot resourceSpot;
 
+    private Item item;
 
     [SerializeField] private NavMeshAgent agent;
     [SerializeField] private float stoppingDistance;
     [SerializeField] private float stoppingMultiplicator = 0.3f;
 
     [SerializeField] private int resourceToGather = 1;
+
+    private InventoryHolder inventory;
 
     public bool GatheringMode;
     public bool BuildingMode;
@@ -35,6 +34,11 @@ public class CharacterManager : UnitManager
         set { character = value is Character ? (Character)value : null; }
     }
 
+    private void Awake()
+    {
+        inventory = gameObject.GetComponent<InventoryHolder>();
+    }
+
     private void Update()
     {
         if(isGathering)
@@ -43,11 +47,8 @@ public class CharacterManager : UnitManager
             if (timer <=0f)
             {
                 resourceSpot.GatherResources(resourceToGather);
+                inventory.InventorySystem.AddToInventory(item.item, resourceToGather);
                 timer = miningDuration;
-                if(item != null)
-                {
-                    inventory.AddItem(item.item, resourceToGather);
-                }
             }
         }
     }
@@ -80,8 +81,7 @@ public class CharacterManager : UnitManager
         {
             Debug.Log("collision");
             resourceSpot = other.gameObject.GetComponentInChildren<ResourceSpot>();
-            var _item = other.gameObject.GetComponentInChildren<Item>();
-            item = _item;
+            item = other.gameObject.GetComponentInChildren<Item>();
             StartGathering();
         }
     }

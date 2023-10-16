@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 4347793817180003407}
   - component: {fileID: 1689742863027917839}
   - component: {fileID: 9152607663828230570}
-  - component: {fileID: 594007353740836279}
+  - component: {fileID: 4389366562271771449}
   m_Layer: 12
   m_Name: Worker
   m_TagString: Unit
@@ -100,8 +100,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   selectionCircle: {fileID: 7468847321277890802}
-  workerInventory: {fileID: 594007353740836279}
-  inventory: {fileID: 11400000, guid: 851c9a7f8de86a64b8436a8e4d027550, type: 2}
   agent: {fileID: 1689742863027917839}
   stoppingDistance: 0.3
   stoppingMultiplicator: 0.3
@@ -149,7 +147,7 @@ MonoBehaviour:
   m_IgnoreFromBuild: 1
   m_ApplyToChildren: 1
   m_AffectedAgents: ffffffff
---- !u!114 &594007353740836279
+--- !u!114 &4389366562271771449
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -158,10 +156,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 2019966834684936119}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1d1c8b5cc4c55094d9c21922b7499d6b, type: 3}
+  m_Script: {fileID: 11500000, guid: dec32ed971a1c2e43904043016856d24, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  workerInventory: {fileID: 11400000, guid: 851c9a7f8de86a64b8436a8e4d027550, type: 2}
+  inventorySize: 9
+  inventorySystem:
+    inventorySlots: []
 --- !u!1 &4740741156543106537
 GameObject:
   m_ObjectHideFlags: 0
