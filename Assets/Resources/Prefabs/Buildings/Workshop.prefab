@@ -179,6 +179,7 @@ GameObject:
   - component: {fileID: 8312090575765766807}
   - component: {fileID: 8482933962476777727}
   - component: {fileID: 4894805048222983043}
+  - component: {fileID: 5878878379363542160}
   m_Layer: 10
   m_Name: Workshop
   m_TagString: Unit
@@ -280,3 +281,18 @@ NavMeshObstacle:
   m_CarveOnlyStationary: 1
   m_Center: {x: 0, y: 0, z: 0}
   m_TimeToStationary: 0.5
+--- !u!114 &5878878379363542160
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4657272848100013260}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dec32ed971a1c2e43904043016856d24, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  inventorySize: 50
+  inventorySystem:
+    inventorySlots: []

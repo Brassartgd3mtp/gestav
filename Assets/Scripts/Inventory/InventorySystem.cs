@@ -15,7 +15,7 @@ public class InventorySystem
 
     public UnityAction<InventorySlot> OnInventorySlotChanged;
 
-    public InventorySystem(int _size)
+    public InventorySystem(int _size) //Constructor that sets the amount of stacks
     {
         inventorySlots = new List<InventorySlot>(_size);
 

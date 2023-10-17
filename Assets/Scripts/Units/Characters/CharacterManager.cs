@@ -22,6 +22,7 @@ public class CharacterManager : UnitManager
     [SerializeField] private int resourceToGather = 1;
 
     private InventoryHolder inventory;
+    private InventorySlot inventorySlot;
 
     public bool GatheringMode;
     public bool BuildingMode;
@@ -43,17 +44,22 @@ public class CharacterManager : UnitManager
     {
         if(isGathering)
         {
-            timer -= Time.deltaTime;
-            if (timer <=0f)
+            if (inventory.InventorySystem.HasFreeSlot(out InventorySlot _freeSlot))
             {
-                if(resourceSpot.Quantity > 0)
-                {
-                    resourceSpot.GatherResources(resourceToGather);
-                    inventory.InventorySystem.AddToInventory(item.item, resourceToGather);
-                }
 
-                timer = miningDuration;
+                timer -= Time.deltaTime;
+                if (timer <= 0f)
+                {
+                    if (resourceSpot.Quantity > 0)
+                    {
+                        resourceSpot.GatherResources(resourceToGather);
+                        inventory.InventorySystem.AddToInventory(item.item, resourceToGather);
+                    }
+
+                    timer = miningDuration;
+                }
             }
+            else GoStoreResources();
         }
     }
 
@@ -81,7 +87,7 @@ public class CharacterManager : UnitManager
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.tag == "ResourceArea" && GatheringMode == true)
+        if (other.tag == "ResourceArea" && GatheringMode == true && inventory.InventorySystem.HasFreeSlot(out InventorySlot _freeSlot))
         {
             Debug.Log("collision");
             resourceSpot = other.gameObject.GetComponentInChildren<ResourceSpot>();
@@ -110,15 +116,36 @@ public class CharacterManager : UnitManager
     public void EnterGatheringMode() // Enter the Gathering resources mode
     {
         GatheringMode = true;
-        Debug.Log("Gathering mode ativé");
     }
     public void ExitGatheringMode() // QUit the Gathering resources mode
     {
         GatheringMode = false;
-        Debug.Log("Gathering mode désactivé");
         StopGathering();
     }
 
+    public void GoStoreResources() // The method that tell the worker to go store the resources he gathered in a building
+    {
+        isGathering = false;
+        Debug.Log("va a la mine");
+        GameObject _BuildingToGo = GameObject.Find("Mine(Clone)");
+        if (_BuildingToGo != null)
+        {
+            Vector3 _targetLocation = new Vector3(_BuildingToGo.transform.position.x, _BuildingToGo.transform.position.y, _BuildingToGo.transform.position.z);
+            MoveTo(_targetLocation);
 
+            InventoryHolder _buildInv = _BuildingToGo.GetComponent<InventoryHolder>();
+            for (int i = 0; i < inventory.InventorySystem.InventorySlots.Count; i++)
+            {
+                Debug.Log(inventory.InventorySystem.InventorySlots[i].ItemData);
+                    _buildInv.InventorySystem.AddToInventory(inventory.InventorySystem.InventorySlots[i].ItemData, 1);
+                    inventory.InventorySystem.InventorySlots[i].ClearSlot();
+
+            }
+            _BuildingToGo = null;
+            _buildInv = null;
+
+        }
+        else GatheringMode = false;
+    }
 }
 

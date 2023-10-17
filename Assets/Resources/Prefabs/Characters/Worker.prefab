@@ -117,7 +117,7 @@ NavMeshAgent:
   m_AgentTypeID: 0
   m_Radius: 0.75
   m_Speed: 6
-  m_Acceleration: 10
+  m_Acceleration: 40
   avoidancePriority: 50
   m_AngularSpeed: 360
   m_StoppingDistance: 0.25
@@ -159,7 +159,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dec32ed971a1c2e43904043016856d24, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  inventorySize: 9
+  inventorySize: 3
   inventorySystem:
     inventorySlots: []
 --- !u!1 &4740741156543106537
