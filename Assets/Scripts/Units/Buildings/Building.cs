@@ -89,8 +89,7 @@ public class Building : Unit
 
 
         //rebuild the navmesh
-        GameObject Ground = GameObject.Find("Ground");
-        Ground.GetComponent<NavMeshSurface>().BuildNavMesh();
+        Global.RebuildNavMesh();
     }
 
 

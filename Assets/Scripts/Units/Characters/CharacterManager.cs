@@ -46,8 +46,12 @@ public class CharacterManager : UnitManager
             timer -= Time.deltaTime;
             if (timer <=0f)
             {
-                resourceSpot.GatherResources(resourceToGather);
-                inventory.InventorySystem.AddToInventory(item.item, resourceToGather);
+                if(resourceSpot.Quantity > 0)
+                {
+                    resourceSpot.GatherResources(resourceToGather);
+                    inventory.InventorySystem.AddToInventory(item.item, resourceToGather);
+                }
+
                 timer = miningDuration;
             }
         }

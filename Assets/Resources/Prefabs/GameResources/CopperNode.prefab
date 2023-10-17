@@ -251,7 +251,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Type: 0
-  quantity: 40
+  Quantity: 40
   parentObject: {fileID: 3514603389035645901}
   onQuantityChange:
     m_PersistentCalls:

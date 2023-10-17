@@ -49,4 +49,10 @@ public class InventorySlot
     {
         stackSize -= _amount;
     }
+
+    public void UpdateInventorySlot(InventoryItemData _data, int _amount)
+    {
+        itemData = _data;
+        stackSize -= _amount;
+    }
 }

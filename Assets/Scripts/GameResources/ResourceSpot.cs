@@ -11,7 +11,7 @@ public enum ResourceType
 public class ResourceSpot : MonoBehaviour
 {
     [SerializeField] private ResourceType Type;
-    [SerializeField] private int quantity;
+    public int Quantity;
     [SerializeField] GameObject parentObject;
 
     public UnityEvent onQuantityChange;
@@ -21,18 +21,19 @@ public class ResourceSpot : MonoBehaviour
     public void GatherResources(int _quantity)
     {
 
-        quantity -= _quantity;
+        Quantity -= _quantity;
         int amountToGive = _quantity;
-        Debug.Log(quantity);
+        Debug.Log(Quantity);
 
         //give the right amount of resources if the resource source is at 0 resources remaining
-        if (quantity < 0)
+        if (Quantity < 0)
         {
-            amountToGive = _quantity + quantity;
+            amountToGive = _quantity + Quantity;
         }
-        if (quantity <= 0)
+        if (Quantity <= 0)
         {
             Destroy(parentObject);
+            Global.RebuildNavMesh();
         }
 
         if (onQuantityChange != null)

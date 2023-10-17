@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.AI.Navigation;
 using UnityEngine;
 
 public class Global
@@ -12,5 +13,9 @@ public class Global
 
     public static List<UnitManager> SELECTED_UNITS = new List<UnitManager>();
 
-
+    public static void RebuildNavMesh()
+    {
+        GameObject Ground = GameObject.Find("Ground");
+        Ground.GetComponent<NavMeshSurface>().BuildNavMesh();
+    }
 }
