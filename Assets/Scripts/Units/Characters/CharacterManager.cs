@@ -164,7 +164,7 @@ public class CharacterManager : UnitManager
                     {
                         Debug.Log(inventory.InventorySystem.InventorySlots[i].ItemData);
                         _buildInv.InventorySystem.AddToInventory(inventory.InventorySystem.InventorySlots[i].ItemData, 1);
-                        inventory.InventorySystem.InventorySlots[i].UpdateInventorySlot(null, -1);
+                        inventory.InventorySystem.InventorySlots[i].ClearSlot();
                         await Task.Delay(depositDuration);
                     }
                     _buildInv = null;

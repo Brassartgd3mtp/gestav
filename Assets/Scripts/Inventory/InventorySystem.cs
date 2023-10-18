@@ -27,6 +27,19 @@ public class InventorySystem
 
     public bool AddToInventory(InventoryItemData _itemToAdd, int _amountToAdd)
     {
+        if(ContainItem(_itemToAdd, out List<InventorySlot> _invSlot))
+        {
+            foreach(var slot in _invSlot) 
+            {
+                if(slot.RoomLeftInStack(_amountToAdd))
+                {
+                    slot.AddToStack(_amountToAdd);
+                    OnInventorySlotChanged?.Invoke(slot);
+                    return true;
+                }
+            }
+
+        }
         if(HasFreeSlot(out InventorySlot _freeSlot)) //Gets the first avaliable slot
         {
             _freeSlot.UpdateInventorySlot(_itemToAdd, _amountToAdd);
@@ -47,6 +60,6 @@ public class InventorySystem
     {
         _invSlot = inventorySlots.Where(i => i.ItemData == _itemToAdd).ToList();
 
-        return _invSlot.Count > 1 ? true : false;
+        return _invSlot.Count > 1 ? false : true;
     }
 }
