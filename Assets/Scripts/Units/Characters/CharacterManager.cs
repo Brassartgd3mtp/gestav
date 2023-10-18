@@ -1,15 +1,19 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Resources;
+using System.Threading.Tasks;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.AI;
+using Random = UnityEngine.Random;
+
 public class CharacterManager : UnitManager
 {
 
 
     private Character character;
-
+    [SerializeField] private Find findingScript;
 
     private ResourceSpot resourceSpot;
 
@@ -27,7 +31,10 @@ public class CharacterManager : UnitManager
     public bool GatheringMode;
     public bool BuildingMode;
     private bool isGathering;
+
     private float miningDuration = 3f;
+    private int depositDuration = 250; //en milisecondes
+
     private float timer;
     protected override Unit Unit
     {
@@ -59,11 +66,11 @@ public class CharacterManager : UnitManager
                     timer = miningDuration;
                 }
             }
-            else GoStoreResources();
+            else GoStoreResources(); // a bouger dans un endroit ou l'on check si l'inventaire est plein
         }
     }
 
-    public void MoveTo(Vector3 targetPosition)
+    public async void MoveTo(Vector3 targetPosition, float _rangeToStop)
     {
         stoppingDistance = stoppingMultiplicator * (Global.SELECTED_UNITS.Count -1f);
         // Stop the current movement
@@ -81,6 +88,16 @@ public class CharacterManager : UnitManager
 
         // Resume movement
         agent.isStopped = false;
+        while(agent.velocity != Vector3.zero)
+        {
+            if(Vector3.Distance(transform.position, targetPosition) < _rangeToStop)
+            {
+                agent.isStopped = true;
+                return;
+            }
+            await Task.Delay(100);
+        }
+        
     }
 
 
@@ -123,29 +140,56 @@ public class CharacterManager : UnitManager
         StopGathering();
     }
 
-    public void GoStoreResources() // The method that tell the worker to go store the resources he gathered in a building
+    public async void GoStoreResources() // The method that tell the worker to go store the resources he gathered in a building
     {
+
         isGathering = false;
         Debug.Log("va a la mine");
-        GameObject _BuildingToGo = GameObject.Find("Mine(Clone)");
-        if (_BuildingToGo != null)
+
+        Transform targetTransform = findingScript.GetClosestBuilding(findingScript.GetTransformArray(Global.MINE_LAYER_MASK)); // Trouve la mine la plus proche
+        if (targetTransform != null) //Si a trouvé une mine
         {
-            Vector3 _targetLocation = new Vector3(_BuildingToGo.transform.position.x, _BuildingToGo.transform.position.y, _BuildingToGo.transform.position.z);
-            MoveTo(_targetLocation);
+            float distanceToStop = targetTransform.GetComponent<BoxCollider>().size.z + 1.5f;
+                bool locationReached = false;
+                Vector3 targetLocation = targetTransform.position;
+                MoveTo(targetLocation, distanceToStop); //Va a la position de la mine
 
-            InventoryHolder _buildInv = _BuildingToGo.GetComponent<InventoryHolder>();
-            for (int i = 0; i < inventory.InventorySystem.InventorySlots.Count; i++)
+            while (locationReached == false)
             {
-                Debug.Log(inventory.InventorySystem.InventorySlots[i].ItemData);
-                    _buildInv.InventorySystem.AddToInventory(inventory.InventorySystem.InventorySlots[i].ItemData, 1);
-                    inventory.InventorySystem.InventorySlots[i].ClearSlot();
-
+                if (Vector3.Distance(transform.position, targetLocation) <= distanceToStop) //Si l'ouvrier est suffisament près de la mine
+                {
+                    Debug.Log("DESTINATION REACHED");
+                    InventoryHolder _buildInv = targetTransform.GetComponent<InventoryHolder>();
+                    for (int i = 0; i < inventory.InventorySystem.InventorySlots.Count; i++) //transfert les objets de son inventaire à celui de la mine
+                    {
+                        Debug.Log(inventory.InventorySystem.InventorySlots[i].ItemData);
+                        _buildInv.InventorySystem.AddToInventory(inventory.InventorySystem.InventorySlots[i].ItemData, 1);
+                        inventory.InventorySystem.InventorySlots[i].UpdateInventorySlot(null, -1);
+                        await Task.Delay(depositDuration);
+                    }
+                    _buildInv = null;
+                    locationReached = true;
+                    GoMining();
+                }
+                await Task.Delay(100);
             }
-            _BuildingToGo = null;
-            _buildInv = null;
+
+            targetTransform = null;
+        }
+      else GatheringMode = false;
+    }
+
+
+    public void GoMining()
+    {
+        Transform targetTransform = findingScript.GetClosestBuilding(findingScript.GetTransformArray(Global.RESOURCE_LAYER_MASK)); // Trouve la mine la plus proche
+        if (targetTransform != null) //Si a trouvé une ressource
+        {
+            float distanceToStop = targetTransform.GetComponent<BoxCollider>().size.z + 1.5f;
+            Vector3 targetLocation = targetTransform.position;
+            MoveTo(targetLocation, distanceToStop); //Va a la position de la mine
 
         }
-        else GatheringMode = false;
     }
 }
 

@@ -125,4 +125,5 @@ public class Building : Unit
 
     // Property to check if the building has a valid placement
     public bool HasValidPlacement { get => placement == BuildingPlacement.VALID; }
+
 }

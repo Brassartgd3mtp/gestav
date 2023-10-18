@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 893649665726410711}
   - component: {fileID: 4677499262528417592}
   - component: {fileID: 5186153282048528273}
-  m_Layer: 10
+  m_Layer: 14
   m_Name: Circle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -97,7 +97,7 @@ GameObject:
   - component: {fileID: 4476076860485327923}
   - component: {fileID: -485740623328278625}
   - component: {fileID: 4488118144574367379}
-  m_Layer: 10
+  m_Layer: 14
   m_Name: Mine
   m_TagString: Unit
   m_Icon: {fileID: 0}
@@ -224,7 +224,7 @@ GameObject:
   - component: {fileID: 4028307521247384452}
   - component: {fileID: 5756487257112547051}
   - component: {fileID: 5676971355410136368}
-  m_Layer: 10
+  m_Layer: 14
   m_Name: Mesh
   m_TagString: Untagged
   m_Icon: {fileID: 0}

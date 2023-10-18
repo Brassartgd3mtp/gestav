@@ -35,7 +35,7 @@ public class GameManager : MonoBehaviour
                 foreach (UnitManager um in Global.SELECTED_UNITS)
                     if (um.GetType() == typeof(CharacterManager))
                     {
-                        ((CharacterManager)um).MoveTo(raycastHit.point);
+                        ((CharacterManager)um).MoveTo(raycastHit.point,0f);
                         ((CharacterManager)um).ExitGatheringMode();
                     }
             }
@@ -54,7 +54,7 @@ public class GameManager : MonoBehaviour
                     foreach (UnitManager um in Global.SELECTED_UNITS)
                         if (um.GetType() == typeof(CharacterManager))
                         {
-                            ((CharacterManager)um).MoveTo(raycastHit.point);
+                            ((CharacterManager)um).MoveTo(raycastHit.point, 0f);
                             ((CharacterManager)um).EnterGatheringMode();
                         }
 
