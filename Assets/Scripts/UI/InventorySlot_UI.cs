@@ -14,15 +14,14 @@ public class InventorySlot_UI : MonoBehaviour
     private Button button;
 
     public InventorySlot AssignedInventorySlot => assignedInventorySlot;
-
+    public InventoryDisplay ParentDisplay { get; private set; }
     private void Awake()
     {
-        itemSprite.sprite = null;
-        itemSprite.color = Color.clear;
-        itemCount.text = string.Empty;
 
         button.GetComponent<Button>();
         button?.onClick.AddListener(OnUISlotClick);
+
+        ParentDisplay = transform.parent.GetComponent<InventoryDisplay>();
     }
 
     public void Init(InventorySlot _slot)
@@ -36,11 +35,29 @@ public class InventorySlot_UI : MonoBehaviour
         if(_slot.ItemData != null)
         {
             itemSprite.sprite = _slot.ItemData.icon;
-            itemSprite.color = Color.clear;
+            itemSprite.color = Color.white;
+
+            if (_slot.StackSize > 1)
+            {
+                itemCount.text = _slot.StackSize.ToString();
+            }
+            else
+            {
+                itemCount.text = string.Empty;
+            }
+
         }
         else
         {
             ClearSlot();
+        }
+    }
+
+    public void UpdateUISlot()
+    {
+        if(assignedInventorySlot != null) 
+        {
+            UpdateUISlot(assignedInventorySlot);
         }
     }
 
@@ -54,6 +71,6 @@ public class InventorySlot_UI : MonoBehaviour
     }
     public void OnUISlotClick()
     {
-        //access display class method
+        ParentDisplay?.SlotClicked(this);
     }
 }
