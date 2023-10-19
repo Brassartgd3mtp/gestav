@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
-using Unity.VisualScripting;
 
 public class InventorySlot_UI : MonoBehaviour
 {
@@ -18,7 +17,9 @@ public class InventorySlot_UI : MonoBehaviour
     private void Awake()
     {
 
-        button.GetComponent<Button>();
+        ClearSlot();
+
+        button = GetComponent<Button>();
         button?.onClick.AddListener(OnUISlotClick);
 
         ParentDisplay = transform.parent.GetComponent<InventoryDisplay>();
