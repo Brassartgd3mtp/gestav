@@ -16,3 +16,4 @@ MonoBehaviour:
   DisplayName: Copper Ore
   MaximumStackSize: 1
   Description: The most basic ore you can find.
+  icon: {fileID: 21300000, guid: dc49005f1f162d443b6a81fda315c41a, type: 3}
