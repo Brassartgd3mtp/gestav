@@ -14,8 +14,8 @@ GameObject:
   - component: {fileID: 4347793817180003407}
   - component: {fileID: 1689742863027917839}
   - component: {fileID: 9152607663828230570}
-  - component: {fileID: 4389366562271771449}
   - component: {fileID: 8466157469576545125}
+  - component: {fileID: 8807436672617456623}
   m_Layer: 12
   m_Name: Worker
   m_TagString: Unit
@@ -106,6 +106,9 @@ MonoBehaviour:
   stoppingDistance: 0.3
   stoppingMultiplicator: 0.3
   resourceToGather: 1
+  inventoryUIController: {fileID: 0}
+  gameManager: {fileID: 105313144056503456, guid: f6b124c788d60b8478bfd05df7263650,
+    type: 3}
   GatheringMode: 0
   BuildingMode: 0
 --- !u!195 &1689742863027917839
@@ -149,21 +152,6 @@ MonoBehaviour:
   m_IgnoreFromBuild: 1
   m_ApplyToChildren: 1
   m_AffectedAgents: ffffffff
---- !u!114 &4389366562271771449
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2019966834684936119}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dec32ed971a1c2e43904043016856d24, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  inventorySize: 3
-  inventorySystem:
-    inventorySlots: []
 --- !u!114 &8466157469576545125
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -176,6 +164,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 22e2940f5c9b0454e92275953cbd8f29, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &8807436672617456623
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2019966834684936119}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a02ef5b285c63ed4e96151bfa153a4ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  inventorySize: 3
+  inventorySystem:
+    inventorySlots: []
 --- !u!1 &4740741156543106537
 GameObject:
   m_ObjectHideFlags: 0

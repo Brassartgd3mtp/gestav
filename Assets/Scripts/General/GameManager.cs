@@ -10,6 +10,8 @@ public class GameManager : MonoBehaviour
     private Ray ray;
     private RaycastHit raycastHit;
 
+    public bool IsInteracting {  get; private set; }
+
     private void Awake()
     {
         DataHandler.LoadGameData();
@@ -19,6 +21,7 @@ public class GameManager : MonoBehaviour
     private void Update()
     {
         CheckUnitsNavigation();
+        CheckUnitInteractedWith();
     }
     private void CheckUnitsNavigation()
     {
@@ -61,7 +64,37 @@ public class GameManager : MonoBehaviour
                 }
 
             }
-
         }
     }
+    public void CheckUnitInteractedWith()
+    {
+        if (Global.SELECTED_UNITS.Count == 1 && Input.GetMouseButtonUp(0))
+        {
+            ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+            if (Physics.Raycast(
+                ray,
+                out raycastHit,
+                1000f,
+                Global.WORKER_LAYER_MASK
+            ))
+            {
+                GameObject hitObject = raycastHit.collider.gameObject;
+                var interactable = hitObject.GetComponent<IInteractable>();
+                if (interactable != null) StartInteraction(interactable);
+            }
+        }
+        else EndInteraction(); 
+    }
+
+    void StartInteraction(IInteractable interactable)
+    {
+        interactable.Interact(this, out bool interactionWasSuccessful);
+        IsInteracting = true;
+    }
+
+    void EndInteraction()
+    {
+        IsInteracting = false;
+    }
+
 }

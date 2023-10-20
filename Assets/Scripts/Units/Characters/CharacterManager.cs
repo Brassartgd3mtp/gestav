@@ -62,6 +62,7 @@ public class CharacterManager : UnitManager
                     {
                         resourceSpot.GatherResources(resourceToGather);
                         inventory.InventorySystem.AddToInventory(item.item, resourceToGather);
+
                     }
 
                     timer = miningDuration;

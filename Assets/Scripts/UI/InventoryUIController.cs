@@ -21,21 +21,16 @@ public class InventoryUIController : MonoBehaviour
     }
     void Update()
     {
-        if(Input.GetKeyDown(KeyCode.T)) 
-        {
-            DisplayInventory(new InventorySystem(Random.Range(9,30)));
-        }
-
-        if(inventoryPanel.gameObject.activeInHierarchy && (Input.GetKeyDown(KeyCode.Escape)))
+        if (inventoryPanel.gameObject.activeInHierarchy && (Input.GetKeyDown(KeyCode.Escape)))
             {
             inventoryPanel.gameObject.SetActive(false);
             }
     }
 
-    void DisplayInventory(InventorySystem invToDispay) 
+    public void DisplayInventory(InventorySystem invToDislpay) 
     {
         inventoryPanel.gameObject.SetActive(true);
-        inventoryPanel.RefreshDynamicInventory(invToDispay);
+        inventoryPanel.RefreshDynamicInventory(invToDislpay);
     }
 
 }

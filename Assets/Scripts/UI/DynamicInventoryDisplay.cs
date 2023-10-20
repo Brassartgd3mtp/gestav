@@ -25,7 +25,7 @@ public class DynamicInventoryDisplay : InventoryDisplay
     {
         slotDictionary = new Dictionary<InventorySlot_UI, InventorySlot>();
 
-        if (invToDisplay != null) return;
+        if (invToDisplay == null) return;
 
         for (int i = 0;i< invToDisplay.InventorySize;i++) 
         {
