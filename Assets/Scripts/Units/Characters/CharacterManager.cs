@@ -45,6 +45,7 @@ public class CharacterManager : UnitManager
     private void Awake()
     {
         inventory = gameObject.GetComponent<InventoryHolder>();
+        resourceToGather = 1;
     }
 
     private void Update()

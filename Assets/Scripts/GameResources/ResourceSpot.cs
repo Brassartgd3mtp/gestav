@@ -14,7 +14,7 @@ public class ResourceSpot : MonoBehaviour
     public int Quantity;
     [SerializeField] GameObject parentObject;
 
-    public UnityEvent onQuantityChange;
+    //public UnityEvent onQuantityChange;
 
         
 
@@ -22,24 +22,25 @@ public class ResourceSpot : MonoBehaviour
     {
 
         Quantity -= _quantity;
-        int amountToGive = _quantity;
+
+        //int amountToGive = _quantity;
         Debug.Log(Quantity);
 
         //give the right amount of resources if the resource source is at 0 resources remaining
-        if (Quantity < 0)
-        {
-            amountToGive = _quantity + Quantity;
-        }
+        //if (Quantity < 0)
+        //{
+        //    amountToGive = _quantity + Quantity;
+        //}
         if (Quantity <= 0)
         {
             Destroy(parentObject);
             Global.RebuildNavMesh();
         }
 
-        if (onQuantityChange != null)
-        {
-            onQuantityChange.Invoke();
-        }
+        //if (onQuantityChange != null)
+        //{
+        //    onQuantityChange.Invoke();
+        //}
 
     }
 

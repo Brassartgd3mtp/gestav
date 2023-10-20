@@ -36,7 +36,7 @@ public class InventorySlot
 
     public bool RoomLeftInStack(int _amountToAdd)
     {
-        if (itemData == null || itemData != null && stackSize + _amountToAdd <= itemData.MaximumStackSize) return true;
+        if (itemData == null || (itemData != null && stackSize + _amountToAdd <= itemData.MaximumStackSize)) return true;
         else return false;
     }
 
@@ -53,6 +53,6 @@ public class InventorySlot
     public void UpdateInventorySlot(InventoryItemData _data, int _amount)
     {
         itemData = _data;
-        stackSize -= _amount;
+        stackSize = _amount;
     }
 }

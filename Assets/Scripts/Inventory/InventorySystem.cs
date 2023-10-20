@@ -42,9 +42,13 @@ public class InventorySystem
         }
         if(HasFreeSlot(out InventorySlot _freeSlot)) //Gets the first avaliable slot
         {
-            _freeSlot.UpdateInventorySlot(_itemToAdd, _amountToAdd);
-            OnInventorySlotChanged?.Invoke(_freeSlot);
-            return true;
+            if(_freeSlot.RoomLeftInStack(_amountToAdd))
+            {
+                _freeSlot.UpdateInventorySlot(_itemToAdd, _amountToAdd);
+                OnInventorySlotChanged?.Invoke(_freeSlot);
+                return true;
+            }
+
         }
 
         return false;
@@ -60,6 +64,6 @@ public class InventorySystem
     {
         _invSlot = inventorySlots.Where(i => i.ItemData == _itemToAdd).ToList();
 
-        return _invSlot.Count > 1 ? false : true;
+        return _invSlot == null ? false : true;
     }
 }
