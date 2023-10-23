@@ -5,7 +5,7 @@ using UnityEngine;
 [RequireComponent(typeof(BoxCollider))]
 public class UnitManager : MonoBehaviour
 {
-    public GameObject selectionCircle; // Reference to the selection circle object
+    public Material OutilineMaterial;
 
     protected BoxCollider _collider;
     protected virtual Unit Unit { get; set; }
@@ -28,7 +28,8 @@ public class UnitManager : MonoBehaviour
     {
         if (Global.SELECTED_UNITS.Contains(this)) return;
         Global.SELECTED_UNITS.Add(this);
-        selectionCircle.SetActive(true);
+
+        AddMaterial(OutilineMaterial);
     }
 
     // Select the unit, allowing for multiple selections with or without the Shift key
@@ -68,12 +69,52 @@ public class UnitManager : MonoBehaviour
     {
         if (!Global.SELECTED_UNITS.Contains(this)) return;
         Global.SELECTED_UNITS.Remove(this);
-        selectionCircle.SetActive(false);
+
+        RemoveMaterial("M_Outline (Instance)");
     }
 
     public void Initialize(Unit _unit)
     {
         _collider = GetComponent<BoxCollider>();
         Unit = _unit;
+    }
+
+    public void AddMaterial(Material material)
+    {
+        MeshRenderer meshRenderer = gameObject.GetComponentInChildren<MeshRenderer>();
+
+        if (meshRenderer != null)
+        {
+            // Récupère les matériaux actuels
+            List<Material> materialList = new List<Material>(meshRenderer.materials);
+
+            // Ajoute le nouveau matériau à la liste des matériaux
+            materialList.Add(material);
+
+            // Applique la nouvelle liste de matériaux au MeshRenderer
+            meshRenderer.materials = materialList.ToArray();
+        }
+    }
+
+    public void RemoveMaterial(string materialName)
+    {
+        MeshRenderer meshRenderer = gameObject.GetComponentInChildren<MeshRenderer>();
+
+        if (meshRenderer != null)
+        {
+            // Récupère les matériaux actuels
+            List<Material> materialList = new List<Material>(meshRenderer.materials);
+
+            // Recherche et enlève le matériau spécifié de la liste par nom
+            Material materialToRemove = materialList.Find(m => m.name == materialName);
+
+            if (materialToRemove != null)
+            {
+                materialList.Remove(materialToRemove);
+
+                // Applique la nouvelle liste de matériaux au MeshRenderer
+                meshRenderer.materials = materialList.ToArray();
+            }
+        }
     }
 }
