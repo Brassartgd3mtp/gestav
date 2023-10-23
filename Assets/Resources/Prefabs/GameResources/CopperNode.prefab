@@ -109,7 +109,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7643244178808729430}
   - component: {fileID: 6117940177917295301}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: ResourceArea
   m_TagString: ResourceArea
   m_Icon: {fileID: 0}
@@ -166,7 +166,7 @@ GameObject:
   - component: {fileID: 4477381340426299441}
   - component: {fileID: 3392996915552143194}
   - component: {fileID: 3326192364433379775}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: ResourceSpot
   m_TagString: Resource
   m_Icon: {fileID: 0}
@@ -253,9 +253,6 @@ MonoBehaviour:
   Type: 0
   Quantity: 40
   parentObject: {fileID: 3514603389035645901}
-  onQuantityChange:
-    m_PersistentCalls:
-      m_Calls: []
 --- !u!114 &3326192364433379775
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -106,9 +106,6 @@ MonoBehaviour:
   stoppingDistance: 0.3
   stoppingMultiplicator: 0.3
   resourceToGather: 1
-  inventoryUIController: {fileID: 0}
-  gameManager: {fileID: 105313144056503456, guid: f6b124c788d60b8478bfd05df7263650,
-    type: 3}
   GatheringMode: 0
   BuildingMode: 0
 --- !u!195 &1689742863027917839

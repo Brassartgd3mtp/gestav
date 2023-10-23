@@ -21,7 +21,7 @@ public class InventoryUIController : MonoBehaviour
     }
     void Update()
     {
-        if (inventoryPanel.gameObject.activeInHierarchy && (Input.GetKeyDown(KeyCode.Escape)))
+        if (inventoryPanel.gameObject.activeInHierarchy && (Input.GetKeyDown(KeyCode.Escape)) || (inventoryPanel.gameObject.activeInHierarchy && Global.SELECTED_UNITS.Count == 0))
             {
             inventoryPanel.gameObject.SetActive(false);
             }

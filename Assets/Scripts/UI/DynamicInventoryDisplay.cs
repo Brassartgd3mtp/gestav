@@ -10,7 +10,7 @@ public class DynamicInventoryDisplay : InventoryDisplay
 
     protected override void Start()
     {
-       // InventoryHolder.OnDynamicInventoryDisplayRequested += RefreshDynamicInventory;
+       InventoryHolder.OnDynamicInventoryDisplayRequested += RefreshDynamicInventory;
         base.Start();
     }
 

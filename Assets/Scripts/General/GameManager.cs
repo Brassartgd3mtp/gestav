@@ -86,13 +86,13 @@ public class GameManager : MonoBehaviour
         else EndInteraction(); 
     }
 
-    void StartInteraction(IInteractable interactable)
+    public void StartInteraction(IInteractable interactable)
     {
         interactable.Interact(this, out bool interactionWasSuccessful);
         IsInteracting = true;
     }
 
-    void EndInteraction()
+    public void EndInteraction()
     {
         IsInteracting = false;
     }

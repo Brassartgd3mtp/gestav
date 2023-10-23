@@ -16,7 +16,6 @@ public class CharacterManager : UnitManager
     [SerializeField] private Find findingScript;
 
     private ResourceSpot resourceSpot;
-
     private Item item;
 
     [SerializeField] private NavMeshAgent agent;
@@ -25,8 +24,8 @@ public class CharacterManager : UnitManager
 
     [SerializeField] private int resourceToGather = 1;
 
-    private InventoryHolder inventory;
-    private InventorySlot inventorySlot;
+    private BuildingInventory inventory;
+    private DynamicInventoryDisplay inventoryDisplay;
 
     public bool GatheringMode;
     public bool BuildingMode;
@@ -44,7 +43,7 @@ public class CharacterManager : UnitManager
 
     private void Awake()
     {
-        inventory = gameObject.GetComponent<InventoryHolder>();
+        inventory = gameObject.GetComponent<BuildingInventory>();
         resourceToGather = 1;
     }
 
@@ -62,7 +61,10 @@ public class CharacterManager : UnitManager
                     {
                         resourceSpot.GatherResources(resourceToGather);
                         inventory.InventorySystem.AddToInventory(item.item, resourceToGather);
-
+                        if ( Global.SELECTED_UNITS.Count == 1 && Global.SELECTED_UNITS[0] == gameObject.GetComponent<UnitManager>())
+                        {
+                            ShowInventoryUI();
+                        }
                     }
 
                     timer = miningDuration;
@@ -168,6 +170,12 @@ public class CharacterManager : UnitManager
                         _buildInv.InventorySystem.AddToInventory(inventory.InventorySystem.InventorySlots[i].ItemData, 1);
                         inventory.InventorySystem.InventorySlots[i].ClearSlot();
                         await Task.Delay(depositDuration);
+
+                        if (Global.SELECTED_UNITS.Count == 1 && Global.SELECTED_UNITS[0] == gameObject.GetComponent<UnitManager>())
+                        {
+                            ShowInventoryUI();
+                        }
+  
                     }
                     _buildInv = null;
                     locationReached = true;
@@ -192,6 +200,14 @@ public class CharacterManager : UnitManager
             MoveTo(targetLocation, distanceToStop); //Va a la position de la mine
 
         }
+    }
+
+
+
+
+    public void ShowInventoryUI()
+    {
+        InventoryHolder.OnDynamicInventoryDisplayRequested?.Invoke(inventory.InventorySystem);
     }
 }
 

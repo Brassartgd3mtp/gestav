@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class UnitsSelection : MonoBehaviour
 {
+    
     private bool isDraggingMouseBox = false;
     private Vector3 dragStartPosition;
 
@@ -39,6 +40,7 @@ public class UnitsSelection : MonoBehaviour
                 {
                     if (raycastHit.transform.tag == "Terrain")
                         DeselectAllUnits();
+  
                 }
             }
         }

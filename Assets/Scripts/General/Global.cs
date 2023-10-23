@@ -11,7 +11,8 @@ public class Global
     public static int MINE_LAYER_MASK = 1 << 14;
     public static int FORGE_LAYER_MASK = 1 << 15;
     public static int WORKSHOP_LAYER_MASK = 1 << 16;
-    public static int WORKER_LAYER_MASK = 1 << 12;   
+    public static int WORKER_LAYER_MASK = 1 << 12; 
+    public static int BUILDING_LAYER_MASK = (1 << 14) | (1<<15) | (1<<16);
 
     public static BuildingData[] BUILDING_DATA = new BuildingData[0];
 
