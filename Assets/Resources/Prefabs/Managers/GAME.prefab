@@ -86,4 +86,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 74adba99d692b314688053b871a510ad, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  navMesh: {fileID: 0}
+  groundMarker: {fileID: 3060309113752441229, guid: 06791066f8ed29948a719c23f1c44534,
+    type: 3}

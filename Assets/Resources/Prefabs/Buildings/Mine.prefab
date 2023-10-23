@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 6043932349711789998}
   - component: {fileID: 4476076860485327923}
   - component: {fileID: -485740623328278625}
-  - component: {fileID: 4488118144574367379}
+  - component: {fileID: -7304394294732682451}
   m_Layer: 14
   m_Name: Mine
   m_TagString: Unit
@@ -114,7 +114,7 @@ NavMeshObstacle:
   m_CarveOnlyStationary: 1
   m_Center: {x: 0, y: 0, z: 0}
   m_TimeToStationary: 0.5
---- !u!114 &4488118144574367379
+--- !u!114 &-7304394294732682451
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -123,10 +123,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 8316421863545563184}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dec32ed971a1c2e43904043016856d24, type: 3}
+  m_Script: {fileID: 11500000, guid: a02ef5b285c63ed4e96151bfa153a4ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  inventorySize: 50
+  inventorySize: 40
   inventorySystem:
     inventorySlots: []
 --- !u!1 &8968449125538242080

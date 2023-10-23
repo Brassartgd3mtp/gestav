@@ -115,6 +115,7 @@ MonoBehaviour:
   PopUpPanel: {fileID: 6734532322251788300}
   QuantityText: {fileID: 5246485020291348666}
   Resource: {fileID: 3392996915552143194}
+  OutilineMaterial: {fileID: 2100000, guid: 0634b05414478cc439d03427eaa410a3, type: 2}
 --- !u!1 &4034006540606565630
 GameObject:
   m_ObjectHideFlags: 0

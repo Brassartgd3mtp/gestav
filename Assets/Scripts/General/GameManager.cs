@@ -3,9 +3,12 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 using Unity.AI.Navigation;
+using Unity.Burst.CompilerServices;
 
 public class GameManager : MonoBehaviour
 {
+    [SerializeField] private GameObject groundMarker;
+    private bool isActive;
 
     private Ray ray;
     private RaycastHit raycastHit;
@@ -28,13 +31,17 @@ public class GameManager : MonoBehaviour
         if (Global.SELECTED_UNITS.Count > 0 && Input.GetMouseButtonUp(1))
         {
             ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-            if (Physics.Raycast(
-                ray,
-                out raycastHit,
-                1000f,
-                Global.TERRAIN_LAYER_MASK
-            ))
+            if (Physics.Raycast(ray, out raycastHit,1000f, Global.TERRAIN_LAYER_MASK))
             {
+
+                groundMarker.transform.position = raycastHit.point;
+                groundMarker.SetActive(true);
+
+                // Active le timer en passant isActive à true
+                isActive = true;
+                Invoke("DisableGroundMarker", 2.0f); // Appelle la méthode DisableGroundMarker après 2 secondes
+
+
                 foreach (UnitManager um in Global.SELECTED_UNITS)
                     if (um.GetType() == typeof(CharacterManager))
                     {
@@ -66,6 +73,18 @@ public class GameManager : MonoBehaviour
             }
         }
     }
+
+
+    void DisableGroundMarker()
+    {
+        // Désactive le marqueur au bout de 2 secondes
+        groundMarker.SetActive(false);
+
+        // Désactive le timer en passant isActive à false
+        isActive = false;
+    }
+
+
     public void CheckUnitInteractedWith()
     {
         if (Global.SELECTED_UNITS.Count == 1 && Input.GetMouseButtonUp(0))
@@ -75,7 +94,7 @@ public class GameManager : MonoBehaviour
                 ray,
                 out raycastHit,
                 1000f,
-                Global.WORKER_LAYER_MASK
+                Global.UNIT_LAYER_MASK
             ))
             {
                 GameObject hitObject = raycastHit.collider.gameObject;

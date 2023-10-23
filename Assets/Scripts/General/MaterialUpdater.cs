@@ -4,9 +4,9 @@ using UnityEngine;
 
 public class MaterialUpdater : MonoBehaviour
 {
-    public void AddMaterial(Material material)
+    public void AddMaterial(Material material, GameObject g)
     {
-        MeshRenderer meshRenderer = GetComponent<MeshRenderer>();
+        MeshRenderer meshRenderer = g.GetComponentInChildren<MeshRenderer>();
 
         if (meshRenderer != null)
         {
@@ -21,9 +21,9 @@ public class MaterialUpdater : MonoBehaviour
         }
     }
 
-    public void RemoveMaterial(string materialName)
+    public void RemoveMaterial(string materialName,GameObject g)
     {
-        MeshRenderer meshRenderer = GetComponent<MeshRenderer>();
+        MeshRenderer meshRenderer = g.GetComponentInChildren<MeshRenderer>();
 
         if (meshRenderer != null)
         {

@@ -3,7 +3,6 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Resources;
 using System.Threading.Tasks;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.AI;
 using Random = UnityEngine.Random;
@@ -61,9 +60,11 @@ public class CharacterManager : UnitManager
                     {
                         resourceSpot.GatherResources(resourceToGather);
                         inventory.InventorySystem.AddToInventory(item.item, resourceToGather);
+
+                        //Dynamic display of character inventory if he is selected
                         if ( Global.SELECTED_UNITS.Count == 1 && Global.SELECTED_UNITS[0] == gameObject.GetComponent<UnitManager>())
                         {
-                            ShowInventoryUI();
+                            ShowInventoryUI(inventory.InventorySystem);
                         }
                     }
 
@@ -166,16 +167,26 @@ public class CharacterManager : UnitManager
                     InventoryHolder _buildInv = targetTransform.GetComponent<InventoryHolder>();
                     for (int i = 0; i < inventory.InventorySystem.InventorySlots.Count; i++) //transfert les objets de son inventaire à celui de la mine
                     {
+
+                        //Put worker items into the building
                         Debug.Log(inventory.InventorySystem.InventorySlots[i].ItemData);
                         _buildInv.InventorySystem.AddToInventory(inventory.InventorySystem.InventorySlots[i].ItemData, 1);
                         inventory.InventorySystem.InventorySlots[i].ClearSlot();
                         await Task.Delay(depositDuration);
 
+                        //Dynamic display of character inventory if he is selected
                         if (Global.SELECTED_UNITS.Count == 1 && Global.SELECTED_UNITS[0] == gameObject.GetComponent<UnitManager>())
                         {
-                            ShowInventoryUI();
+                            ShowInventoryUI(inventory.InventorySystem);
                         }
-  
+
+                        //Dynamic display of building inventory if it is selected
+                        if (Global.SELECTED_UNITS.Count == 1 && Global.SELECTED_UNITS[0] == _buildInv.gameObject.GetComponent<UnitManager>())
+                        {
+                            ShowInventoryUI(_buildInv.InventorySystem);
+                        }
+
+
                     }
                     _buildInv = null;
                     locationReached = true;
@@ -205,9 +216,9 @@ public class CharacterManager : UnitManager
 
 
 
-    public void ShowInventoryUI()
+    public void ShowInventoryUI(InventorySystem InvToDisplay)
     {
-        InventoryHolder.OnDynamicInventoryDisplayRequested?.Invoke(inventory.InventorySystem);
+        InventoryHolder.OnDynamicInventoryDisplayRequested?.Invoke(InvToDisplay);
     }
 }
 

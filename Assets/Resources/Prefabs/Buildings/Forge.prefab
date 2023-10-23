@@ -96,7 +96,7 @@ GameObject:
   - component: {fileID: 549576076700245493}
   - component: {fileID: 5397181130447003597}
   - component: {fileID: 4861557067850865161}
-  - component: {fileID: 6184873761483981838}
+  - component: {fileID: 5038758140059649682}
   m_Layer: 15
   m_Name: Forge
   m_TagString: Unit
@@ -197,7 +197,7 @@ NavMeshObstacle:
   m_CarveOnlyStationary: 1
   m_Center: {x: 0, y: 0, z: 0}
   m_TimeToStationary: 0.5
---- !u!114 &6184873761483981838
+--- !u!114 &5038758140059649682
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -206,7 +206,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 5107880386229869334}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dec32ed971a1c2e43904043016856d24, type: 3}
+  m_Script: {fileID: 11500000, guid: a02ef5b285c63ed4e96151bfa153a4ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   inventorySize: 50
