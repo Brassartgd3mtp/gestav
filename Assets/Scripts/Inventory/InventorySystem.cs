@@ -15,6 +15,8 @@ public class InventorySystem
 
     public UnityAction<InventorySlot> OnInventorySlotChanged;
 
+
+
     public InventorySystem(int _size) //Constructor that sets the amount of stacks
     {
         inventorySlots = new List<InventorySlot>(_size);
@@ -66,4 +68,20 @@ public class InventorySystem
 
         return _invSlot == null ? false : true;
     }
+
+
+    public int AmountOfSlotsAvaliable()
+    {
+        int _totalSlots = inventorySlots.Count;
+
+        foreach(InventorySlot slot in inventorySlots) 
+        {
+        if(slot.ItemData != null)
+            {
+                _totalSlots--;
+            }
+        }
+        return _totalSlots;
+    }
+
 }

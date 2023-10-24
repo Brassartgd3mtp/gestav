@@ -1,12 +1,22 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
-[System.Serializable]
+[Flags]
+public enum InventoryResourceType
+{
+    Copper = 1 << 0,
+    Wood = 1 << 1,
+    CopperBar = 1 <<2,
+    CopperScrew = 1 <<3
+}
+//type |= valideType
 
 public class InventoryHolder : MonoBehaviour
 {
+    public InventoryResourceType validType;
     [SerializeField] private int inventorySize;
     [SerializeField] protected InventorySystem inventorySystem;
 

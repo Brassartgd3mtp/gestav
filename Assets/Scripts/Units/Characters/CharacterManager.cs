@@ -151,10 +151,11 @@ public class CharacterManager : UnitManager
         isGathering = false;
         Debug.Log("va a la mine");
 
-        Transform targetTransform = findingScript.GetClosestBuilding(findingScript.GetTransformArray(Global.MINE_LAYER_MASK)); // Trouve la mine la plus proche
+        Transform targetTransform = DecideWhereToGo();
+         // Transform targetTransform = findingScript.GetClosestBuilding(findingScript.GetTransformArray(Global.MINE_LAYER_MASK)); // Trouve la mine la plus proche
         if (targetTransform != null) //Si a trouvé une mine
         {
-            float distanceToStop = targetTransform.GetComponent<BoxCollider>().size.z + 1.5f;
+                float distanceToStop = targetTransform.GetComponent<BoxCollider>().size.z + 1.5f;
                 bool locationReached = false;
                 Vector3 targetLocation = targetTransform.position;
                 MoveTo(targetLocation, distanceToStop); //Va a la position de la mine
@@ -170,22 +171,33 @@ public class CharacterManager : UnitManager
 
                         //Put worker items into the building
                         Debug.Log(inventory.InventorySystem.InventorySlots[i].ItemData);
-                        _buildInv.InventorySystem.AddToInventory(inventory.InventorySystem.InventorySlots[i].ItemData, 1);
-                        inventory.InventorySystem.InventorySlots[i].ClearSlot();
-                        await Task.Delay(depositDuration);
 
-                        //Dynamic display of character inventory if he is selected
-                        if (Global.SELECTED_UNITS.Count == 1 && Global.SELECTED_UNITS[0] == gameObject.GetComponent<UnitManager>())
+                        if(inventory.InventorySystem.InventorySlots[i].ItemData.resourceType == _buildInv.validType)
                         {
-                            ShowInventoryUI(inventory.InventorySystem);
-                        }
+                            _buildInv.InventorySystem.AddToInventory(inventory.InventorySystem.InventorySlots[i].ItemData, 1);
+                            inventory.InventorySystem.InventorySlots[i].ClearSlot();
+                            await Task.Delay(depositDuration);
 
-                        //Dynamic display of building inventory if it is selected
-                        if (Global.SELECTED_UNITS.Count == 1 && Global.SELECTED_UNITS[0] == _buildInv.gameObject.GetComponent<UnitManager>())
-                        {
-                            ShowInventoryUI(_buildInv.InventorySystem);
-                        }
+                            //change the UI pop up on top of the building
+                            BuildingStockageUI buildingStockageUI = _buildInv.gameObject.GetComponent<BuildingStockageUI>();
+                            if (buildingStockageUI != null)
+                            {
+                                buildingStockageUI.UpdateSpaceInUI();
+                            }
 
+                            //Dynamic display of character inventory if he is selected
+                            if (Global.SELECTED_UNITS.Count == 1 && Global.SELECTED_UNITS[0] == gameObject.GetComponent<UnitManager>())
+                            {
+                                ShowInventoryUI(inventory.InventorySystem);
+                            }
+
+                            //Dynamic display of building inventory if it is selected
+                            if (Global.SELECTED_UNITS.Count == 1 && Global.SELECTED_UNITS[0] == _buildInv.gameObject.GetComponent<UnitManager>())
+                            {
+                                ShowInventoryUI(_buildInv.InventorySystem);
+                            }
+
+                        }
 
                     }
                     _buildInv = null;
@@ -213,8 +225,80 @@ public class CharacterManager : UnitManager
         }
     }
 
+    public Transform DecideWhereToGo()
+    {
+
+        float detectionRadius = 10000f;
+
+        //detect building colliders, find the corresponding transforms and inventories
+        Collider[] colliders = Physics.OverlapSphere(transform.position, detectionRadius, Global.BUILDING_LAYER_MASK);
+        Debug.Log(colliders);
+        Transform[] buildingTransform = new Transform[colliders.Length];
+        List<InventoryHolder> correspondingInventories = new List<InventoryHolder>();
+
+        for (int i = 0; i < colliders.Length; i++)
+        {
+            buildingTransform[i] = colliders[i].transform;
+
+            if (buildingTransform != null)
+            {
+
+                //get the inventories 
+
+                InventoryHolder[] inventories = new InventoryHolder[buildingTransform.Length];
+                inventories[i] = buildingTransform[i].gameObject.GetComponent<InventoryHolder>();
 
 
+                //add to a list the inventories that accepts the items currently in the worker's invntory
+
+                foreach (InventoryHolder inv in inventories)
+                {
+                    if (inv != null && GetItemInFirstOccupiedSlot().resourceType == inv.validType)
+                    {
+                        correspondingInventories.Add(inv);
+                    }
+                }
+
+
+            }
+            //return the transform of the closest building that can accept the item in the inventory
+
+            Transform target = GetClosestBuilding(correspondingInventories);
+            return target;
+
+        }
+        return null;
+    }
+
+
+public InventoryItemData GetItemInFirstOccupiedSlot()
+    {
+        foreach (InventorySlot slot in inventory.InventorySystem.InventorySlots)
+        {
+            if (slot.ItemData != null)
+            {
+                return slot.ItemData;
+            }
+        }
+        return null;
+    }
+
+public Transform GetClosestBuilding(List<InventoryHolder> correspondingInventories)
+    {
+        Transform tMin = null;
+        float minDist = Mathf.Infinity;
+        Vector3 currentPos = transform.position;
+        foreach (InventoryHolder inv in correspondingInventories)
+        {
+            float dist = Vector3.Distance(inv.gameObject.transform.position, currentPos);
+            if (dist < minDist)
+            {
+                tMin = inv.gameObject.transform;
+                minDist = dist;
+            }
+        }
+        return tMin;
+    }
 
     public void ShowInventoryUI(InventorySystem InvToDisplay)
     {
