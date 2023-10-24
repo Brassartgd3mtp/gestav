@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 5033214376049666318}
   - component: {fileID: 2660618651056307100}
   m_Layer: 13
-  m_Name: CopperNode
+  m_Name: Wood Node
   m_TagString: Resource
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -147,6 +147,7 @@ Transform:
   m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 2541943214541337525}
+  - {fileID: 3547807299919848024}
   m_Father: {fileID: 7599736339656111044}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!65 &6117940177917295301
@@ -274,11 +275,10 @@ Transform:
   m_GameObject: {fileID: 5044338889915208582}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.44444442, y: 0.44444442, z: 0.44444442}
+  m_LocalPosition: {x: 0, y: 0.5, z: 0}
+  m_LocalScale: {x: 0.3, y: 1.5, z: 0.3}
   m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 3547807299919848024}
+  m_Children: []
   m_Father: {fileID: 7643244178808729430}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &794663862827617751
@@ -309,7 +309,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: c909803b3cc4e25449f9eb5cf28e0972, type: 2}
+  - {fileID: 2100000, guid: 49678f9af0b444a4f8679dad101aec64, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -343,7 +343,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4fbbea2eccf6cf9439a9b9bf239f29b5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Type: 1
+  Type: 2
   Quantity: 40
   parentObject: {fileID: 3514603389035645901}
   onQuantityChange:
@@ -373,7 +373,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ff97d3ce6a2a6ee4794aa669d9d17ea8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  item: {fileID: 11400000, guid: 04b2f78445ff8ce4dae1baf82cba6e96, type: 2}
+  item: {fileID: 11400000, guid: 314ee73523bde604dba3ca011266aa88, type: 2}
 --- !u!1 &6557565213220861373
 GameObject:
   m_ObjectHideFlags: 0
@@ -538,16 +538,16 @@ RectTransform:
   m_GameObject: {fileID: 6734532322251788300}
   m_LocalRotation: {x: 0.38268346, y: -0, z: -0, w: 0.9238795}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.0050000004, y: 0.0050000004, z: 0.0050000004}
+  m_LocalScale: {x: 0.003, y: 0.003, z: 0.030000001}
   m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 6933438496465604204}
   - {fileID: 6645418686205059837}
-  m_Father: {fileID: 2541943214541337525}
+  m_Father: {fileID: 7643244178808729430}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 0, y: 1.5}
   m_SizeDelta: {x: 240, y: 120}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!223 &4661048741920625419

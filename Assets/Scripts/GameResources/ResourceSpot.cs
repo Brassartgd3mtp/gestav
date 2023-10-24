@@ -3,14 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
-public enum ResourceType
-{
-    Copper
-}
-
 public class ResourceSpot : MonoBehaviour
 {
-    [SerializeField] private ResourceType Type;
+    [SerializeField] private InventoryResourceType Type;
     public int Quantity;
     [SerializeField] GameObject parentObject;
 

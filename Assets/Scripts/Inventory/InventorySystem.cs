@@ -84,4 +84,14 @@ public class InventorySystem
         return _totalSlots;
     }
 
+    public bool KnowIfInventoryIsEmpty()
+    {
+        foreach(InventorySlot slot in inventorySlots)
+        {
+            if(slot.ItemData != null) return false;
+        }
+        return true;
+    }
+
+
 }

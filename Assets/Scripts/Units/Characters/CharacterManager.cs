@@ -152,8 +152,7 @@ public class CharacterManager : UnitManager
         Debug.Log("va a la mine");
 
         Transform targetTransform = DecideWhereToGo();
-         // Transform targetTransform = findingScript.GetClosestBuilding(findingScript.GetTransformArray(Global.MINE_LAYER_MASK)); // Trouve la mine la plus proche
-        if (targetTransform != null) //Si a trouvé une mine
+        if (targetTransform != null) //Si a trouvé le batiment
         {
                 float distanceToStop = targetTransform.GetComponent<BoxCollider>().size.z + 1.5f;
                 bool locationReached = false;
@@ -202,7 +201,14 @@ public class CharacterManager : UnitManager
                     }
                     _buildInv = null;
                     locationReached = true;
-                    GoMining();
+
+                    // If inventory is empty go mine, else find the new destination to empty his inventory
+                    if(inventory.InventorySystem.KnowIfInventoryIsEmpty())
+                    {
+                        GoMining();
+                    }
+                    else DecideWhereToGo();
+
                 }
                 await Task.Delay(100);
             }
@@ -275,6 +281,7 @@ public InventoryItemData GetItemInFirstOccupiedSlot()
     {
         foreach (InventorySlot slot in inventory.InventorySystem.InventorySlots)
         {
+            Debug.Log("Analyse");
             if (slot.ItemData != null)
             {
                 return slot.ItemData;
