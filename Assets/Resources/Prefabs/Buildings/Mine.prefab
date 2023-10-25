@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 4510016543749295994}
   - component: {fileID: 6803045103332860202}
   - component: {fileID: 6467949891053054839}
-  m_Layer: 13
+  m_Layer: 10
   m_Name: DisplaySpaceRemaining
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -150,7 +150,7 @@ GameObject:
   - component: {fileID: 1389912913271320893}
   - component: {fileID: 4688506703201364907}
   - component: {fileID: 2881345159177523187}
-  m_Layer: 13
+  m_Layer: 10
   m_Name: MaxQuantity
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -284,7 +284,7 @@ GameObject:
   - component: {fileID: 8802991265003030853}
   - component: {fileID: 6944612005936011152}
   - component: {fileID: 7652015148924731998}
-  m_Layer: 13
+  m_Layer: 10
   m_Name: RemainingSpace
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -418,7 +418,7 @@ GameObject:
   - component: {fileID: 4486426527567698841}
   - component: {fileID: 5919623210140646976}
   - component: {fileID: 2095632086188060015}
-  m_Layer: 13
+  m_Layer: 10
   m_Name: /
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -556,7 +556,7 @@ GameObject:
   - component: {fileID: -485740623328278625}
   - component: {fileID: -7304394294732682451}
   - component: {fileID: 8268826923883680551}
-  m_Layer: 14
+  m_Layer: 10
   m_Name: Mine
   m_TagString: Unit
   m_Icon: {fileID: 0}
@@ -701,7 +701,7 @@ GameObject:
   - component: {fileID: 4028307521247384452}
   - component: {fileID: 5756487257112547051}
   - component: {fileID: 5676971355410136368}
-  m_Layer: 14
+  m_Layer: 10
   m_Name: Mesh
   m_TagString: Untagged
   m_Icon: {fileID: 0}

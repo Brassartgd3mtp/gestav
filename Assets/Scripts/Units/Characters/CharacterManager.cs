@@ -29,11 +29,18 @@ public class CharacterManager : UnitManager
     public bool GatheringMode;
     public bool BuildingMode;
     private bool isGathering;
+    private InventoryResourceType lastGatheredResource;
 
     private float miningDuration = 3f;
-    private int depositDuration = 250; //en milisecondes
+    private int depositDuration = 350; //en milisecondes
 
     private float timer;
+
+    [SerializeField] GameObject bagContainer;
+    private Vector3 startingBagScale;
+    [SerializeField] Animator animator;
+
+
     protected override Unit Unit
     {
         get { return character; }
@@ -44,6 +51,7 @@ public class CharacterManager : UnitManager
     {
         inventory = gameObject.GetComponent<BuildingInventory>();
         resourceToGather = 1;
+        startingBagScale = bagContainer.transform.localScale;
     }
 
     private void Update()
@@ -53,6 +61,8 @@ public class CharacterManager : UnitManager
             if (inventory.InventorySystem.HasFreeSlot(out InventorySlot _freeSlot))
             {
 
+                animator.SetBool("isMining", true);
+
                 timer -= Time.deltaTime;
                 if (timer <= 0f)
                 {
@@ -60,6 +70,11 @@ public class CharacterManager : UnitManager
                     {
                         resourceSpot.GatherResources(resourceToGather);
                         inventory.InventorySystem.AddToInventory(item.item, resourceToGather);
+                        lastGatheredResource = item.item.resourceType;
+                       
+                        //change the bag according to how much there is inside
+                        ShowBag();
+                        ChangeBagSize(CalculateBagSize());
 
                         //Dynamic display of character inventory if he is selected
                         if ( Global.SELECTED_UNITS.Count == 1 && Global.SELECTED_UNITS[0] == gameObject.GetComponent<UnitManager>())
@@ -109,6 +124,8 @@ public class CharacterManager : UnitManager
 
     private void OnTriggerEnter(Collider other)
     {
+        EnterGatheringMode();
+        Debug.Log(GatheringMode);
         if (other.tag == "ResourceArea" && GatheringMode == true && inventory.InventorySystem.HasFreeSlot(out InventorySlot _freeSlot))
         {
             Debug.Log("collision");
@@ -116,6 +133,7 @@ public class CharacterManager : UnitManager
             item = other.gameObject.GetComponentInChildren<Item>();
             StartGathering();
         }
+        else Debug.Log("Une condition n'est pas remplie???");
     }
 
     private void OnTriggerExit(Collider other)
@@ -131,7 +149,8 @@ public class CharacterManager : UnitManager
     }
 
     public void StopGathering() //make the unit stop gathering resources
-    { 
+    {
+        animator.SetBool("isMining", false);
         isGathering = false;
         timer = miningDuration;
     }
@@ -148,10 +167,9 @@ public class CharacterManager : UnitManager
     public async void GoStoreResources() // The method that tell the worker to go store the resources he gathered in a building
     {
 
-        isGathering = false;
-        Debug.Log("va a la mine");
+        ExitGatheringMode();
 
-        Transform targetTransform = DecideWhereToGo();
+        Transform targetTransform = DecideWhichBuildingToGo();
         if (targetTransform != null) //Si a trouvé le batiment
         {
                 float distanceToStop = targetTransform.GetComponent<BoxCollider>().size.z + 1.5f;
@@ -171,10 +189,13 @@ public class CharacterManager : UnitManager
                         //Put worker items into the building
                         Debug.Log(inventory.InventorySystem.InventorySlots[i].ItemData);
 
-                        if(inventory.InventorySystem.InventorySlots[i].ItemData.resourceType == _buildInv.validType)
+                        if(inventory.InventorySystem.InventorySlots[i].ItemData != null && inventory.InventorySystem.InventorySlots[i].ItemData.resourceType == _buildInv.validType)
                         {
                             _buildInv.InventorySystem.AddToInventory(inventory.InventorySystem.InventorySlots[i].ItemData, 1);
                             inventory.InventorySystem.InventorySlots[i].ClearSlot();
+
+                            ChangeBagSize(CalculateBagSize()); // change the bag size
+
                             await Task.Delay(depositDuration);
 
                             //change the UI pop up on top of the building
@@ -203,63 +224,82 @@ public class CharacterManager : UnitManager
                     locationReached = true;
 
                     // If inventory is empty go mine, else find the new destination to empty his inventory
-                    if(inventory.InventorySystem.KnowIfInventoryIsEmpty())
+                    if (inventory.InventorySystem.KnowIfInventoryIsEmpty())
                     {
+                        Debug.Log("Inventory empty");
+                        HideBag();
                         GoMining();
                     }
-                    else DecideWhereToGo();
+                    else
+                    Debug.Log("Inventory not empty");
+                    GoStoreResources();
 
                 }
-                await Task.Delay(100);
+                await Task.Delay(250);
             }
 
             targetTransform = null;
         }
-      else GatheringMode = false;
+         else ExitGatheringMode();
     }
 
 
     public void GoMining()
     {
-        Transform targetTransform = findingScript.GetClosestBuilding(findingScript.GetTransformArray(Global.RESOURCE_LAYER_MASK)); // Trouve la mine la plus proche
+        EnterGatheringMode();
+       Transform[] resourcesTranform = findingScript.GetTransformArray(Global.RESOURCE_LAYER_MASK);
+        Item[] resourcesTypes = new Item[resourcesTranform.Length];
+        List<Item> correspondingItems = new List<Item>();
+        for (int i = 0; i < resourcesTranform.Length; i++)
+        {
+            resourcesTypes[i] = resourcesTranform[i].gameObject.GetComponentInChildren<Item>();
+        }
+        foreach (Item item in resourcesTypes)
+        {
+            if(item != null && item.item.resourceType == lastGatheredResource) 
+            {
+            correspondingItems.Add(item);
+            }
+        }
+
+
+        Transform targetTransform = GetClosestResource(correspondingItems); // Trouve la mine la plus proche
         if (targetTransform != null) //Si a trouvé une ressource
         {
-            float distanceToStop = targetTransform.GetComponent<BoxCollider>().size.z + 1.5f;
+            float distanceToStop = targetTransform.GetComponentInParent<BoxCollider>().size.z + 1.5f;
             Vector3 targetLocation = targetTransform.position;
             MoveTo(targetLocation, distanceToStop); //Va a la position de la mine
-
         }
     }
 
-    public Transform DecideWhereToGo()
+    public Transform DecideWhichBuildingToGo()
     {
 
         float detectionRadius = 10000f;
 
         //detect building colliders, find the corresponding transforms and inventories
         Collider[] colliders = Physics.OverlapSphere(transform.position, detectionRadius, Global.BUILDING_LAYER_MASK);
-        Debug.Log(colliders);
         Transform[] buildingTransform = new Transform[colliders.Length];
         List<InventoryHolder> correspondingInventories = new List<InventoryHolder>();
+        InventoryHolder[] inventories = new InventoryHolder[buildingTransform.Length];
 
         for (int i = 0; i < colliders.Length; i++)
         {
             buildingTransform[i] = colliders[i].transform;
-
-            if (buildingTransform != null)
+        }
+            if (buildingTransform.Length > 0)
             {
 
-                //get the inventories 
+            //get the inventories 
 
-                InventoryHolder[] inventories = new InventoryHolder[buildingTransform.Length];
+            for (int i = 0; i < buildingTransform.Length; i++)
+            {
                 inventories[i] = buildingTransform[i].gameObject.GetComponent<InventoryHolder>();
-
-
+            }
                 //add to a list the inventories that accepts the items currently in the worker's invntory
-
                 foreach (InventoryHolder inv in inventories)
                 {
-                    if (inv != null && GetItemInFirstOccupiedSlot().resourceType == inv.validType)
+                    if (inventories.Length > 0 && GetItemInFirstOccupiedSlot() != null && GetItemInFirstOccupiedSlot().resourceType == inv.validType)
                     {
                         correspondingInventories.Add(inv);
                     }
@@ -272,8 +312,6 @@ public class CharacterManager : UnitManager
             Transform target = GetClosestBuilding(correspondingInventories);
             return target;
 
-        }
-        return null;
     }
 
 
@@ -281,9 +319,9 @@ public InventoryItemData GetItemInFirstOccupiedSlot()
     {
         foreach (InventorySlot slot in inventory.InventorySystem.InventorySlots)
         {
-            Debug.Log("Analyse");
             if (slot.ItemData != null)
             {
+                Debug.Log(slot.ItemData);
                 return slot.ItemData;
             }
         }
@@ -307,9 +345,73 @@ public Transform GetClosestBuilding(List<InventoryHolder> correspondingInventori
         return tMin;
     }
 
+    public Transform GetClosestResource(List<Item> correspondingItems)
+    {
+        Transform tMin = null;
+        float minDist = Mathf.Infinity;
+        Vector3 currentPos = transform.position;
+        foreach (Item item in correspondingItems)
+        {
+            float dist = Vector3.Distance(item.gameObject.transform.position, currentPos);
+            if (dist < minDist)
+            {
+                tMin = item.gameObject.transform;
+                minDist = dist;
+            }
+        }
+        return tMin;
+    }
+
     public void ShowInventoryUI(InventorySystem InvToDisplay)
     {
         InventoryHolder.OnDynamicInventoryDisplayRequested?.Invoke(InvToDisplay);
     }
+
+    public void ShowBag()
+    {
+        bagContainer.SetActive(true);
+    }
+
+    public void HideBag()
+    {
+        bagContainer?.SetActive(false);
+    }
+
+    public int CalculateBagSize()
+    {
+        int _itemsInBag = 0;
+        int _totalItemsInBag = 0;
+        int _bagSize = 0;
+        InventorySlot[] inv = inventory.InventorySystem.InventorySlots.ToArray();
+        for (int i = 0; i < inv.Length; i++)
+        {
+            _totalItemsInBag++;
+            if (inv[i].ItemData != null) _itemsInBag++;
+        }
+
+       float ratio =  _itemsInBag / _totalItemsInBag * 100;
+
+        if (ratio < 34) _bagSize = 1;
+        else if (ratio < 67) _bagSize = 2;
+        else _bagSize = 3;
+        Debug.Log(ratio);
+        return _bagSize;
+    }
+
+    public void ChangeBagSize(int _bagSize)
+    {
+        switch(_bagSize) 
+        {
+        case 1:
+                bagContainer.transform.localScale = startingBagScale; break;
+        case 2:
+                bagContainer.transform.localScale = new Vector3(startingBagScale.x *1.5f, startingBagScale.y * 1.5f, startingBagScale.z * 1.5f); break;
+        case 3:
+                bagContainer.transform.localScale = new Vector3(startingBagScale.x * 2f, startingBagScale.y * 2f, startingBagScale.z * 2f); break;
+        default:
+                bagContainer.transform.localScale = startingBagScale; break;
+        }
+    }
+
 }
 
