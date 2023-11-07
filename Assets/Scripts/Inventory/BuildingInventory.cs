@@ -14,10 +14,6 @@ public class BuildingInventory : UnitInventory, IInteractable
     }
    private void Update()
     {
-        if(Input.GetKeyDown(KeyCode.H))
-        {
-            GetAllItems();
-        }
     //    KnowResourcesInInv();
     } 
 

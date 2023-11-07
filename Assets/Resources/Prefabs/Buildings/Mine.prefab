@@ -556,6 +556,7 @@ GameObject:
   - component: {fileID: -485740623328278625}
   - component: {fileID: 8268826923883680551}
   - component: {fileID: 8079430522156623552}
+  - component: {fileID: 1193171137107418262}
   m_Layer: 10
   m_Name: Mine
   m_TagString: Unit
@@ -690,6 +691,20 @@ MonoBehaviour:
   inventorySize: 40
   inventorySystem:
     inventorySlots: []
+  items: []
+--- !u!114 &1193171137107418262
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8316421863545563184}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cb32cd69cb367d64fa99dfcda78ac12f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  testRecipe: {fileID: 11400000, guid: 5475799aab0543848a034b54c5da37dc, type: 2}
 --- !u!1 &8968449125538242080
 GameObject:
   m_ObjectHideFlags: 0
