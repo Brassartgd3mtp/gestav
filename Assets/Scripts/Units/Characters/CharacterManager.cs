@@ -23,7 +23,7 @@ public class CharacterManager : UnitManager
 
     [SerializeField] private int resourceToGather = 1;
 
-    private BuildingInventory inventory;
+    private UnitInventory inventory;
     private DynamicInventoryDisplay inventoryDisplay;
 
     public bool GatheringMode;
@@ -33,6 +33,7 @@ public class CharacterManager : UnitManager
 
     private float miningDuration = 3f;
     private int depositDuration = 350; //en milisecondes
+    public int DepositDuration => depositDuration;
 
     private float timer;
 
@@ -49,7 +50,7 @@ public class CharacterManager : UnitManager
 
     private void Awake()
     {
-        inventory = gameObject.GetComponent<BuildingInventory>();
+        inventory = gameObject.GetComponent<UnitInventory>();
         resourceToGather = 1;
         startingBagScale = bagContainer.transform.localScale;
     }
@@ -77,10 +78,7 @@ public class CharacterManager : UnitManager
                         ChangeBagSize(CalculateBagSize());
 
                         //Dynamic display of character inventory if he is selected
-                        if ( Global.SELECTED_UNITS.Count == 1 && Global.SELECTED_UNITS[0] == gameObject.GetComponent<UnitManager>())
-                        {
-                            ShowInventoryUI(inventory.InventorySystem);
-                        }
+                        DisplayThisIventory();
                     }
 
                     timer = miningDuration;
@@ -206,10 +204,7 @@ public class CharacterManager : UnitManager
                             }
 
                             //Dynamic display of character inventory if he is selected
-                            if (Global.SELECTED_UNITS.Count == 1 && Global.SELECTED_UNITS[0] == gameObject.GetComponent<UnitManager>())
-                            {
-                                ShowInventoryUI(inventory.InventorySystem);
-                            }
+                            DisplayThisIventory();
 
                             //Dynamic display of building inventory if it is selected
                             if (Global.SELECTED_UNITS.Count == 1 && Global.SELECTED_UNITS[0] == _buildInv.gameObject.GetComponent<UnitManager>())
@@ -374,7 +369,11 @@ public Transform GetClosestBuilding(List<InventoryHolder> correspondingInventori
 
     public void HideBag()
     {
-        bagContainer?.SetActive(false);
+        if (inventory.InventorySystem.KnowIfInventoryIsEmpty())
+        {
+            bagContainer.SetActive(false);
+        }
+
     }
 
     public int CalculateBagSize()
@@ -394,7 +393,7 @@ public Transform GetClosestBuilding(List<InventoryHolder> correspondingInventori
         if (ratio < 34) _bagSize = 1;
         else if (ratio < 67) _bagSize = 2;
         else _bagSize = 3;
-        Debug.Log(ratio);
+
         return _bagSize;
     }
 
@@ -410,6 +409,15 @@ public Transform GetClosestBuilding(List<InventoryHolder> correspondingInventori
                 bagContainer.transform.localScale = new Vector3(startingBagScale.x * 2f, startingBagScale.y * 2f, startingBagScale.z * 2f); break;
         default:
                 bagContainer.transform.localScale = startingBagScale; break;
+        }
+    }
+
+    //Dynamic display of character inventory if he is selected
+    public void DisplayThisIventory()
+    {
+        if (Global.SELECTED_UNITS.Count == 1 && Global.SELECTED_UNITS[0] == gameObject.GetComponent<UnitManager>())
+        {
+            ShowInventoryUI(inventory.InventorySystem);
         }
     }
 

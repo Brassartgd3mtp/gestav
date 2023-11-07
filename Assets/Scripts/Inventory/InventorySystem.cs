@@ -93,5 +93,12 @@ public class InventorySystem
         return true;
     }
 
-
+    public void TransferItems(InventoryHolder inventoryGiver, InventoryHolder inventoryReceiver)
+    {
+        for (int i = 0; i < inventoryGiver.InventorySystem.InventorySlots.Count; i++)
+        {
+            inventoryReceiver.InventorySystem.AddToInventory(inventoryReceiver.InventorySystem.InventorySlots[i].ItemData, 1);
+            inventoryGiver.InventorySystem.InventorySlots[i].ClearSlot();
+        }
+    }
 }

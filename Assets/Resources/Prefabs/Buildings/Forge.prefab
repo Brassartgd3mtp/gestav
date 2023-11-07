@@ -371,6 +371,7 @@ GameObject:
   - component: {fileID: 4861557067850865161}
   - component: {fileID: 5038758140059649682}
   - component: {fileID: 2407267825734096930}
+  - component: {fileID: -6968233366460962608}
   m_Layer: 15
   m_Name: Forge
   m_TagString: Unit
@@ -505,6 +506,22 @@ MonoBehaviour:
   CurrentQuantityText: {fileID: 6705178330186546248}
   Inventory: {fileID: 5038758140059649682}
   OutilineMaterial: {fileID: 2100000, guid: 0634b05414478cc439d03427eaa410a3, type: 2}
+--- !u!114 &-6968233366460962608
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5107880386229869334}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d4990a04d5059d94f9c2bb226d6a4380, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  validType: 1
+  inventorySize: 5
+  inventorySystem:
+    inventorySlots: []
 --- !u!1 &5515035847940280310
 GameObject:
   m_ObjectHideFlags: 0

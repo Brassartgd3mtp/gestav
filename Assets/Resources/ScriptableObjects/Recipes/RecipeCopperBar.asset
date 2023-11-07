@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 18fc5c0e4a1bb5d439dfdc5d70cb02f8, type: 3}
+  m_Name: RecipeCopperBar
+  m_EditorClassIdentifier: 
+  RecipeName: Copper Bar Recipe
+  TypeOfRecipe: 0
+  input:
+  - {fileID: 11400000, guid: 04b2f78445ff8ce4dae1baf82cba6e96, type: 2}
+  - {fileID: 11400000, guid: 04b2f78445ff8ce4dae1baf82cba6e96, type: 2}
+  - {fileID: 11400000, guid: 04b2f78445ff8ce4dae1baf82cba6e96, type: 2}
+  output:
+  - {fileID: 11400000, guid: 8709e5e20a1ece94daec5cfe25325579, type: 2}

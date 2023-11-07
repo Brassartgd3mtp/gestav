@@ -15,8 +15,8 @@ GameObject:
   - component: {fileID: 1689742863027917839}
   - component: {fileID: 9152607663828230570}
   - component: {fileID: 8466157469576545125}
-  - component: {fileID: 8807436672617456623}
   - component: {fileID: 3060517887225741967}
+  - component: {fileID: 3261263250596637997}
   m_Layer: 12
   m_Name: Worker
   m_TagString: Unit
@@ -166,22 +166,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 22e2940f5c9b0454e92275953cbd8f29, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &8807436672617456623
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2019966834684936119}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a02ef5b285c63ed4e96151bfa153a4ff, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  validType: 0
-  inventorySize: 3
-  inventorySystem:
-    inventorySlots: []
 --- !u!95 &3060517887225741967
 Animator:
   serializedVersion: 5
@@ -203,6 +187,22 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &3261263250596637997
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2019966834684936119}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ebe6c7b667a391e40af4e4e095f8c30d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  validType: 0
+  inventorySize: 3
+  inventorySystem:
+    inventorySlots: []
 --- !u!1 &2575811121895900062
 GameObject:
   m_ObjectHideFlags: 0
