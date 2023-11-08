@@ -13,9 +13,10 @@ public class CharacterManager : UnitManager
 
     private Character character;
     [SerializeField] private Find findingScript;
+    private AssignWorker assignWorker;
 
     private ResourceSpot resourceSpot;
-    private Item item;
+    private ItemRef item;
 
     [SerializeField] private NavMeshAgent agent;
     [SerializeField] private float stoppingDistance;
@@ -41,6 +42,7 @@ public class CharacterManager : UnitManager
     private Vector3 startingBagScale;
     [SerializeField] Animator animator;
 
+    public bool isAssignedToABuilding;
 
     protected override Unit Unit
     {
@@ -128,10 +130,9 @@ public class CharacterManager : UnitManager
         {
             Debug.Log("collision");
             resourceSpot = other.gameObject.GetComponentInChildren<ResourceSpot>();
-            item = other.gameObject.GetComponentInChildren<Item>();
+            item = other.gameObject.GetComponentInChildren<ItemRef>();
             StartGathering();
         }
-        else Debug.Log("Une condition n'est pas remplie???");
     }
 
     private void OnTriggerExit(Collider other)
@@ -243,13 +244,13 @@ public class CharacterManager : UnitManager
     {
         EnterGatheringMode();
        Transform[] resourcesTranform = findingScript.GetTransformArray(Global.RESOURCE_LAYER_MASK);
-        Item[] resourcesTypes = new Item[resourcesTranform.Length];
-        List<Item> correspondingItems = new List<Item>();
+        ItemRef[] resourcesTypes = new ItemRef[resourcesTranform.Length];
+        List<ItemRef> correspondingItems = new List<ItemRef>();
         for (int i = 0; i < resourcesTranform.Length; i++)
         {
-            resourcesTypes[i] = resourcesTranform[i].gameObject.GetComponentInChildren<Item>();
+            resourcesTypes[i] = resourcesTranform[i].gameObject.GetComponentInChildren<ItemRef>();
         }
-        foreach (Item item in resourcesTypes)
+        foreach (ItemRef item in resourcesTypes)
         {
             if(item != null && item.item.resourceType == lastGatheredResource) 
             {
@@ -340,12 +341,12 @@ public Transform GetClosestBuilding(List<InventoryHolder> correspondingInventori
         return tMin;
     }
 
-    public Transform GetClosestResource(List<Item> correspondingItems)
+    public Transform GetClosestResource(List<ItemRef> correspondingItems)
     {
         Transform tMin = null;
         float minDist = Mathf.Infinity;
         Vector3 currentPos = transform.position;
-        foreach (Item item in correspondingItems)
+        foreach (ItemRef item in correspondingItems)
         {
             float dist = Vector3.Distance(item.gameObject.transform.position, currentPos);
             if (dist < minDist)
@@ -420,6 +421,8 @@ public Transform GetClosestBuilding(List<InventoryHolder> correspondingInventori
             ShowInventoryUI(inventory.InventorySystem);
         }
     }
+
+
 
 }
 

@@ -6,6 +6,7 @@ public class UnitsSelection : MonoBehaviour
 {
     
     private bool isDraggingMouseBox = false;
+
     private Vector3 dragStartPosition;
 
     Ray ray;
@@ -13,6 +14,7 @@ public class UnitsSelection : MonoBehaviour
 
     private void Update()
     {
+
         if (Input.GetMouseButtonDown(0))
         {
             isDraggingMouseBox = true;
@@ -20,7 +22,11 @@ public class UnitsSelection : MonoBehaviour
         }
 
         if (Input.GetMouseButtonUp(0))
+        {
             isDraggingMouseBox = false;
+
+        }
+
 
         if (isDraggingMouseBox && dragStartPosition != Input.mousePosition)
             SelectUnitsInDraggingBox();
@@ -32,13 +38,14 @@ public class UnitsSelection : MonoBehaviour
             if (Input.GetMouseButtonDown(0))
             {
                 ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+                bool isNotOverUI = UnityEngine.EventSystems.EventSystem.current.IsPointerOverGameObject();
                 if (Physics.Raycast(
                     ray,
                     out raycastHit,
                     1000f
                 ))
                 {
-                    if (raycastHit.transform.tag == "Terrain")
+                    if (raycastHit.transform.tag == "Terrain" && !isNotOverUI)
                         DeselectAllUnits();
   
                 }

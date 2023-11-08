@@ -257,7 +257,7 @@ GameObject:
   - component: {fileID: 794663862827617751}
   - component: {fileID: 4477381340426299441}
   - component: {fileID: 3392996915552143194}
-  - component: {fileID: 3326192364433379775}
+  - component: {fileID: 2990879994627621721}
   m_Layer: 2
   m_Name: ResourceSpot
   m_TagString: Resource
@@ -361,7 +361,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
---- !u!114 &3326192364433379775
+--- !u!114 &2990879994627621721
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -370,7 +370,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 5044338889915208582}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ff97d3ce6a2a6ee4794aa669d9d17ea8, type: 3}
+  m_Script: {fileID: 11500000, guid: dbda3031e23b59d42a9443c8cae79a2c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   item: {fileID: 11400000, guid: 04b2f78445ff8ce4dae1baf82cba6e96, type: 2}

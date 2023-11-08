@@ -10,7 +10,8 @@ public enum InventoryResourceType
     Copper = 1 << 0,
     Wood = 1 << 1,
     CopperBar = 1 <<2,
-    CopperScrew = 1 <<3
+    CopperScrew = 1 <<3,
+    Worker = 1 <<4
 }
 //type |= valideType
 
