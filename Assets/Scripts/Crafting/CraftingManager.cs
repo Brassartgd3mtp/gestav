@@ -9,13 +9,15 @@ public class CraftingManager : MonoBehaviour
 
     private List<ItemTypeAndCount> items = new List<ItemTypeAndCount>();
     private BuildingInventory inventory;
-    [SerializeField] private ItemRecipeSO testRecipe;
+    [SerializeField] private ItemRecipeSO RecipeToCraft;
     private void Update()
     {
         if(Input.GetKeyDown(KeyCode.H))
         {
-            CanCraftRecipe(testRecipe);
-            Debug.Log(CanCraftRecipe(testRecipe));
+            if(CanCraftRecipe(RecipeToCraft))
+            {
+                CraftItems(new List<ItemTypeAndCount>(RecipeToCraft.output), new List<ItemTypeAndCount>(RecipeToCraft.input));
+            }
         }
     }
 
@@ -38,4 +40,25 @@ public class CraftingManager : MonoBehaviour
 
         return foundItems == recipeSO.input.Length;
     }
+
+
+    public void CraftItems(List<ItemTypeAndCount> itemsToCraft, List<ItemTypeAndCount> itemsToDestroy)
+    {
+        foreach(ItemTypeAndCount itemToDestroy in itemsToDestroy)
+        {
+            for (int i = 0; i < inventory.InventorySystem.InventorySlots.Count; i++)
+            {
+                if (inventory.InventorySystem.InventorySlots[i].ItemData != null && inventory.InventorySystem.InventorySlots[i].ItemData.resourceType == itemToDestroy.item.resourceType)
+                {
+                    inventory.InventorySystem.InventorySlots[i].ClearSlot();
+                }
+            }
+        }
+
+        foreach (ItemTypeAndCount itemToCraft in itemsToCraft)
+        {
+            inventory.InventorySystem.AddToInventory(itemToCraft.item, 1);
+        }
+    }
+
 }

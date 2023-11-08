@@ -704,7 +704,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cb32cd69cb367d64fa99dfcda78ac12f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  testRecipe: {fileID: 11400000, guid: 5475799aab0543848a034b54c5da37dc, type: 2}
+  RecipeToCraft: {fileID: 11400000, guid: 5475799aab0543848a034b54c5da37dc, type: 2}
 --- !u!1 &8968449125538242080
 GameObject:
   m_ObjectHideFlags: 0

@@ -15,8 +15,8 @@ MonoBehaviour:
   RecipeName: Copper Bar Recipe
   TypeOfRecipe: 0
   input:
-  - {fileID: 11400000, guid: 04b2f78445ff8ce4dae1baf82cba6e96, type: 2}
-  - {fileID: 11400000, guid: 04b2f78445ff8ce4dae1baf82cba6e96, type: 2}
-  - {fileID: 11400000, guid: 04b2f78445ff8ce4dae1baf82cba6e96, type: 2}
+  - item: {fileID: 11400000, guid: 04b2f78445ff8ce4dae1baf82cba6e96, type: 2}
+    count: 3
   output:
-  - {fileID: 11400000, guid: 8709e5e20a1ece94daec5cfe25325579, type: 2}
+  - item: {fileID: 11400000, guid: 8709e5e20a1ece94daec5cfe25325579, type: 2}
+    count: 1

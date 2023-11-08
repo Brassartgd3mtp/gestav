@@ -6,31 +6,7 @@ using UnityEngine.Events;
 public class BuildingInventory : UnitInventory, IInteractable
 {
     public List<ItemTypeAndCount> items = new List<ItemTypeAndCount>();
-    private int ResourcesUsable;
-    protected override void Awake()
-    {
-        base.Awake();
-        ResourcesUsable = 0;
-    }
-   private void Update()
-    {
-    //    KnowResourcesInInv();
-    } 
 
-
-    public int KnowResourcesInInv()
-    {
-        ResourcesUsable = 0;
-        for (int i = 0; i<inventorySystem.InventorySlots.Count; i++)
-        {
-            if (inventorySystem.InventorySlots[i].ItemData.resourceType == validType)
-            {
-                ResourcesUsable++;
-                Debug.Log(ResourcesUsable);
-            }
-        }
-        return ResourcesUsable;
-    }
 
     //Method that gets all the items in the inventory and there count
     public List<ItemTypeAndCount> GetAllItems()
@@ -60,6 +36,7 @@ public class BuildingInventory : UnitInventory, IInteractable
         Debug.Log(items);
         return items;
     }
+
 
 
 }
