@@ -5,31 +5,34 @@ using UnityEngine;
 
 public class AssignWorker : InventoryHolder
 {
-    public List<CharacterManager> WorkersAssigned = new List<CharacterManager>();
+    public List<CharacterManager> workersFound = new List<CharacterManager>(); //contain the characters that are currently selected
 
     private CharacterManager characterManager;
     private ItemRef workerItem;
-
+    public BuildingManager buildingManager;
     public void AddWorkersToList()
     {
-        WorkersAssigned.Clear();
+        buildingManager = this.gameObject.GetComponent<BuildingManager>();
+        workersFound.Clear();
         foreach (UnitManager _worker in Global.SELECTED_UNITS) 
         {
             CharacterManager characterToAdd = _worker.gameObject.GetComponent<CharacterManager>();
             if ( characterToAdd != null)
             {
-
-                WorkersAssigned.Add(characterToAdd);
+                workersFound.Add(characterToAdd);
             }
         }
-        if(WorkersAssigned.Count <= inventorySystem.AmountOfSlotsAvaliable()) 
+        if(workersFound.Count <= inventorySystem.AmountOfSlotsAvaliable()) 
         {
-            foreach(CharacterManager _worker in WorkersAssigned) 
+            foreach(CharacterManager _worker in workersFound) 
             {
                 if(_worker.isAssignedToABuilding == false)
                 {
                     _worker.isAssignedToABuilding = true;
                     workerItem = _worker.gameObject.GetComponent<ItemRef>();
+
+                    _worker.buildingAssigned = buildingManager;
+
                     inventorySystem.AddToInventory(workerItem.item, 1);
                 }
             }

@@ -9,8 +9,6 @@ using Random = UnityEngine.Random;
 
 public class CharacterManager : UnitManager
 {
-
-
     private Character character;
     [SerializeField] private Find findingScript;
     private AssignWorker assignWorker;
@@ -43,6 +41,7 @@ public class CharacterManager : UnitManager
     [SerializeField] Animator animator;
 
     public bool isAssignedToABuilding;
+    public BuildingManager buildingAssigned;
 
     protected override Unit Unit
     {
