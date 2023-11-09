@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8582d150e895b944caa03186b6322cd1, type: 3}
   m_Name: Scierie
   m_EditorClassIdentifier: 
-  code: Scirie
-  unitName: Scirie
+  code: Scierie
+  unitName: Scierie
   healthpoints: 20
   prefab: {fileID: 5107880386229869334, guid: e693c59ac223fc24f99b923e84c06393, type: 3}

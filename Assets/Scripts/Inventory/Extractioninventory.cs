@@ -17,6 +17,10 @@ public class Extractioninventory : MonoBehaviour
     [SerializeField] private TextMeshProUGUI currentResourcesText;
     [SerializeField] private TextMeshProUGUI totalResourcesText;
 
+
+    private int charactersInZone = 0;
+    private List<InventoryHolder> workerInventoryList = new List<InventoryHolder>();
+
     private void Awake()
     {
         thisInventory = GetComponent<InventoryHolder>();
@@ -30,38 +34,63 @@ public class Extractioninventory : MonoBehaviour
     {
         if (other.GetComponent<CharacterManager>()  != null)
         {
+            charactersInZone++;
+
             characterManager = other.GetComponent<CharacterManager>();
             Debug.Log("Character Manager trouvé");
             workerInventory = other.GetComponentInChildren<InventoryHolder>();
+            workerInventoryList.Add(workerInventory);
 
-            for (int i = 0; i < workerInventory.InventorySystem.InventorySlots.Count; i++)
+            foreach (InventoryHolder workerInventory in workerInventoryList)
             {
-                if (workerInventory.InventorySystem.InventorySlots[i].ItemData != null)
+
+                for (int i = 0; i < workerInventory.InventorySystem.InventorySlots.Count; i++)
                 {
-                    await Task.Delay(characterManager.DepositDuration);
+                    if (workerInventory.InventorySystem.InventorySlots[i].ItemData != null)
+                    {
+                        await Task.Delay(characterManager.DepositDuration);
 
-                    //Do the inventory transfer
-                    thisInventory.InventorySystem.InventorySlots.Add(new InventorySlot());
-                    thisInventory.InventorySystem.AddToInventory(workerInventory.InventorySystem.InventorySlots[i].ItemData, 1);
-                    workerInventory.InventorySystem.InventorySlots[i].ClearSlot();
+                        //Do the inventory transfer
+                        thisInventory.InventorySystem.InventorySlots.Add(new InventorySlot());
+                        thisInventory.InventorySystem.AddToInventory(workerInventory.InventorySystem.InventorySlots[i].ItemData, 1);
+                        workerInventory.InventorySystem.InventorySlots[i].ClearSlot();
 
-                    resourcesExtracted++;
-                    Debug.Log(resourcesExtracted);
+                        resourcesExtracted = thisInventory.InventorySystem.InventorySlots.Count - thisInventory.InventorySystem.AmountOfSlotsAvaliable();
+                        Debug.Log(resourcesExtracted);
 
-                    //Update the bag and the UI
-                    characterManager.ChangeBagSize(characterManager.CalculateBagSize());
-                    characterManager.DisplayThisIventory();
-                    currentResourcesText.text = resourcesExtracted.ToString(); 
+                        //Update the bag and the UI
+                        characterManager.ChangeBagSize(characterManager.CalculateBagSize());
+                        characterManager.DisplayThisIventory();
+                        currentResourcesText.text = resourcesExtracted.ToString();
+                    }
+                    if (resourcesExtracted >= amountToExtract)
+                    {
+                        amountExctracted = true;
+                        VictoryUI.SetActive(true);
+                    }
                 }
-                if(resourcesExtracted >= amountToExtract)
+                //hide the worker's bag if their inv is empty
+                characterManager.HideBag();
+            }
+        }
+
+
+    }
+    private void OnTriggerExit(Collider other)
+    {
+        workerInventory = other.GetComponentInChildren<InventoryHolder>(); 
+        workerInventoryList.Remove(workerInventory);
+        charactersInZone--;
+
+        if (charactersInZone <= 0) 
+        {
+            foreach (InventorySlot slot in thisInventory.InventorySystem.InventorySlots)
+            {
+                if (slot.ItemData == null)
                 {
-                    amountExctracted=true;
-                    VictoryUI.SetActive(true);
+                    thisInventory.InventorySystem.InventorySlots.Remove(slot);
                 }
             }
-            //hide the worker's bag if their inv is empty
-            characterManager.HideBag();
-
         }
     }
 
