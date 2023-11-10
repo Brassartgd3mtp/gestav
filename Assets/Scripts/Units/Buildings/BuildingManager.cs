@@ -1,12 +1,21 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using Unity.VisualScripting;
 using UnityEngine;
 
-
+[Flags]
+public enum BuildingType
+{
+    Collect = 1 << 0,
+    Crafting = 1 << 1
+}
 public class BuildingManager : UnitManager
 {
+
+
+    public BuildingType TypeOfBuilding;
 
     private Building building;
 

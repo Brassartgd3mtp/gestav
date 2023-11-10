@@ -1183,6 +1183,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   OutilineMaterial: {fileID: 2100000, guid: 0634b05414478cc439d03427eaa410a3, type: 2}
+  TypeOfBuilding: 1
 --- !u!54 &5397181130447003597
 Rigidbody:
   m_ObjectHideFlags: 0

@@ -30,24 +30,32 @@ public class GameManager : MonoBehaviour
     {
         if (Global.SELECTED_UNITS.Count > 0 && Input.GetMouseButtonUp(1))
         {
-            ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-            if (Physics.Raycast(ray, out raycastHit,1000f, Global.TERRAIN_LAYER_MASK))
+            foreach(UnitManager unit in Global.SELECTED_UNITS) 
             {
-
-                groundMarker.transform.position = raycastHit.point;
-                groundMarker.SetActive(true);
-
-                // Active le timer en passant isActive à true
-                isActive = true;
-                Invoke("DisableGroundMarker", 2.0f); // Appelle la méthode DisableGroundMarker après 2 secondes
-
-
-                foreach (UnitManager um in Global.SELECTED_UNITS)
-                    if (um.GetType() == typeof(CharacterManager))
+            WorkerAIC aic = unit.gameObject.GetComponentInChildren<WorkerAIC>();
+                if (aic.CurrentBehaviour.canBeMovedbyPlayer == true)
+                {
+                    ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+                    if (Physics.Raycast(ray, out raycastHit, 1000f, Global.TERRAIN_LAYER_MASK))
                     {
-                        ((CharacterManager)um).MoveTo(raycastHit.point,0f);
-                        ((CharacterManager)um).ExitGatheringMode();
+
+                        groundMarker.transform.position = raycastHit.point;
+                        groundMarker.SetActive(true);
+
+                        // Active le timer en passant isActive à true
+                        isActive = true;
+                        Invoke("DisableGroundMarker", 2.0f); // Appelle la méthode DisableGroundMarker après 2 secondes
+
+
+                        foreach (UnitManager um in Global.SELECTED_UNITS)
+                            if (um.GetType() == typeof(CharacterManager))
+                            {
+                                ((CharacterManager)um).MoveTo(raycastHit.point, 0f);
+                                ((CharacterManager)um).ExitGatheringMode();
+                            }
                     }
+            }
+
             }
 
 
