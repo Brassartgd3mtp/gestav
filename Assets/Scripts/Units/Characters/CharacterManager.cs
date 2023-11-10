@@ -44,6 +44,7 @@ public class CharacterManager : UnitManager
 
     private float timer;
 
+    [SerializeField] GameObject bag;
     [SerializeField] GameObject bagContainer;
     private Vector3 startingBagScale;
 
@@ -64,7 +65,8 @@ public class CharacterManager : UnitManager
     {
         inventory = gameObject.GetComponent<UnitInventory>();
         resourceToGather = 1;
-        startingBagScale = bagContainer.transform.localScale;
+        startingBagScale = bag.transform.localScale;
+        bagContainer.SetActive(false);
         workerAIUse = gameObject.GetComponentInChildren<WorkerAIUse>();
     }
 
@@ -169,190 +171,6 @@ public class CharacterManager : UnitManager
         StopGathering();
     }
 
-
-  /*  public async void GoStoreResources() // The method that tell the worker to go store the resources he gathered in a building
-    {
-
-        ExitGatheringMode();
-
-        Transform targetTransform;
-        targetTransform = DecideWhichBuildingToGo();
-
-        if (targetTransform != null) //Si a trouvé le batiment
-        {
-                float distanceToStop = targetTransform.GetComponent<BoxCollider>().size.z + 1.5f;
-                bool locationReached = false;
-                Vector3 targetLocation = targetTransform.position;
-                MoveTo(targetLocation, distanceToStop); //Va a la position de la mine
-
-            while (locationReached == false)
-            {
-                if (Vector3.Distance(transform.position, targetLocation) <= distanceToStop) //Si l'ouvrier est suffisament près de la mine
-                {
-                    Debug.Log("DESTINATION REACHED");
-                    InventoryHolder _buildInv = targetTransform.GetComponent<InventoryHolder>();
-                    for (int i = 0; i < inventory.InventorySystem.InventorySlots.Count; i++) //transfert les objets de son inventaire à celui de la mine
-                    {
-
-                        //Put worker items into the building
-                        Debug.Log(inventory.InventorySystem.InventorySlots[i].ItemData);
-
-                        if(inventory.InventorySystem.InventorySlots[i].ItemData != null && inventory.InventorySystem.InventorySlots[i].ItemData.resourceType == _buildInv.validType)
-                        {
-                            _buildInv.InventorySystem.AddToInventory(inventory.InventorySystem.InventorySlots[i].ItemData, 1);
-                            inventory.InventorySystem.InventorySlots[i].ClearSlot();
-
-                            ChangeBagSize(CalculateBagSize()); // change the bag size
-
-                            await Task.Delay(depositDuration);
-
-                            //change the UI pop up on top of the building
-                            BuildingStockageUI buildingStockageUI = _buildInv.gameObject.GetComponent<BuildingStockageUI>();
-                            if (buildingStockageUI != null)
-                            {
-                                buildingStockageUI.UpdateSpaceInUI();
-                            }
-
-                            //Dynamic display of character inventory if he is selected
-                            DisplayThisIventory();
-
-                            //Dynamic display of building inventory if it is selected
-                            if (Global.SELECTED_UNITS.Count == 1 && Global.SELECTED_UNITS[0] == _buildInv.gameObject.GetComponent<UnitManager>())
-                            {
-                                ShowInventoryUI(_buildInv.InventorySystem);
-                            }
-
-                        }
-
-                    }
-                    _buildInv = null;
-                    locationReached = true;
-
-                    // If inventory is empty go mine, else find the new destination to empty his inventory
-                    if (inventory.InventorySystem.KnowIfInventoryIsEmpty())
-                    {
-                        Debug.Log("Inventory empty");
-                        HideBag();
-                    //    GoMining();
-                    }
-                    else
-                        Debug.Log("Inventory not empty");
-                        GoStoreResources();
-
-
-                }
-                await Task.Delay(250);
-            }
-
-            targetTransform = null;
-        }
-         else ExitGatheringMode();
-    } */
-
-    public async void GoStoreResources() // The method that tell the worker to go store the resources he gathered in a building
-    {
-
-        ExitGatheringMode();
-
-        Transform targetTransform = buildingAssigned.gameObject.transform;
-        Debug.Log(targetTransform);
-
-        if (targetTransform != null) //Si a trouvé le batiment
-        {
-            float distanceToStop = targetTransform.GetComponent<BoxCollider>().size.z + 1.5f;
-            bool locationReached = false;
-            Vector3 targetLocation = targetTransform.position;
-            MoveTo(targetLocation, distanceToStop); //Va a la position de la mine
-
-            while (locationReached == false)
-            {
-                if (Vector3.Distance(transform.position, targetLocation) <= distanceToStop) //Si l'ouvrier est suffisament près de la mine
-                {
-                    Debug.Log("DESTINATION REACHED");
-                    InventoryHolder _buildInv = targetTransform.GetComponent<InventoryHolder>();
-                    for (int i = 0; i < inventory.InventorySystem.InventorySlots.Count; i++) //transfert les objets de son inventaire à celui de la mine
-                    {
-
-                        //Put worker items into the building
-                        Debug.Log(inventory.InventorySystem.InventorySlots[i].ItemData);
-
-                        if (inventory.InventorySystem.InventorySlots[i].ItemData != null && inventory.InventorySystem.InventorySlots[i].ItemData.resourceType == _buildInv.validType)
-                        {
-                            _buildInv.InventorySystem.AddToInventory(inventory.InventorySystem.InventorySlots[i].ItemData, 1);
-                            inventory.InventorySystem.InventorySlots[i].ClearSlot();
-
-                            ChangeBagSize(CalculateBagSize()); // change the bag size
-
-                            await Task.Delay(depositDuration);
-
-                            //change the UI pop up on top of the building
-                            BuildingStockageUI buildingStockageUI = _buildInv.gameObject.GetComponent<BuildingStockageUI>();
-                            if (buildingStockageUI != null)
-                            {
-                                buildingStockageUI.UpdateSpaceInUI();
-                            }
-
-                            //Dynamic display of character inventory if he is selected
-                            DisplayThisIventory();
-
-                            //Dynamic display of building inventory if it is selected
-                            if (Global.SELECTED_UNITS.Count == 1 && Global.SELECTED_UNITS[0] == _buildInv.gameObject.GetComponent<UnitManager>())
-                            {
-                                ShowInventoryUI(_buildInv.InventorySystem);
-                            }
-
-                        }
-
-                    }
-                    _buildInv = null;
-                    locationReached = true;
-
-                    // If inventory is empty go mine, else find the new destination to empty his inventory
-                    if (inventory.InventorySystem.KnowIfInventoryIsEmpty())
-                    {
-                        Debug.Log("Inventory empty");
-                        HideBag();
-                    }
-                    else
-                        Debug.Log("Inventory not empty");
-                  //  GoDepositRemainingResources();
-
-
-                }
-                await Task.Delay(250);
-            }
-
-        }
-    }
-
-    /*  public void GoMining()
-      {
-          EnterGatheringMode();
-          Transform[] resourcesTranform = findingScript.GetTransformArray(Global.RESOURCE_LAYER_MASK);
-          ItemRef[] resourcesTypes = new ItemRef[resourcesTranform.Length];
-          List<ItemRef> correspondingItems = new List<ItemRef>();
-          for (int i = 0; i < resourcesTranform.Length; i++)
-          {
-              resourcesTypes[i] = resourcesTranform[i].gameObject.GetComponentInChildren<ItemRef>();
-          }
-          foreach (ItemRef item in resourcesTypes)
-          {
-              if(item != null && item.item.resourceType == LastGatheredResource) 
-              {
-              correspondingItems.Add(item);
-              }
-          }
-
-
-          Transform targetTransform = GetClosestResource(correspondingItems); // Trouve la mine la plus proche
-          if (targetTransform != null) //Si a trouvé une ressource
-          {
-              float distanceToStop = targetTransform.GetComponentInParent<BoxCollider>().size.z + 1.5f;
-              Vector3 targetLocation = targetTransform.position;
-              MoveTo(targetLocation, distanceToStop); //Va a la position de la mine
-          }
-      } */
-
     public Transform DecideWhichBuildingToGo()
     {
 
@@ -385,14 +203,11 @@ public class CharacterManager : UnitManager
                         correspondingInventories.Add(inv);
                     }
                 }
-
-
             }
             //return the transform of the closest building that can accept the item in the inventory
 
             Transform target = GetClosestBuilding(correspondingInventories);
             return target;
-
     }
 
 
@@ -420,23 +235,6 @@ public Transform GetClosestBuilding(List<InventoryHolder> correspondingInventori
             if (dist < minDist)
             {
                 tMin = inv.gameObject.transform;
-                minDist = dist;
-            }
-        }
-        return tMin;
-    }
-
-    public Transform GetClosestResource(List<ItemRef> correspondingItems)
-    {
-        Transform tMin = null;
-        float minDist = Mathf.Infinity;
-        Vector3 currentPos = transform.position;
-        foreach (ItemRef item in correspondingItems)
-        {
-            float dist = Vector3.Distance(item.gameObject.transform.position, currentPos);
-            if (dist < minDist)
-            {
-                tMin = item.gameObject.transform;
                 minDist = dist;
             }
         }
@@ -488,13 +286,13 @@ public Transform GetClosestBuilding(List<InventoryHolder> correspondingInventori
         switch(_bagSize) 
         {
         case 1:
-                bagContainer.transform.localScale = startingBagScale; break;
+                bag.transform.localScale = startingBagScale; break;
         case 2:
-                bagContainer.transform.localScale = new Vector3(startingBagScale.x *1.5f, startingBagScale.y * 1.5f, startingBagScale.z * 1.5f); break;
+                bag.transform.localScale = new Vector3(startingBagScale.x *1.5f, startingBagScale.y * 1.5f, startingBagScale.z * 1.5f); break;
         case 3:
-                bagContainer.transform.localScale = new Vector3(startingBagScale.x * 2f, startingBagScale.y * 2f, startingBagScale.z * 2f); break;
+                bag.transform.localScale = new Vector3(startingBagScale.x * 2f, startingBagScale.y * 2f, startingBagScale.z * 2f); break;
         default:
-                bagContainer.transform.localScale = startingBagScale; break;
+                bag.transform.localScale = startingBagScale; break;
         }
     }
 
@@ -506,8 +304,5 @@ public Transform GetClosestBuilding(List<InventoryHolder> correspondingInventori
             ShowInventoryUI(inventory.InventorySystem);
         }
     }
-
-
-
 }
 

@@ -10,6 +10,7 @@ public abstract class WorkerBehaviour : MonoBehaviour
     public abstract void ApplyBehaviour();
     public abstract BehaviourName CheckTransition();
 
+
     protected virtual void Awake()
     {
         CharacterManagerRef = GetComponentInParent<CharacterManager>();

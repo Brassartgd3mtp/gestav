@@ -217,6 +217,7 @@ MonoBehaviour:
   GatheringMode: 0
   BuildingMode: 0
   LastGatheredResource: 0
+  bag: {fileID: 6013164946446559602}
   bagContainer: {fileID: 5341555039358360323}
   animator: {fileID: 3060517887225741967}
   isAssignedToABuilding: 0

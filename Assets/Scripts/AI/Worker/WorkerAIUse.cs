@@ -11,7 +11,6 @@ public class WorkerAIUse : WorkerBehaviour
 {
     private bool buildingReached;
     private Find findingScript;
-    private float timer;
 
     protected override void Awake()
     {
@@ -19,7 +18,6 @@ public class WorkerAIUse : WorkerBehaviour
         findingScript = GetComponentInParent<Find>();
         canBeMovedbyPlayer = false;
     }
-
     public override void ApplyBehaviour()
     {
         if (CharacterManagerRef.isAssignedToABuilding)
@@ -29,6 +27,7 @@ public class WorkerAIUse : WorkerBehaviour
     }
     public override BehaviourName CheckTransition()
     {
+
         if (!CharacterManagerRef.isAssignedToABuilding)
         {
             return BehaviourName.Wait;
@@ -201,8 +200,10 @@ public class WorkerAIUse : WorkerBehaviour
                         CharacterManagerRef.EnterGatheringMode();
                     }
                     else
-                        Debug.Log("Inventory not empty");
-                    GoDepositRemainingResources();
+                    {
+
+                    }
+                    Debug.Log("Inventory not empty");
 
 
                 }
@@ -212,8 +213,4 @@ public class WorkerAIUse : WorkerBehaviour
         }
     }
 
-    public void GoDepositRemainingResources()
-    {
-
-    }
 }

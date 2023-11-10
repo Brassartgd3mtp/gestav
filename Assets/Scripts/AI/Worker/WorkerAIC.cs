@@ -2,20 +2,18 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
-[Flags]
-public enum BehaviourName
-{
-    None =1 <<0,
-    Use = 1 <<1,
-    Transfer=1<<2,
-    Wait=1<<3,
-    Controlled=1<<4
-}
+using UnityEngine.Events;
 
 public class WorkerAIC : MonoBehaviour
 {
-
+    public enum BehaviourName
+    {
+        None,
+        Use,
+        Transfer,
+        Wait,
+        Controlled
+    }
 
     private WorkerBehaviour currentBehaviour;
     public WorkerBehaviour CurrentBehaviour => currentBehaviour;
@@ -25,6 +23,8 @@ public class WorkerAIC : MonoBehaviour
     private WorkerAIWait workerAIWait;
     private WorkerAIControlled workerAIControlled;
 
+    private float updateTimer;
+    private float updateInterval = 0.5f;
 
     private void Awake()
     {
@@ -37,16 +37,26 @@ public class WorkerAIC : MonoBehaviour
     }
     private void Update()
     {
-        currentBehaviour.ApplyBehaviour();
-
-        // Vérifier la transition
-        BehaviourName nextBehaviour = currentBehaviour.CheckTransition();
-
-        // Changer de comportement si nécessaire
-        if (nextBehaviour != BehaviourName.None)
+        updateTimer += Time.deltaTime;
+        if (updateTimer >= updateInterval)
         {
-            ChangeBehaviour(nextBehaviour);
+            updateTimer += Time.deltaTime;
+
+            currentBehaviour.ApplyBehaviour();
+
+            // Vérifier la transition
+            BehaviourName nextBehaviour = currentBehaviour.CheckTransition();
+
+            // Changer de comportement si nécessaire
+            if (nextBehaviour != BehaviourName.None)
+            {
+                ChangeBehaviour(nextBehaviour);
+            }
+            updateTimer = 0f;
         }
+
+
+
     }
 
     public void ChangeBehaviour(BehaviourName behaviour)
