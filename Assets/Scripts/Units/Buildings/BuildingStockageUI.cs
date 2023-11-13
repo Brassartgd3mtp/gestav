@@ -15,8 +15,7 @@ public class BuildingStockageUI : MonoBehaviour
     {
         PopUpPanel.gameObject.SetActive(false);
         Inventory = GetComponent<InventoryHolder>();
-        MaxQuantityText.text = Inventory.InventorySystem.InventorySlots.Count.ToString();
-        CurrentQuantityText.text = (Inventory.InventorySystem.InventorySlots.Count - Inventory.InventorySystem.AmountOfSlotsAvaliable()).ToString();
+        UpdateSpaceInUI();
     }
 
     private void OnMouseEnter()
@@ -39,6 +38,11 @@ public class BuildingStockageUI : MonoBehaviour
         {
             MaxQuantityText.color = Color.red;
             CurrentQuantityText.color = Color.red;
+        }
+        else
+        {
+            MaxQuantityText.color = Color.white;
+            CurrentQuantityText.color = Color.white;
         }
     }
 

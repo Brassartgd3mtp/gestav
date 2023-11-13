@@ -10,9 +10,13 @@ public class AssignWorker : InventoryHolder
     private CharacterManager characterManager;
     private ItemRef workerItem;
     public BuildingManager buildingManager;
+    private BuildingActionSelection buildingActionSelection;
+
     public void AddWorkersToList()
     {
         buildingManager = this.gameObject.GetComponent<BuildingManager>();
+        buildingActionSelection = this.gameObject.GetComponentInChildren<BuildingActionSelection>();
+
         workersFound.Clear();
         foreach (UnitManager _worker in Global.SELECTED_UNITS) 
         {
@@ -34,6 +38,7 @@ public class AssignWorker : InventoryHolder
                     _worker.buildingAssigned = buildingManager;
 
                     inventorySystem.AddToInventory(workerItem.item, 1);
+                    buildingActionSelection.UpdateAssignedWorkerUI();
                 }
             }
 
