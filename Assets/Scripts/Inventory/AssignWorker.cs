@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public class AssignWorker : InventoryHolder
 {
@@ -17,15 +18,8 @@ public class AssignWorker : InventoryHolder
         buildingManager = this.gameObject.GetComponent<BuildingManager>();
         buildingActionSelection = this.gameObject.GetComponentInChildren<BuildingActionSelection>();
 
-        workersFound.Clear();
-        foreach (UnitManager _worker in Global.SELECTED_UNITS) 
-        {
-            CharacterManager characterToAdd = _worker.gameObject.GetComponent<CharacterManager>();
-            if ( characterToAdd != null)
-            {
-                workersFound.Add(characterToAdd);
-            }
-        }
+        FindWorkers();
+
         if(workersFound.Count <= inventorySystem.AmountOfSlotsAvaliable()) 
         {
             foreach(CharacterManager _worker in workersFound) 
@@ -49,5 +43,53 @@ public class AssignWorker : InventoryHolder
 
     }
 
+    public void RemoveWorkers()
+    {
+        FindWorkers();
+
+        int amountOfWorkersToRemove = 0;
+
+        foreach (CharacterManager _worker in workersFound)
+            {
+                if (_worker.isAssignedToABuilding == true && _worker.buildingAssigned == buildingManager)
+                {
+
+                    amountOfWorkersToRemove++;
+                    _worker.isAssignedToABuilding = false;
+                    _worker.buildingAssigned = null;
+
+
+                    
+                }
+            }
+        Debug.Log(amountOfWorkersToRemove);
+
+        foreach (InventorySlot slot in InventorySystem.InventorySlots)
+        {
+            if(amountOfWorkersToRemove > 0)
+            {
+                slot.ClearSlot();
+                amountOfWorkersToRemove--;
+            }
+        }
+
+
+        buildingActionSelection.UpdateAssignedWorkerUI();
+    }
+
+    public List<CharacterManager> FindWorkers()
+    {
+        workersFound.Clear();
+        foreach (UnitManager _worker in Global.SELECTED_UNITS)
+        {
+            CharacterManager characterToAdd = _worker.gameObject.GetComponent<CharacterManager>();
+            if (characterToAdd != null)
+            {
+                workersFound.Add(characterToAdd);
+            }
+        }
+
+        return workersFound;
+    }
 
 }

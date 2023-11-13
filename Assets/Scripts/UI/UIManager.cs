@@ -6,6 +6,9 @@ using TMPro;
 
 public class UIManager : MonoBehaviour
 {
+    [SerializeField] private CharacterUI characterUI;
+
+
     [SerializeField] private Transform buildingMenu; // A reference to the UI game object that holds building buttons
     [SerializeField] private GameObject buildingButtonPrefab; // Prefab for building menu buttons
 
@@ -44,5 +47,18 @@ public class UIManager : MonoBehaviour
         // Use a lambda expression to add a listener that selects the corresponding building type
         b.onClick.AddListener(() => buildingPlacer.SelectPlacedBuilding(i));
     }
+
+    private void Update()
+    {
+        if(Global.SELECTED_UNITS.Count > 0)
+        {
+            characterUI.ShowWorkerUI();
+        }
+        else 
+        { 
+            characterUI.HideWorkerUI(); 
+        }
+    }
+
 
 }

@@ -11,6 +11,8 @@ using Random = UnityEngine.Random;
 
 public class CharacterManager : UnitManager
 {
+    [Header("Scripts")]
+
     private Character character;
     [SerializeField] private Find findingScript;
     private AssignWorker assignWorker;
@@ -20,16 +22,22 @@ public class CharacterManager : UnitManager
     private ItemRef item;
     public ItemRef Item => item;
 
+
+    [Header("Navigation")]
+
     [SerializeField] private NavMeshAgent agent;
     [SerializeField] private float stoppingDistance;
     [SerializeField] private float stoppingMultiplicator = 0.3f;
 
+
+    [Header("IA")]
+
+    private WorkerAIC workerAIC;
+
+    [Header("Collect")]
+
     [SerializeField] private int resourceToGather = 1;
     public int ResourceToGather => resourceToGather;
-
-    private UnitInventory inventory;
-    public UnitInventory Inventory => inventory;
-    private DynamicInventoryDisplay inventoryDisplay;
 
     public bool GatheringMode;
     public bool BuildingMode;
@@ -44,6 +52,16 @@ public class CharacterManager : UnitManager
 
     private float timer;
 
+
+    [Header("Inventory Management")]
+
+    private UnitInventory inventory;
+    public UnitInventory Inventory => inventory;
+    private DynamicInventoryDisplay inventoryDisplay;
+
+
+    [Header("Animations & graphics")]
+
     [SerializeField] GameObject bag;
     [SerializeField] GameObject bagContainer;
     private Vector3 startingBagScale;
@@ -51,9 +69,16 @@ public class CharacterManager : UnitManager
     public Animator animator;
 
 
+    [Header("Building assignation")]
+
     public bool isAssignedToABuilding;
     public BuildingManager buildingAssigned;
     public WorkerAIUse workerAIUse;
+
+
+    [Header("Item transfer")]
+
+    public bool isTransferingItems;
 
     protected override Unit Unit
     {
@@ -68,11 +93,12 @@ public class CharacterManager : UnitManager
         startingBagScale = bag.transform.localScale;
         bagContainer.SetActive(false);
         workerAIUse = gameObject.GetComponentInChildren<WorkerAIUse>();
+        workerAIC = gameObject.GetComponentInChildren<WorkerAIC>();
     }
 
     private void Update()
     {
-        if(isGathering)
+        if(isGathering && workerAIC.CurrentBehaviour == workerAIUse)
         {
             if (inventory.InventorySystem.HasFreeSlot(out InventorySlot _freeSlot))
             {
@@ -102,7 +128,6 @@ public class CharacterManager : UnitManager
             else
             {
                 ExitGatheringMode(); // a bouger dans un endroit ou l'on check si l'inventaire est plein
-                Debug.Log("Go To Deposit");
             }
 
         }
