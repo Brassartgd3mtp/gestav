@@ -102,8 +102,9 @@ public class GameManager : MonoBehaviour
                 ray,
                 out raycastHit,
                 1000f,
-                Global.UNIT_LAYER_MASK
-            ))
+                Global.UNIT_LAYER_MASK)
+                
+            )
             {
                 GameObject hitObject = raycastHit.collider.gameObject;
                 var interactable = hitObject.GetComponent<IInteractable>();

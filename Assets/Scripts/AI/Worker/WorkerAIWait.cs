@@ -15,6 +15,10 @@ public class WorkerAIWait : WorkerBehaviour
         {
             return BehaviourName.Controlled;
         }
-    else return BehaviourName.None;
+        if (CharacterManagerRef.isTransferingItems)
+        {
+            return BehaviourName.Transfer;
+        }
+        else return BehaviourName.None;
     }
 }

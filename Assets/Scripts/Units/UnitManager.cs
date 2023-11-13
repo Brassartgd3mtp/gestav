@@ -52,14 +52,18 @@ public class UnitManager : MonoBehaviour
         {
             List<UnitManager> selectedUnits = new List<UnitManager>(Global.SELECTED_UNITS);
             foreach (UnitManager um in selectedUnits)
-                um.Deselect();
-            SelectUtil();
+
+                    um.Deselect();
+                    SelectUtil();
+
+
         }
         else
         {
+            bool isOverUI = UnityEngine.EventSystems.EventSystem.current.IsPointerOverGameObject();
             if (!Global.SELECTED_UNITS.Contains(this))
                 SelectUtil();
-            else
+            else 
                 Deselect();
         }
     }

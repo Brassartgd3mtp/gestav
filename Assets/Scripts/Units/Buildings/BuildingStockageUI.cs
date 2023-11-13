@@ -22,12 +22,36 @@ public class BuildingStockageUI : MonoBehaviour
     {
         PopUpPanel.gameObject.SetActive(true);
         AddMaterial(OutilineMaterial);
+
+        foreach (GameObject go in GetAllWorkersAssigned())
+        {
+            Debug.Log(go);
+            CharacterManager characterManagerRef = go.GetComponent<CharacterManager>();
+            BuildingManager buildingManager = gameObject.GetComponent<BuildingManager>();
+            if (characterManagerRef != null && characterManagerRef.buildingAssigned == buildingManager)
+            {
+                Blink blink = go.GetComponentInChildren<Blink>();
+                blink.StartBlinking();
+            }
+        }
+
     }
 
     private void OnMouseExit()
     {
         PopUpPanel.gameObject.SetActive(false);
         RemoveMaterial("M_Outline (Instance)");
+
+        foreach (GameObject go in GetAllWorkersAssigned())
+        {
+            CharacterManager characterManagerRef = go.GetComponent<CharacterManager>();
+            BuildingManager buildingManager = gameObject.GetComponent<BuildingManager>();
+            if (characterManagerRef != null && characterManagerRef.buildingAssigned == buildingManager)
+            {
+                Blink blink = go.GetComponentInChildren<Blink>();
+                blink.StopBlinking();
+            }
+        }
     }
 
     public void UpdateSpaceInUI()
@@ -83,6 +107,22 @@ public class BuildingStockageUI : MonoBehaviour
                 meshRenderer.materials = materialList.ToArray();
             }
         }
+    }
+
+    public GameObject[] GetAllWorkersAssigned()
+    {
+        float detectionRadius = 10000f;
+        Collider[] colliders = Physics.OverlapSphere(transform.position, detectionRadius, Global.WORKER_LAYER_MASK);
+        GameObject[] go = new GameObject[colliders.Length];
+
+        for (int i = 0; i < colliders.Length; i++)
+        {
+            go[i] = colliders[i].gameObject;
+        }
+
+        Debug.Log(go);
+        return go;
+
     }
 }
 

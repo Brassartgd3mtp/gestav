@@ -20,4 +20,16 @@ public class UnitInventory : InventoryHolder, IInteractable
     }
 
 
+    public void TransferItems(UnitInventory inventoryGiver, UnitInventory inventoryReceiver)
+    {
+        for(int i = 0;i<inventoryGiver.InventorySystem.InventorySize;i++)
+        {
+            if(inventoryGiver.InventorySystem.InventorySlots[i].ItemData.resourceType == inventoryReceiver.validType)
+            {
+                inventoryReceiver.InventorySystem.AddToInventory(inventoryGiver.InventorySystem.InventorySlots[i].ItemData, 1);
+                inventoryGiver.InventorySystem.InventorySlots[i].ClearSlot();
+            }
+        }
+    }
+
 }
