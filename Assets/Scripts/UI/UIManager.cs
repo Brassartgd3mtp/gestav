@@ -15,6 +15,7 @@ public class UIManager : MonoBehaviour
     private BuildingPlacer buildingPlacer; // Reference to the BuildingPlacer script
     private Dictionary<string, Button> buildingButtons; // Dictionary to hold the building buttons
 
+
     private void Awake()
     {
         buildingPlacer = GetComponent<BuildingPlacer>(); // Get the BuildingPlacer component of the same GameObject
@@ -59,6 +60,5 @@ public class UIManager : MonoBehaviour
             characterUI.HideWorkerUI(); 
         }
     }
-
 
 }

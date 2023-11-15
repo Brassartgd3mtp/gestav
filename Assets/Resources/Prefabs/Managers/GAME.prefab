@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 8140258298997851298}
   - component: {fileID: 2537045459743570184}
   - component: {fileID: 105313144056503456}
+  - component: {fileID: 1284650766835795284}
   m_Layer: 0
   m_Name: GAME
   m_TagString: Untagged
@@ -59,6 +60,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8edf6aadccc8ba84a9f1392f16700dbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  characterUI: {fileID: 0}
   buildingMenu: {fileID: 0}
   buildingButtonPrefab: {fileID: 8523113206899768723, guid: d8e3a044a4727814c91081f58e82148c,
     type: 3}
@@ -74,6 +76,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 11306026d2375e14f9b101bdbc5f9bc9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  dragThreshold: 0
 --- !u!114 &105313144056503456
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -88,3 +91,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   groundMarker: {fileID: 3060309113752441229, guid: 06791066f8ed29948a719c23f1c44534,
     type: 3}
+--- !u!114 &1284650766835795284
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6802364537930570479}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 514682fe41ef11f4b825d2288fb2daa0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

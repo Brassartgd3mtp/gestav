@@ -14,7 +14,6 @@ public class GameManager : MonoBehaviour
     private RaycastHit raycastHit;
 
     public bool IsInteracting {  get; private set; }
-
     private void Awake()
     {
         DataHandler.LoadGameData();
@@ -36,7 +35,8 @@ public class GameManager : MonoBehaviour
                 if (aic.CurrentBehaviour.canBeMovedbyPlayer == true)
                 {
                     ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-                    if (Physics.Raycast(ray, out raycastHit, 1000f, Global.TERRAIN_LAYER_MASK))
+                    bool isOverUI = UnityEngine.EventSystems.EventSystem.current.IsPointerOverGameObject();
+                    if (Physics.Raycast(ray, out raycastHit, 1000f, Global.TERRAIN_LAYER_MASK) && !isOverUI)
                     {
 
                         groundMarker.transform.position = raycastHit.point;
@@ -62,12 +62,13 @@ public class GameManager : MonoBehaviour
             if (Global.SELECTED_UNITS.Count > 0 && Input.GetMouseButtonUp(1))
             {
                 ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+                bool isOverUI = UnityEngine.EventSystems.EventSystem.current.IsPointerOverGameObject();
                 if (Physics.Raycast(
                     ray,
                     out raycastHit,
                     1000f,
                     Global.RESOURCE_LAYER_MASK
-                ))
+                ) && !isOverUI)
                 {
                     foreach (UnitManager um in Global.SELECTED_UNITS)
                         if (um.GetType() == typeof(CharacterManager))
@@ -98,11 +99,12 @@ public class GameManager : MonoBehaviour
         if (Global.SELECTED_UNITS.Count == 1 && Input.GetMouseButtonUp(0))
         {
             ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+            bool isOverUI = UnityEngine.EventSystems.EventSystem.current.IsPointerOverGameObject();
             if (Physics.Raycast(
                 ray,
                 out raycastHit,
                 1000f,
-                Global.UNIT_LAYER_MASK)
+                Global.UNIT_LAYER_MASK) && !isOverUI
                 
             )
             {

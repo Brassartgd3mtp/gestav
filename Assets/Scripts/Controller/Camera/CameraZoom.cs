@@ -9,7 +9,9 @@ namespace CameraControl
 		[SerializeField] private float _speed = 25f;
 		[SerializeField] private float _smoothing = 5f;
 		[SerializeField] private Vector2 _range = new(30f, 70f);
+		public Vector2 Range => _range;
 		[SerializeField] private Transform _cameraHolder;
+		public Transform CameraHolder => _cameraHolder;
 
 		private Vector3 _cameraDirection => transform.InverseTransformDirection(_cameraHolder.forward);
 

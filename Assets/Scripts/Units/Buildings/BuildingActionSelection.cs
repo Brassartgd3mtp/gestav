@@ -27,6 +27,30 @@ public class BuildingActionSelection : MonoBehaviour
     [SerializeField] private TextMeshProUGUI MaxAmountOfWorkersText;
 
     public TransferType TypeOfTransfer;
+    List<CharacterManager> charasFound = new List<CharacterManager>();
+
+
+    [Header("Transfer Panel")]
+
+    [SerializeField] private GameObject transferPanel;
+    public GameObject TransferPanel => transferPanel; 
+    private ResourceDropdownHandler dropdownHandler;
+    public ResourceDropdownHandler DropdownHandler => dropdownHandler; 
+    private TransferDropDown transferDropDown;
+
+
+
+    [SerializeField]  private TMP_Dropdown resourceDropDown;
+    public TMP_Dropdown ResourceDropDown => resourceDropDown;
+
+    [SerializeField]  private TMP_Dropdown transferFromDropDown;
+    public TMP_Dropdown TransferFromDropdown => transferFromDropDown;
+
+    [SerializeField] private TMP_Dropdown transferToDropDown;
+    public TMP_Dropdown TransferToDropdown => transferToDropDown;
+
+    [SerializeField] private TMP_InputField inputAmount;
+    public TMP_InputField InputAmount => inputAmount;
 
 
     private void Awake()
@@ -34,7 +58,12 @@ public class BuildingActionSelection : MonoBehaviour
         buildingInventory = gameObject.GetComponentInParent<BuildingInventory>();
         buildingManager = gameObject.GetComponentInParent<BuildingManager>();
         assignWorker = gameObject.GetComponentInParent<AssignWorker>();
+
+        dropdownHandler = GetComponentInChildren<ResourceDropdownHandler>();
+
         UpdateAssignedWorkerUI();
+
+        transferPanel.SetActive(false);
     }
     public void UseBuilding()
     {
@@ -51,37 +80,73 @@ public class BuildingActionSelection : MonoBehaviour
     {
         TypeOfTransfer = TransferType.Deposit;
         GetReferences();
+        /*
+        Add UI selection here
+        */
+        foreach (CharacterManager c in charasFound)
+        {
+            c.isTransferingItems = true;
+        }
     }
 
     public void TakeItems()
     {
         TypeOfTransfer = TransferType.Take;
         GetReferences();
+        /*
+        Add UI selection here
+        */
+        foreach (CharacterManager c in charasFound) 
+        {
+            c.isTransferingItems = true;
+        }
+    }
+
+    public void DisplayTransferWindow()
+    {
+ 
+        if(!transferPanel.activeInHierarchy)
+        {
+            transferPanel.SetActive(true);
+            dropdownHandler.UpdateDropdown();
+            transferDropDown.UpdateDropDown();
+        }
+        else transferPanel.SetActive(false);
+
     }
 
     public void TransferItems()
     {
         TypeOfTransfer = TransferType.Transfer;
         GetReferences();
+
+        foreach (CharacterManager c in charasFound)
+        {
+            c.isTransferingItems = true;
+        }
+
     }
 
-    public void GetReferences()
+    public List<CharacterManager> GetReferences()
     {
+        charasFound.Clear();
         foreach (UnitManager unit in Global.SELECTED_UNITS)
         {
-
             CharacterManager characterManagerRef = unit.GetComponent<CharacterManager>();
             
             if (characterManagerRef != null)
             {
+                charasFound.Add(characterManagerRef);
+
                 WorkerAITransfer workerAITransferRef = characterManagerRef.GetComponentInChildren<WorkerAITransfer>();
 
                 workerAITransferRef.ActionSelection = this;
                 workerAITransferRef.TargetBuilding = buildingManager;
                 workerAITransferRef.TargetInventory = buildingInventory;
-                characterManagerRef.isTransferingItems = true;
+
             }
         }
+        return charasFound;
     }
 
 }

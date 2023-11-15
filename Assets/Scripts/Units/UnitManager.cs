@@ -8,6 +8,13 @@ public class UnitManager : MonoBehaviour
     public Material OutilineMaterial;
 
     protected BoxCollider _collider;
+    private BuildingActionSelection buildingActionSelection;
+
+    private void Awake()
+    {
+        buildingActionSelection = GetComponentInChildren<BuildingActionSelection>();
+    }
+
     protected virtual Unit Unit { get; set; }
 
     // Called when the mouse is clicked on the unit
@@ -60,10 +67,9 @@ public class UnitManager : MonoBehaviour
         }
         else
         {
-            bool isOverUI = UnityEngine.EventSystems.EventSystem.current.IsPointerOverGameObject();
             if (!Global.SELECTED_UNITS.Contains(this))
                 SelectUtil();
-            else 
+            else
                 Deselect();
         }
     }
@@ -75,6 +81,11 @@ public class UnitManager : MonoBehaviour
         Global.SELECTED_UNITS.Remove(this);
 
         RemoveMaterial("M_Outline (Instance)");
+
+        if(buildingActionSelection != null)
+        {
+            buildingActionSelection.TransferPanel.SetActive(false);
+        }
     }
 
     public void Initialize(Unit _unit)

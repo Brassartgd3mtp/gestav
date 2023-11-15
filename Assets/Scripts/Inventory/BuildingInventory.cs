@@ -5,38 +5,14 @@ using UnityEngine.Events;
 
 public class BuildingInventory : UnitInventory, IInteractable
 {
-    public List<ItemTypeAndCount> items = new List<ItemTypeAndCount>();
-
-
-    //Method that gets all the items in the inventory and there count
-    public List<ItemTypeAndCount> GetAllItems()
+    protected override void Awake()
     {
-        items.Clear();
-
-        foreach(InventorySlot slot in inventorySystem.InventorySlots) 
-        {
-            int i = 0;
-            bool wasItemAdded = false;
-            foreach(ItemTypeAndCount itemAndCount in items)
-            {
-                if(itemAndCount.item == slot.ItemData)
-                {
-                    items[i].count += 1;
-                    wasItemAdded = true;
-                }
-
-                i++;
-            }
-
-        if( !wasItemAdded )
-            {
-                items.Add(new ItemTypeAndCount(slot.ItemData, 1));
-            }
-        }
-        Debug.Log(items);
-        return items;
+        base.Awake();
+        Global.BUILDINGS.Add(this);
     }
-
-
-
+    protected override void OnDestroy()
+    {
+        base.OnDestroy();
+        Global.BUILDINGS.Remove(this);
+    }
 }

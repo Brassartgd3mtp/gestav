@@ -4,7 +4,6 @@ using UnityEngine;
 using UnityEngine.Events;
 using System.Linq;
 
-[System.Serializable]
 
 public class InventorySystem
 {
@@ -14,7 +13,6 @@ public class InventorySystem
     public int InventorySize => InventorySlots.Count;
 
     public UnityAction<InventorySlot> OnInventorySlotChanged;
-
 
 
     public InventorySystem(int _size) //Constructor that sets the amount of stacks
@@ -37,6 +35,7 @@ public class InventorySystem
                 {
                     slot.AddToStack(_amountToAdd);
                     OnInventorySlotChanged?.Invoke(slot);
+
                     return true;
                 }
             }
@@ -48,6 +47,7 @@ public class InventorySystem
             {
                 _freeSlot.UpdateInventorySlot(_itemToAdd, _amountToAdd);
                 OnInventorySlotChanged?.Invoke(_freeSlot);
+
                 return true;
             }
 

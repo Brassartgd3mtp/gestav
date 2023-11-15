@@ -19,9 +19,15 @@ public class Global
 
     public static List<UnitManager> SELECTED_UNITS = new List<UnitManager>();
 
+    public static List<BuildingInventory> BUILDINGS = new List<BuildingInventory>();
+
+    public static List<UnitInventory> allInventories = new List<UnitInventory>();
+    public static List<InventoryItemData> allItems = new List<InventoryItemData>();
+
     public static void RebuildNavMesh()
     {
         GameObject Ground = GameObject.Find("Ground");
         Ground.GetComponent<NavMeshSurface>().BuildNavMesh();
     }
+
 }

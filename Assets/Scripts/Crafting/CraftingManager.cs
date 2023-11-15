@@ -12,13 +12,13 @@ public class CraftingManager : MonoBehaviour
     [SerializeField] private ItemRecipeSO RecipeToCraft;
     private void Update()
     {
-        if(Input.GetKeyDown(KeyCode.H))
-        {
-            if(CanCraftRecipe(RecipeToCraft))
-            {
-                CraftItems(new List<ItemTypeAndCount>(RecipeToCraft.output), new List<ItemTypeAndCount>(RecipeToCraft.input));
-            }
-        }
+    //    if(Input.GetKeyDown(KeyCode.H))
+     //   {
+     //       if(CanCraftRecipe(RecipeToCraft))
+     //       {
+    //            CraftItems(new List<ItemTypeAndCount>(RecipeToCraft.output), new List<ItemTypeAndCount>(RecipeToCraft.input));
+     //       }
+     //   }
     }
 
     private bool CanCraftRecipe(ItemRecipeSO recipeSO)

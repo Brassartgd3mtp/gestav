@@ -10,6 +10,7 @@ public class WorkerAITransfer : WorkerBehaviour
     private UnitInventory inventory;
     public BuildingActionSelection ActionSelection;
 
+
     private bool buildingReached;
 
     protected override void Awake()
@@ -53,6 +54,7 @@ public class WorkerAITransfer : WorkerBehaviour
                     DoTake();
                     break;
                 case TransferType.Transfer:
+                    DoTransfer();
                     break;
             }
         }
@@ -90,24 +92,32 @@ public class WorkerAITransfer : WorkerBehaviour
 
     public void DoTake()
     {
-        for (int i = 0; i < inventory.InventorySystem.InventorySlots.Count; i++)
+        if(inventory.InventorySystem.AmountOfSlotsAvaliable() != 0) 
         {
-
-            if (inventory.InventorySystem.InventorySlots[i].ItemData == null)
+            for (int i = 0; i < inventory.InventorySystem.InventorySlots.Count; i++)
             {
-                int lastSlot = TargetInventory.InventorySystem.InventorySize - TargetInventory.InventorySystem.AmountOfSlotsAvaliable();
-                inventory.InventorySystem.AddToInventory(TargetInventory.InventorySystem.InventorySlots[lastSlot].ItemData, 1);
-                TargetInventory.InventorySystem.InventorySlots[lastSlot].ClearSlot();
-            }
-        }
-        CharacterManagerRef.ShowBag();
 
+                if (inventory.InventorySystem.InventorySlots[i].ItemData == null)
+                {
+                    int lastSlot = TargetInventory.InventorySystem.InventorySize - (TargetInventory.InventorySystem.AmountOfSlotsAvaliable() + 1);
+
+                    if(TargetInventory.InventorySystem.InventorySlots[lastSlot].ItemData != null)
+                    {
+                        inventory.InventorySystem.AddToInventory(TargetInventory.InventorySystem.InventorySlots[lastSlot].ItemData, 1);
+                        TargetInventory.InventorySystem.InventorySlots[lastSlot].ClearSlot();
+                    }
+                }
+            }
+            CharacterManagerRef.ShowBag();
+        }
+
+        buildingReached = false;
         CharacterManagerRef.isTransferingItems = false;
     }
 
     public void DoTransfer()
     {
-
+       //ActionSelection.DropdownHandler.CurrentlySelectedOption
     }
 
 }

@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading;
 using UnityEngine;
 
 public class UnitsSelection : MonoBehaviour
@@ -8,28 +9,32 @@ public class UnitsSelection : MonoBehaviour
     private bool isDraggingMouseBox = false;
 
     private Vector3 dragStartPosition;
+    [SerializeField] private float dragThreshold;
 
     Ray ray;
     RaycastHit raycastHit;
+
+    private float mouseButtonDownTime;
 
     private void Update()
     {
 
         if (Input.GetMouseButtonDown(0))
         {
-            isDraggingMouseBox = true;
-            dragStartPosition = Input.mousePosition;
+                isDraggingMouseBox = true;
+                dragStartPosition = Input.mousePosition;
         }
 
         if (Input.GetMouseButtonUp(0))
         {
             isDraggingMouseBox = false;
-
         }
 
 
-        if (isDraggingMouseBox && dragStartPosition != Input.mousePosition)
+        if (isDraggingMouseBox && Vector3.Distance(dragStartPosition, Input.mousePosition) > dragThreshold)
+        {
             SelectUnitsInDraggingBox();
+        }
 
         if (Global.SELECTED_UNITS.Count > 0)
         {
@@ -55,7 +60,7 @@ public class UnitsSelection : MonoBehaviour
 
     void OnGUI()
     {
-        if (isDraggingMouseBox)
+        if (isDraggingMouseBox && Vector3.Distance(dragStartPosition, Input.mousePosition) > dragThreshold)
         {
             // Create a rectangle from both mouse positions
             var rect = Utils.GetScreenRect(dragStartPosition, Input.mousePosition);

@@ -7,6 +7,7 @@ public abstract class WorkerBehaviour : MonoBehaviour
 {
     public CharacterManager CharacterManagerRef;
     public bool canBeMovedbyPlayer;
+    protected GameResourceManager gameResourceManager;
     public abstract void ApplyBehaviour();
     public abstract BehaviourName CheckTransition();
 
@@ -14,5 +15,6 @@ public abstract class WorkerBehaviour : MonoBehaviour
     protected virtual void Awake()
     {
         CharacterManagerRef = GetComponentInParent<CharacterManager>();
+        gameResourceManager = FindObjectOfType<GameResourceManager>();
     }
 }
