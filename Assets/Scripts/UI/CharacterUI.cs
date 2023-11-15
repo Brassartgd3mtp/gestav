@@ -32,16 +32,21 @@ public class CharacterUI : MonoBehaviour
         foreach (UnitManager Unit in Global.SELECTED_UNITS)
         {
             CharacterManager _characterManagerRef = Unit.GetComponent<CharacterManager>();
-            BuildingManager _assignedBuildingRef = _characterManagerRef.buildingAssigned;
-
-            if (_characterManagerRef != null)
+            if(_characterManagerRef != null)
             {
+                BuildingManager _assignedBuildingRef = _characterManagerRef.buildingAssigned;
+                if (_characterManagerRef != null && _assignedBuildingRef != null)
+                {
 
-                _assignedBuildingWorkerInv = _assignedBuildingRef.GetComponent<AssignWorker>();
+                    _assignedBuildingWorkerInv = _assignedBuildingRef.GetComponent<AssignWorker>();
 
-                _assignedBuildingWorkerInv.RemoveWorkers();
+                    _assignedBuildingWorkerInv.RemoveWorkers();
 
+                }
             }
+         
+
+
         }
     }
 }

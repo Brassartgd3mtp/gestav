@@ -10,6 +10,7 @@ public class WorkerAITransfer : WorkerBehaviour
     private UnitInventory inventory;
     public BuildingActionSelection ActionSelection;
 
+    List<ItemTypeAndCount> items = new List<ItemTypeAndCount>();
 
     private bool buildingReached;
 
@@ -117,7 +118,29 @@ public class WorkerAITransfer : WorkerBehaviour
 
     public void DoTransfer()
     {
-       //ActionSelection.DropdownHandler.CurrentlySelectedOption
+        InventoryItemData resourceToTransfer = ActionSelection.DropdownHandler.CurrentlyAssociatedData;
+        BuildingInventory inventoryToTakeFrom = ActionSelection.TransferDropDownSUB.CurrentlyAssociatedData;
+        BuildingInventory inventoryToTakeTo = ActionSelection.TransferDropDownADD.CurrentlyAssociatedData;
+        int amountToTransfer = ActionSelection.Amount.Result;
+
+        items = inventoryToTakeFrom.GetAllItems();
+        int foundItems = 0;
+        foreach (ItemTypeAndCount foundItemAndCount in items)
+        {
+            if (foundItemAndCount.item == resourceToTransfer && foundItemAndCount.count >= amountToTransfer && inventoryToTakeTo.InventorySystem.AmountOfSlotsAvaliable() >= amountToTransfer)
+            {
+                foundItems++;
+                break;
+            }
+        }
+        if(foundItems == amountToTransfer)
+        {
+            Debug.Log("transfert ok");
+        }
+        else
+        {
+            Debug.Log("transfert pas ok");
+        }
     }
 
 }

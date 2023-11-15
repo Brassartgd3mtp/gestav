@@ -69,7 +69,6 @@ public class WorkerAIUse : WorkerBehaviour
 
     public void GoToUsedBuilding()
     {
-        Debug.Log("Going to building");
         buildingReached = false;
         Transform targetTransform = CharacterManagerRef.buildingAssigned.gameObject.transform;
         float distanceToStop = targetTransform.GetComponent<BoxCollider>().size.z + 1.5f;
@@ -85,7 +84,6 @@ public class WorkerAIUse : WorkerBehaviour
 
     public void GoMining()
     {
-        Debug.Log("Going To Mine");
         //search all the resources 
         Transform[] resourcesTranform = findingScript.GetTransformArray(Global.RESOURCE_LAYER_MASK);
 
@@ -117,7 +115,6 @@ public class WorkerAIUse : WorkerBehaviour
 
     public Transform GetClosestResource(List<ItemRef> correspondingItems)
     {
-        Debug.Log("CheckingForClosestResource");
         Transform tMin = null;
         float minDist = Mathf.Infinity;
         Vector3 currentPos = transform.position;
@@ -136,11 +133,9 @@ public class WorkerAIUse : WorkerBehaviour
 
     public async void GoStoreResources() // The method that tell the worker to go store the resources he gathered in a building
     {
-        Debug.Log("Going to storage");
         CharacterManagerRef.ExitGatheringMode();
 
         Transform targetTransform = CharacterManagerRef.buildingAssigned.gameObject.transform;
-        Debug.Log(targetTransform.position);
 
         if (targetTransform != null) //Si a trouvé le batiment
         {
@@ -153,13 +148,11 @@ public class WorkerAIUse : WorkerBehaviour
             {
                 if (Vector3.Distance(transform.position, targetLocation) <= distanceToStop) //Si l'ouvrier est suffisament près de la mine
                 {
-                    Debug.Log("DESTINATION REACHED");
                     InventoryHolder _buildInv = targetTransform.GetComponent<InventoryHolder>();
                     for (int i = 0; i < CharacterManagerRef.Inventory.InventorySystem.InventorySlots.Count; i++) //transfert les objets de son inventaire à celui de la mine
                     {
 
                         //Put worker items into the building
-                        Debug.Log(CharacterManagerRef.Inventory.InventorySystem.InventorySlots[i].ItemData);
 
                         if (CharacterManagerRef.Inventory.InventorySystem.InventorySlots[i].ItemData != null && CharacterManagerRef.Inventory.InventorySystem.InventorySlots[i].ItemData.resourceType == _buildInv.validType)
                         {
@@ -195,7 +188,6 @@ public class WorkerAIUse : WorkerBehaviour
                     // If inventory is empty go mine, else find the new destination to empty his inventory
                     if (CharacterManagerRef.Inventory.InventorySystem.KnowIfInventoryIsEmpty())
                     {
-                        Debug.Log("Inventory empty");
                         CharacterManagerRef.HideBag();
                         CharacterManagerRef.EnterGatheringMode();
                     }
@@ -203,7 +195,7 @@ public class WorkerAIUse : WorkerBehaviour
                     {
 
                     }
-                    Debug.Log("Inventory not empty");
+
 
 
                 }

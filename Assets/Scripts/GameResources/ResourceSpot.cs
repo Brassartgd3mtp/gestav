@@ -26,7 +26,6 @@ public class ResourceSpot : MonoBehaviour
         resourceSpotUI.UpdateResourceQuantity();
 
         int amountToGive = _quantity;
-        Debug.Log(Quantity);
 
         //give the right amount of resources if the resource source is at 0 resources remaining
         if (Quantity < 0)

@@ -8,7 +8,6 @@ using Unity.Burst.CompilerServices;
 public class GameManager : MonoBehaviour
 {
     [SerializeField] private GameObject groundMarker;
-    private bool isActive;
 
     private Ray ray;
     private RaycastHit raycastHit;
@@ -32,7 +31,7 @@ public class GameManager : MonoBehaviour
             foreach(UnitManager unit in Global.SELECTED_UNITS) 
             {
             WorkerAIC aic = unit.gameObject.GetComponentInChildren<WorkerAIC>();
-                if (aic.CurrentBehaviour.canBeMovedbyPlayer == true)
+                if (aic != null && aic.CurrentBehaviour.canBeMovedbyPlayer)
                 {
                     ray = Camera.main.ScreenPointToRay(Input.mousePosition);
                     bool isOverUI = UnityEngine.EventSystems.EventSystem.current.IsPointerOverGameObject();
@@ -43,7 +42,6 @@ public class GameManager : MonoBehaviour
                         groundMarker.SetActive(true);
 
                         // Active le timer en passant isActive à true
-                        isActive = true;
                         Invoke("DisableGroundMarker", 2.0f); // Appelle la méthode DisableGroundMarker après 2 secondes
 
 
@@ -90,7 +88,6 @@ public class GameManager : MonoBehaviour
         groundMarker.SetActive(false);
 
         // Désactive le timer en passant isActive à false
-        isActive = false;
     }
 
 

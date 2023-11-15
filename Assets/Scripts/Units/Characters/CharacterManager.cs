@@ -146,7 +146,6 @@ public class CharacterManager : UnitManager
         {
             if(Vector3.Distance(transform.position, targetPosition) < _rangeToStop)
             {
-                Debug.Log("Arrivée");
                 agent.isStopped = true;
                 return;
             }
@@ -161,7 +160,6 @@ public class CharacterManager : UnitManager
     {
         if (other.GetComponentInChildren<ResourceSpot>() != null && GatheringMode == true && inventory.InventorySystem.HasFreeSlot(out InventorySlot _freeSlot))
         {
-            Debug.Log("collision");
             resourceSpot = other.gameObject.GetComponentInChildren<ResourceSpot>();
             item = other.gameObject.GetComponentInChildren<ItemRef>();
             StartGathering();

@@ -34,10 +34,22 @@ public class BuildingActionSelection : MonoBehaviour
 
     [SerializeField] private GameObject transferPanel;
     public GameObject TransferPanel => transferPanel; 
+
+
     private ResourceDropdownHandler dropdownHandler;
     public ResourceDropdownHandler DropdownHandler => dropdownHandler; 
-    private TransferDropDown transferDropDown;
 
+
+    private TransferDropDown transferDropDownAdd;
+    public TransferDropDown TransferDropDownADD => transferDropDownAdd;
+
+
+    private TransferDropDown transferDropDownSub;
+    public TransferDropDown TransferDropDownSUB => transferDropDownSub;
+
+
+    private NumberInput amount;
+    public NumberInput Amount => amount;
 
 
     [SerializeField]  private TMP_Dropdown resourceDropDown;
@@ -60,7 +72,9 @@ public class BuildingActionSelection : MonoBehaviour
         assignWorker = gameObject.GetComponentInParent<AssignWorker>();
 
         dropdownHandler = GetComponentInChildren<ResourceDropdownHandler>();
-
+        transferDropDownAdd = TransferFromDropdown.gameObject.GetComponent<TransferDropDown>();
+        transferDropDownSub = TransferToDropdown.gameObject.GetComponent<TransferDropDown>();
+        amount = inputAmount.gameObject.GetComponent<NumberInput>();
         UpdateAssignedWorkerUI();
 
         transferPanel.SetActive(false);
@@ -104,15 +118,17 @@ public class BuildingActionSelection : MonoBehaviour
 
     public void DisplayTransferWindow()
     {
- 
-        if(!transferPanel.activeInHierarchy)
+    if(dropdownHandler !=null && transferDropDownAdd != null && transferDropDownSub != null)
         {
-            transferPanel.SetActive(true);
-            dropdownHandler.UpdateDropdown();
-            transferDropDown.UpdateDropDown();
+            if (!transferPanel.activeInHierarchy)
+            {
+                transferPanel.SetActive(true);
+                dropdownHandler.UpdateDropdown();
+                transferDropDownAdd.UpdateDropDown();
+                transferDropDownSub.UpdateDropDown();
+            }
+            else transferPanel.SetActive(false);
         }
-        else transferPanel.SetActive(false);
-
     }
 
     public void TransferItems()

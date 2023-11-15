@@ -12,6 +12,10 @@ public class ResourceDropdownHandler : MonoBehaviour
     private TMP_Dropdown.OptionData currentlySelectedOption;
     public TMP_Dropdown.OptionData CurrentlySelectedOption => currentlySelectedOption;
 
+    private InventoryItemData currentlyAssociatedData;
+    public InventoryItemData CurrentlyAssociatedData => currentlyAssociatedData;
+
+    private Dictionary<TMP_Dropdown.OptionData, InventoryItemData> optionsReferences = new Dictionary<TMP_Dropdown.OptionData, InventoryItemData>();
     private void Awake()
     {
 
@@ -27,20 +31,26 @@ public class ResourceDropdownHandler : MonoBehaviour
     {
         // Clear existing options
         dropdown.ClearOptions();
+        optionsReferences.Clear();
 
         // Create a list of options based on totalItemCounts
-        Dictionary<string, InventoryItemData> dropDownOptions = new Dictionary<string, InventoryItemData>();
-        // List<string> dropdownOptions = new List<string>();
+
+        List<string> dropDownOptions = new List<string>();
+
         foreach (var kvp in gameResourceManager.totalItemCount)
         {
             string key = $"{kvp.Key.DisplayName} : {kvp.Value}";
             InventoryItemData value = kvp.Key;
-            dropDownOptions.Add(key, value);
-            // dropdownOptions.Add($"{kvp.Key.DisplayName} : {kvp.Value}" );
+
+
+            TMP_Dropdown.OptionData optionData = new TMP_Dropdown.OptionData(key);
+            optionsReferences.Add(optionData, value);
+
+            dropDownOptions.Add(key);
         }
 
         // Add options to the dropdown
-        dropdown.AddOptions(dropDownOptions.Keys.ToListPooled());
+        dropdown.AddOptions(dropDownOptions);
     }
 
     public void UpdateDropdown()
@@ -56,9 +66,15 @@ public class ResourceDropdownHandler : MonoBehaviour
         // You can access the selected option's text like this:
         TMP_Dropdown.OptionData selectedOption = dropdown.options[index];
 
+        if (optionsReferences.TryGetValue(selectedOption, out InventoryItemData associatedData))
+        {
+            // Now you can use 'associatedData' in your code
+            Debug.Log("Selected option: " + selectedOption.text);
+            Debug.Log("Associated InventoryItemData: " + associatedData.DisplayName);
+        }
+
         currentlySelectedOption = selectedOption;
-        // Now you can use 'selectedOption' in your code
-        Debug.Log("Selected option: " + selectedOption);
+        currentlyAssociatedData = associatedData;
     }
 
 

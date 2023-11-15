@@ -17,6 +17,10 @@ public class BuildingStockageUI : MonoBehaviour
         Inventory = GetComponent<InventoryHolder>();
         UpdateSpaceInUI();
     }
+    private void Start()
+    {
+        UpdateSpaceInUI();
+    }
 
     private void OnMouseEnter()
     {
@@ -25,7 +29,6 @@ public class BuildingStockageUI : MonoBehaviour
 
         foreach (GameObject go in GetAllWorkersAssigned())
         {
-            Debug.Log(go);
             CharacterManager characterManagerRef = go.GetComponent<CharacterManager>();
             BuildingManager buildingManager = gameObject.GetComponent<BuildingManager>();
             if (characterManagerRef != null && characterManagerRef.buildingAssigned == buildingManager)
@@ -56,17 +59,21 @@ public class BuildingStockageUI : MonoBehaviour
 
     public void UpdateSpaceInUI()
     {
-        MaxQuantityText.text = Inventory.InventorySystem.InventorySlots.Count.ToString();
-        CurrentQuantityText.text = (Inventory.InventorySystem.InventorySlots.Count - Inventory.InventorySystem.AmountOfSlotsAvaliable()).ToString();
-        if(Inventory.InventorySystem.AmountOfSlotsAvaliable() == 0)
+        if (Inventory.InventorySystem != null)
         {
-            MaxQuantityText.color = Color.red;
-            CurrentQuantityText.color = Color.red;
-        }
-        else
-        {
-            MaxQuantityText.color = Color.white;
-            CurrentQuantityText.color = Color.white;
+            MaxQuantityText.text = Inventory.InventorySystem.InventorySlots.Count.ToString();
+            CurrentQuantityText.text = (Inventory.InventorySystem.InventorySlots.Count - Inventory.InventorySystem.AmountOfSlotsAvaliable()).ToString();
+
+            if (Inventory.InventorySystem.AmountOfSlotsAvaliable() == 0)
+            {
+                MaxQuantityText.color = Color.red;
+                CurrentQuantityText.color = Color.red;
+            }
+            else
+            {
+                MaxQuantityText.color = Color.white;
+                CurrentQuantityText.color = Color.white;
+            }
         }
     }
 
@@ -119,8 +126,6 @@ public class BuildingStockageUI : MonoBehaviour
         {
             go[i] = colliders[i].gameObject;
         }
-
-        Debug.Log(go);
         return go;
 
     }
