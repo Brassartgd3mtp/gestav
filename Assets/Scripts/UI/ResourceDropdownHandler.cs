@@ -42,13 +42,11 @@ public class ResourceDropdownHandler : MonoBehaviour
             string key = $"{kvp.Key.DisplayName} : {kvp.Value}";
             InventoryItemData value = kvp.Key;
 
-
             TMP_Dropdown.OptionData optionData = new TMP_Dropdown.OptionData(key);
             optionsReferences.Add(optionData, value);
 
             dropDownOptions.Add(key);
         }
-
         // Add options to the dropdown
         dropdown.AddOptions(dropDownOptions);
     }
@@ -68,14 +66,8 @@ public class ResourceDropdownHandler : MonoBehaviour
 
         if (optionsReferences.TryGetValue(selectedOption, out InventoryItemData associatedData))
         {
-            // Now you can use 'associatedData' in your code
-            Debug.Log("Selected option: " + selectedOption.text);
-            Debug.Log("Associated InventoryItemData: " + associatedData.DisplayName);
+            currentlySelectedOption = selectedOption;
+            currentlyAssociatedData = associatedData;
         }
-
-        currentlySelectedOption = selectedOption;
-        currentlyAssociatedData = associatedData;
     }
-
-
 }

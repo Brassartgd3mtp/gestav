@@ -122,6 +122,11 @@ public class WorkerAITransfer : WorkerBehaviour
         BuildingInventory inventoryToTakeFrom = ActionSelection.TransferDropDownSUB.CurrentlyAssociatedData;
         BuildingInventory inventoryToTakeTo = ActionSelection.TransferDropDownADD.CurrentlyAssociatedData;
         int amountToTransfer = ActionSelection.Amount.Result;
+        Debug.Log(ActionSelection.TransferDropDownADD.CurrentlySelectedOption);
+        Debug.Log(resourceToTransfer);
+        Debug.Log(amountToTransfer);
+        Debug.Log(inventoryToTakeTo); 
+        Debug.Log(inventoryToTakeFrom);
 
         items = inventoryToTakeFrom.GetAllItems();
         int foundItems = 0;

@@ -32,49 +32,59 @@ public class TransferDropDown : MonoBehaviour
         dropdown.ClearOptions();
         List<string> dropdownOptions = new List<string>();
 
+        optionsReferences.Clear();
 
-        foreach (var building in Global.BUILDINGS)
+        foreach (BuildingInventory building in Global.BUILDINGS)
         {
-            string key;
+            string option;
                 if(building == inventory) 
                 {
-                    key = $"HERE {building.InventorySystem.InventorySize - building.InventorySystem.AmountOfSlotsAvaliable()}/{building.InventorySystem.InventorySize}";
+                    option = $"HERE {building.InventorySystem.InventorySize - building.InventorySystem.AmountOfSlotsAvaliable()}/{building.InventorySystem.InventorySize}";
                 }
                 else if(building.GetComponent<Extractioninventory>() != null)
                 {
-                    key = $"EXTRACTION ({Mathf.RoundToInt(building.transform.position.x)};{Mathf.RoundToInt(building.transform.position.z)})";
+                    option = $"EXTRACTION ({Mathf.RoundToInt(building.transform.position.x)};{Mathf.RoundToInt(building.transform.position.z)})";
                 }
                 else
                 {
-                    key = $"{building.gameObject.name} {building.InventorySystem.InventorySize - building.InventorySystem.AmountOfSlotsAvaliable()}/{building.InventorySystem.InventorySize} ({Mathf.RoundToInt(building.transform.position.x)};{Mathf.RoundToInt(building.transform.position.z)})";
+                    option = $"{building.gameObject.name} {building.InventorySystem.InventorySize - building.InventorySystem.AmountOfSlotsAvaliable()}/{building.InventorySystem.InventorySize} ({Mathf.RoundToInt(building.transform.position.x)};{Mathf.RoundToInt(building.transform.position.z)})";
                 }
-            dropdownOptions.Add(key);
+            dropdownOptions.Add(option);
+            TMP_Dropdown.OptionData optionData = new TMP_Dropdown.OptionData(option);
             BuildingInventory value = building;
-            TMP_Dropdown.OptionData optionData = new TMP_Dropdown.OptionData(key);
+
             optionsReferences.Add(optionData, value);
 
         }
         // Add options to the dropdown
         dropdown.AddOptions(dropdownOptions);
+        Debug.Log(dropdown.options);
     }
 
     private void OnDropdownValueChanged(int index)
     {
-        // This function is called whenever the selected option in the dropdown changes
-        // 'index' represents the index of the selected option in the dropdown's options list
 
-        // You can access the selected option's text like this:
-        TMP_Dropdown.OptionData selectedOption = dropdown.options[index];
-
-        if (optionsReferences.TryGetValue(selectedOption, out BuildingInventory associatedData))
+        Debug.Log("Options in dictionary:");
+        foreach (var kvp in optionsReferences)
         {
-            // Now you can use 'associatedData' in your code
-            Debug.Log("Selected option: " + selectedOption.text);
-            Debug.Log("Associated InventoryItemData: " + associatedData);
+            Debug.Log($"{kvp.Key.text} => {kvp.Value}");
         }
 
-        currentlySelectedOption = selectedOption;
-        currentlyAssociatedData = associatedData;
+        TMP_Dropdown.OptionData selectedOption = dropdown.options[index];
+
+        Debug.Log("Selected option index: " + index);
+        Debug.Log("Selected option text: " + selectedOption.text);
+
+        if (optionsReferences.TryGetValue(selectedOption, out BuildingInventory associatedData))
+            {
+            currentlyAssociatedData = associatedData;
+            Debug.Log("Selected data " + associatedData);
+            }
+
+
+            currentlySelectedOption = selectedOption;
+            
+
     }
 
         public void UpdateDropDown()
