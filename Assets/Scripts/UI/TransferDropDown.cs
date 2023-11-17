@@ -1,7 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using TMPro;
 using UnityEngine;
+using static UnityEngine.Rendering.DebugUI;
 
 public class TransferDropDown : MonoBehaviour
 {
@@ -14,7 +16,7 @@ public class TransferDropDown : MonoBehaviour
     public BuildingInventory CurrentlyAssociatedData => currentlyAssociatedData;
 
 
-    private Dictionary<TMP_Dropdown.OptionData, BuildingInventory> optionsReferences = new Dictionary<TMP_Dropdown.OptionData, BuildingInventory>();
+    private Dictionary<string, BuildingInventory> optionsReferences = new Dictionary<string, BuildingInventory>();
 
     private void Awake()
     {
@@ -31,6 +33,7 @@ public class TransferDropDown : MonoBehaviour
         // Clear existing options
         dropdown.ClearOptions();
         List<string> dropdownOptions = new List<string>();
+        List<BuildingInventory> buildingInventories = new List<BuildingInventory>();
 
         optionsReferences.Clear();
 
@@ -50,41 +53,32 @@ public class TransferDropDown : MonoBehaviour
                     option = $"{building.gameObject.name} {building.InventorySystem.InventorySize - building.InventorySystem.AmountOfSlotsAvaliable()}/{building.InventorySystem.InventorySize} ({Mathf.RoundToInt(building.transform.position.x)};{Mathf.RoundToInt(building.transform.position.z)})";
                 }
             dropdownOptions.Add(option);
-            TMP_Dropdown.OptionData optionData = new TMP_Dropdown.OptionData(option);
-            BuildingInventory value = building;
-
-            optionsReferences.Add(optionData, value);
+            buildingInventories.Add(building);
 
         }
         // Add options to the dropdown
         dropdown.AddOptions(dropdownOptions);
+
+        for (int i = 0; i < dropdownOptions.Count; i++)
+        {
+            optionsReferences.Add(dropdownOptions[i], buildingInventories[i]);
+        }
         Debug.Log(dropdown.options);
     }
 
     private void OnDropdownValueChanged(int index)
     {
 
-        Debug.Log("Options in dictionary:");
-        foreach (var kvp in optionsReferences)
-        {
-            Debug.Log($"{kvp.Key.text} => {kvp.Value}");
-        }
-
         TMP_Dropdown.OptionData selectedOption = dropdown.options[index];
 
-        Debug.Log("Selected option index: " + index);
-        Debug.Log("Selected option text: " + selectedOption.text);
 
-        if (optionsReferences.TryGetValue(selectedOption, out BuildingInventory associatedData))
+        if (optionsReferences.TryGetValue(selectedOption.text, out BuildingInventory associatedData))
             {
             currentlyAssociatedData = associatedData;
-            Debug.Log("Selected data " + associatedData);
             }
 
-
-            currentlySelectedOption = selectedOption;
-            
-
+        currentlySelectedOption = selectedOption;
+       
     }
 
         public void UpdateDropDown()

@@ -7,6 +7,7 @@ public abstract class WorkerBehaviour : MonoBehaviour
 {
     public CharacterManager CharacterManagerRef;
     public bool canBeMovedbyPlayer;
+    public bool TransferStarted = false;
     protected GameResourceManager gameResourceManager;
     public abstract void ApplyBehaviour();
     public abstract BehaviourName CheckTransition();

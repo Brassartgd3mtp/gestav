@@ -53,23 +53,24 @@ public class UnitInventory : InventoryHolder, IInteractable
 
         foreach (InventorySlot slot in inventorySystem.InventorySlots)
         {
-            int i = 0;
-            bool wasItemAdded = false;
-            foreach (ItemTypeAndCount itemAndCount in items)
-            {
-                if (itemAndCount.item == slot.ItemData)
+                int i = 0;
+                bool wasItemAdded = false;
+                foreach (ItemTypeAndCount itemAndCount in items)
                 {
-                    items[i].count += 1;
-                    wasItemAdded = true;
+                    if (itemAndCount.item == slot.ItemData)
+                    {
+                        items[i].count += 1;
+                        wasItemAdded = true;
+                    }
+
+                    i++;
                 }
 
-                i++;
-            }
+                if (!wasItemAdded)
+                {
+                    items.Add(new ItemTypeAndCount(slot.ItemData, 1));
+                }
 
-            if (!wasItemAdded)
-            {
-                items.Add(new ItemTypeAndCount(slot.ItemData, 1));
-            }
         }
         Debug.Log(items);
         return items;

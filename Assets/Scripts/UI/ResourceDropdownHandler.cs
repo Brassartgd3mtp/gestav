@@ -49,6 +49,7 @@ public class ResourceDropdownHandler : MonoBehaviour
         }
         // Add options to the dropdown
         dropdown.AddOptions(dropDownOptions);
+        Debug.Log(optionsReferences);
     }
 
     public void UpdateDropdown()

@@ -4719,7 +4719,7 @@ GameObject:
   - component: {fileID: 5489326859349130255}
   - component: {fileID: 560988673856578961}
   m_Layer: 10
-  m_Name: TransfertoDropdown (1)
+  m_Name: TransferToDropDown
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
