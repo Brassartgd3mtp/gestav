@@ -32,8 +32,6 @@ public class GameResourceManager : MonoBehaviour
                 }
             }
         }
-
-        Debug.Log(itemCounts);
         return itemCounts;
     }
 

@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -15,11 +16,9 @@ public class ResourceDropdownHandler : MonoBehaviour
     private InventoryItemData currentlyAssociatedData;
     public InventoryItemData CurrentlyAssociatedData => currentlyAssociatedData;
 
-    private Dictionary<TMP_Dropdown.OptionData, InventoryItemData> optionsReferences = new Dictionary<TMP_Dropdown.OptionData, InventoryItemData>();
+    private Dictionary<string, InventoryItemData> optionsReferences = new Dictionary<string, InventoryItemData>();
     private void Awake()
     {
-
-
         dropdown = GetComponent<TMP_Dropdown>();
         gameResourceManager = FindObjectOfType<GameResourceManager>();
 
@@ -29,46 +28,57 @@ public class ResourceDropdownHandler : MonoBehaviour
     }
     public void PopulateDropdown()
     {
-        // Clear existing options
         dropdown.ClearOptions();
-        optionsReferences.Clear();
-
-        // Create a list of options based on totalItemCounts
 
         List<string> dropDownOptions = new List<string>();
+        List<InventoryItemData> inventoryItems = new List<InventoryItemData>();
+
+        optionsReferences.Clear();
 
         foreach (var kvp in gameResourceManager.totalItemCount)
         {
             string key = $"{kvp.Key.DisplayName} : {kvp.Value}";
             InventoryItemData value = kvp.Key;
 
-            TMP_Dropdown.OptionData optionData = new TMP_Dropdown.OptionData(key);
-            optionsReferences.Add(optionData, value);
-
             dropDownOptions.Add(key);
+            inventoryItems.Add(value);
         }
         // Add options to the dropdown
         dropdown.AddOptions(dropDownOptions);
-        Debug.Log(optionsReferences);
+
+        for (int i = 0; i < dropDownOptions.Count; i++)
+        {
+            optionsReferences.Add(dropDownOptions[i], inventoryItems[i]);
+        }
     }
 
     public void UpdateDropdown()
     {
         PopulateDropdown();
+        if(optionsReferences.Count == 1)
+        {
+            TMP_Dropdown.OptionData selectedOption = dropdown.options[0];
+
+            if (optionsReferences.TryGetValue(selectedOption.text, out InventoryItemData associatedData))
+            {
+                currentlyAssociatedData = associatedData;
+            }
+            currentlySelectedOption = selectedOption;
+
+            Debug.Log(currentlyAssociatedData.DisplayName);
+        }
     }
 
     private void OnDropdownValueChanged(int index)
     {
-        // This function is called whenever the selected option in the dropdown changes
-        // 'index' represents the index of the selected option in the dropdown's options list
-
-        // You can access the selected option's text like this:
         TMP_Dropdown.OptionData selectedOption = dropdown.options[index];
 
-        if (optionsReferences.TryGetValue(selectedOption, out InventoryItemData associatedData))
+        if (optionsReferences.TryGetValue(selectedOption.text, out InventoryItemData associatedData))
         {
-            currentlySelectedOption = selectedOption;
             currentlyAssociatedData = associatedData;
         }
+        currentlySelectedOption = selectedOption;
+
+        Debug.Log(currentlyAssociatedData.DisplayName);
     }
 }

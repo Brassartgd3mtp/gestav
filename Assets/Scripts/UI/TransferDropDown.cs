@@ -68,9 +68,7 @@ public class TransferDropDown : MonoBehaviour
 
     private void OnDropdownValueChanged(int index)
     {
-
         TMP_Dropdown.OptionData selectedOption = dropdown.options[index];
-
 
         if (optionsReferences.TryGetValue(selectedOption.text, out BuildingInventory associatedData))
             {
@@ -78,8 +76,8 @@ public class TransferDropDown : MonoBehaviour
             }
 
         currentlySelectedOption = selectedOption;
-       
     }
+
 
         public void UpdateDropDown()
     {

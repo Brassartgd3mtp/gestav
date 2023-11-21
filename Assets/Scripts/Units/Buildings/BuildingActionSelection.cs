@@ -71,7 +71,7 @@ public class BuildingActionSelection : MonoBehaviour
         buildingManager = gameObject.GetComponentInParent<BuildingManager>();
         assignWorker = gameObject.GetComponentInParent<AssignWorker>();
 
-        dropdownHandler = GetComponentInChildren<ResourceDropdownHandler>();
+        dropdownHandler = ResourceDropDown.gameObject.GetComponent<ResourceDropdownHandler>();
         transferDropDownAdd = TransferToDropdown.gameObject.GetComponent<TransferDropDown>();
         transferDropDownSub = TransferFromDropdown.gameObject.GetComponent<TransferDropDown>();
         amount = inputAmount.gameObject.GetComponent<NumberInput>();
