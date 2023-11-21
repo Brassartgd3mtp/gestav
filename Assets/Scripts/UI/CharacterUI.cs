@@ -29,7 +29,7 @@ public class CharacterUI : MonoBehaviour
 
     public void RemoveAssignation()
     {
-        foreach (UnitManager Unit in Global.SELECTED_UNITS)
+        foreach (UnitManager Unit in Global.SELECTED_CHARACTERS)
         {
             CharacterManager _characterManagerRef = Unit.GetComponent<CharacterManager>();
             if(_characterManagerRef != null)

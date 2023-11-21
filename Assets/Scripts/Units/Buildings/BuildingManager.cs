@@ -104,4 +104,66 @@ public class BuildingManager : UnitManager
         return building.IsFixed;
     }
 
+
+    protected override void SelectUtil()
+    {
+        base.SelectUtil();
+
+        if (Global.SELECTED_BUILDINGS.Contains(this)) return;
+        Global.SELECTED_BUILDINGS.Add(this);
+
+        AddMaterial(OutilineMaterial);
+    }
+
+    // Select the unit, allowing for multiple selections with or without the Shift key
+    public override void Select()
+    {
+        Select(false, false);
+    }
+
+
+    public override void Select(bool _singleClick, bool _holdingShift)
+    {
+        base.Select();
+        // Basic case: using the selection box
+        if (!_singleClick)
+        {
+            SelectUtil();
+            return;
+        }
+
+        // Single click: check for Shift key
+        if (!_holdingShift)
+        {
+            List<BuildingManager> selectedUnits = new List<BuildingManager>(Global.SELECTED_BUILDINGS);
+            foreach (BuildingManager um in selectedUnits)
+
+                um.Deselect();
+            SelectUtil();
+
+
+        }
+        else
+        {
+            if (!Global.SELECTED_BUILDINGS.Contains(this))
+                SelectUtil();
+            else
+                Deselect();
+        }
+    }
+
+        public override void Deselect()
+    {
+        base.Deselect();
+
+        if (!Global.SELECTED_BUILDINGS.Contains(this)) return;
+        Global.SELECTED_BUILDINGS.Remove(this);
+
+        RemoveMaterial("M_Outline (Instance)");
+
+        if (buildingActionSelection != null)
+        {
+            buildingActionSelection.TransferPanel.SetActive(false);
+        }
+    }
 }

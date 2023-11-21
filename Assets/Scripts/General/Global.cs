@@ -17,6 +17,8 @@ public class Global
 
     public static BuildingData[] BUILDING_DATA = new BuildingData[0];
 
+    public static List<CharacterManager> SELECTED_CHARACTERS = new List<CharacterManager>();
+    public static List<BuildingManager> SELECTED_BUILDINGS = new List<BuildingManager>();
     public static List<UnitManager> SELECTED_UNITS = new List<UnitManager>();
 
     public static List<BuildingInventory> BUILDINGS = new List<BuildingInventory>();

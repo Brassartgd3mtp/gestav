@@ -146,7 +146,7 @@ public class BuildingActionSelection : MonoBehaviour
     public List<CharacterManager> GetReferences()
     {
         charasFound.Clear();
-        foreach (UnitManager unit in Global.SELECTED_UNITS)
+        foreach (UnitManager unit in Global.SELECTED_CHARACTERS)
         {
             CharacterManager characterManagerRef = unit.GetComponent<CharacterManager>();
             

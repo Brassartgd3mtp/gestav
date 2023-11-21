@@ -7,17 +7,17 @@ using UnityEngine.Events;
 public class BuildingUIController : MonoBehaviour
 {
     public GameObject ActionsPopUpPanel;
-    private UnitManager unitAssociated;
+    private BuildingManager unitAssociated;
 
     private void Awake()
     {
-        unitAssociated = GetComponent<UnitManager>();
+        unitAssociated = GetComponent<BuildingManager>();
         HideBuildingUIPopUp();
     }
 
     private void Update()
     {
-        if (Global.SELECTED_UNITS.Contains(unitAssociated) /*&& Global.SELECTED_UNITS.Count ==1*/)
+        if (Global.SELECTED_BUILDINGS.Contains(unitAssociated) /*&& Global.SELECTED_UNITS.Count ==1*/)
         {
             DisplayBuildingUIPopUp();
         }

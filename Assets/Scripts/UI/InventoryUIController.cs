@@ -26,7 +26,7 @@ public class InventoryUIController : MonoBehaviour
             inventoryPanel.gameObject.SetActive(false);
             }
     }
-
+    
     public void DisplayInventory(InventorySystem invToDislpay) 
     {
         inventoryPanel.gameObject.SetActive(true);

@@ -51,7 +51,7 @@ public class UIManager : MonoBehaviour
 
     private void Update()
     {
-        if(Global.SELECTED_UNITS.Count > 0)
+        if(Global.SELECTED_CHARACTERS.Count > 0)
         {
             characterUI.ShowWorkerUI();
         }

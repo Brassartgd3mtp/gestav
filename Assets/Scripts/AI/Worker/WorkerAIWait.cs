@@ -11,7 +11,7 @@ public class WorkerAIWait : WorkerBehaviour
     }
     public override BehaviourName CheckTransition()
     {
-    if(Global.SELECTED_UNITS.Contains(this.gameObject.GetComponentInParent<UnitManager>()))
+    if(Global.SELECTED_CHARACTERS.Contains(this.gameObject.GetComponentInParent<CharacterManager>()))
         {
             return BehaviourName.Controlled;
         }

@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 [RequireComponent(typeof(BoxCollider))]
@@ -8,7 +9,7 @@ public class UnitManager : MonoBehaviour
     public Material OutilineMaterial;
 
     protected BoxCollider _collider;
-    private BuildingActionSelection buildingActionSelection;
+    protected BuildingActionSelection buildingActionSelection;
 
     private void Awake()
     {
@@ -31,21 +32,19 @@ public class UnitManager : MonoBehaviour
     }
 
     // Utility method for selecting the unit
-    private void SelectUtil()
+    protected virtual void SelectUtil()
     {
         if (Global.SELECTED_UNITS.Contains(this)) return;
         Global.SELECTED_UNITS.Add(this);
-
-        AddMaterial(OutilineMaterial);
     }
 
     // Select the unit, allowing for multiple selections with or without the Shift key
-    public void Select()
+    public virtual void Select()
     {
-        Select(false, false);
+
     }
 
-    public void Select(bool _singleClick, bool _holdingShift)
+    public virtual void Select(bool _singleClick, bool _holdingShift)
     {
         // Basic case: using the selection box
         if (!_singleClick)
@@ -57,11 +56,11 @@ public class UnitManager : MonoBehaviour
         // Single click: check for Shift key
         if (!_holdingShift)
         {
-            List<UnitManager> selectedUnits = new List<UnitManager>(Global.SELECTED_UNITS);
+            List<UnitManager> selectedUnits = new List<UnitManager>(Global.SELECTED_CHARACTERS);
             foreach (UnitManager um in selectedUnits)
 
-                    um.Deselect();
-                    SelectUtil();
+                um.Deselect();
+            SelectUtil();
 
 
         }
@@ -75,18 +74,12 @@ public class UnitManager : MonoBehaviour
     }
 
     // Deselect the unit
-    public void Deselect()
+    public virtual void Deselect()
     {
         if (!Global.SELECTED_UNITS.Contains(this)) return;
         Global.SELECTED_UNITS.Remove(this);
-
-        RemoveMaterial("M_Outline (Instance)");
-
-        if(buildingActionSelection != null)
-        {
-            buildingActionSelection.TransferPanel.SetActive(false);
-        }
     }
+
 
     public void Initialize(Unit _unit)
     {

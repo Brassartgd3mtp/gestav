@@ -174,7 +174,7 @@ public class WorkerAIUse : WorkerBehaviour
                             CharacterManagerRef.DisplayThisIventory();
 
                             //Dynamic display of building inventory if it is selected
-                            if (Global.SELECTED_UNITS.Count == 1 && Global.SELECTED_UNITS[0] == _buildInv.gameObject.GetComponent<UnitManager>())
+                            if (Global.SELECTED_BUILDINGS.Count == 1 && Global.SELECTED_BUILDINGS[0] == _buildInv.gameObject.GetComponent<UnitManager>())
                             {
                                 CharacterManagerRef.ShowInventoryUI(_buildInv.InventorySystem);
                             }

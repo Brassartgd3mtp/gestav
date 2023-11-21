@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.AI;
 using Unity.AI.Navigation;
 using Unity.Burst.CompilerServices;
+using UnityEditor.Experimental.GraphView;
 
 public class GameManager : MonoBehaviour
 {
@@ -23,12 +24,13 @@ public class GameManager : MonoBehaviour
     {
         CheckUnitsNavigation();
         CheckUnitInteractedWith();
+        Debug.Log(Global.SELECTED_UNITS.Count);
     }
     private void CheckUnitsNavigation()
     {
-        if (Global.SELECTED_UNITS.Count > 0 && Input.GetMouseButtonUp(1))
+        if (Global.SELECTED_CHARACTERS.Count > 0 && Input.GetMouseButtonUp(1))
         {
-            foreach(UnitManager unit in Global.SELECTED_UNITS) 
+            foreach(UnitManager unit in Global.SELECTED_CHARACTERS) 
             {
             WorkerAIC aic = unit.gameObject.GetComponentInChildren<WorkerAIC>();
                 if (aic != null && aic.CurrentBehaviour.canBeMovedbyPlayer)
@@ -45,7 +47,7 @@ public class GameManager : MonoBehaviour
                         Invoke("DisableGroundMarker", 2.0f); // Appelle la méthode DisableGroundMarker après 2 secondes
 
 
-                        foreach (UnitManager um in Global.SELECTED_UNITS)
+                        foreach (UnitManager um in Global.SELECTED_CHARACTERS)
                             if (um.GetType() == typeof(CharacterManager))
                             {
                                 ((CharacterManager)um).MoveTo(raycastHit.point, 0f);
@@ -57,7 +59,7 @@ public class GameManager : MonoBehaviour
             }
 
 
-            if (Global.SELECTED_UNITS.Count > 0 && Input.GetMouseButtonUp(1))
+            if (Global.SELECTED_CHARACTERS.Count > 0 && Input.GetMouseButtonUp(1))
             {
                 ray = Camera.main.ScreenPointToRay(Input.mousePosition);
                 bool isOverUI = UnityEngine.EventSystems.EventSystem.current.IsPointerOverGameObject();
@@ -68,7 +70,7 @@ public class GameManager : MonoBehaviour
                     Global.RESOURCE_LAYER_MASK
                 ) && !isOverUI)
                 {
-                    foreach (UnitManager um in Global.SELECTED_UNITS)
+                    foreach (UnitManager um in Global.SELECTED_CHARACTERS)
                         if (um.GetType() == typeof(CharacterManager))
                         {
                             ((CharacterManager)um).MoveTo(raycastHit.point, 0f);
@@ -102,7 +104,7 @@ public class GameManager : MonoBehaviour
                 out raycastHit,
                 1000f,
                 Global.UNIT_LAYER_MASK) && !isOverUI
-                
+
             )
             {
                 GameObject hitObject = raycastHit.collider.gameObject;

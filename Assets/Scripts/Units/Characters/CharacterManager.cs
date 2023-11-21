@@ -322,10 +322,67 @@ public Transform GetClosestBuilding(List<InventoryHolder> correspondingInventori
     //Dynamic display of character inventory if he is selected
     public void DisplayThisIventory()
     {
-        if (Global.SELECTED_UNITS.Count == 1 && Global.SELECTED_UNITS[0] == gameObject.GetComponent<UnitManager>())
+        if (Global.SELECTED_CHARACTERS.Count == 1 && Global.SELECTED_CHARACTERS[0] == gameObject.GetComponent<UnitManager>())
         {
             ShowInventoryUI(inventory.InventorySystem);
         }
+    }
+
+
+    // Utility method for selecting the unit
+    protected override void SelectUtil()
+    {
+        base.SelectUtil();
+        if (Global.SELECTED_CHARACTERS.Contains(this)) return;
+        Global.SELECTED_CHARACTERS.Add(this);
+
+        AddMaterial(OutilineMaterial);
+    }
+
+    // Select the unit, allowing for multiple selections with or without the Shift key
+    public override void Select()
+    {
+        Select(false, false);
+    }
+
+    public override void Select(bool _singleClick, bool _holdingShift)
+    {
+        base.Select();
+        // Basic case: using the selection box
+        if (!_singleClick)
+        {
+            SelectUtil();
+            return;
+        }
+
+        // Single click: check for Shift key
+        if (!_holdingShift)
+        {
+            List<CharacterManager> selectedUnits = new List<CharacterManager>(Global.SELECTED_CHARACTERS);
+            foreach (CharacterManager um in selectedUnits)
+
+                um.Deselect();
+            SelectUtil();
+
+
+        }
+        else
+        {
+            if (!Global.SELECTED_CHARACTERS.Contains(this))
+                SelectUtil();
+            else
+                Deselect();
+        }
+    }
+
+    // Deselect the unit
+    public override void Deselect()
+    {
+        base.Deselect();
+        if (!Global.SELECTED_CHARACTERS.Contains(this)) return;
+        Global.SELECTED_CHARACTERS.Remove(this);
+
+        RemoveMaterial("M_Outline (Instance)");
     }
 }
 

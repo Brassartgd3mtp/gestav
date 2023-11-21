@@ -15,7 +15,7 @@ public class WorkerAIControlled : WorkerBehaviour
         {
             return BehaviourName.Use;
         }
-        if(!Global.SELECTED_UNITS.Contains(this.gameObject.GetComponentInParent<UnitManager>()))
+        if(!Global.SELECTED_CHARACTERS.Contains(this.gameObject.GetComponentInParent<CharacterManager>()))
         {
             return BehaviourName.Wait;
         }

@@ -80,7 +80,7 @@ public class AssignWorker : InventoryHolder
     public List<CharacterManager> FindWorkers()
     {
         workersFound.Clear();
-        foreach (UnitManager _worker in Global.SELECTED_UNITS)
+        foreach (UnitManager _worker in Global.SELECTED_CHARACTERS)
         {
             CharacterManager characterToAdd = _worker.gameObject.GetComponent<CharacterManager>();
             if (characterToAdd != null)
