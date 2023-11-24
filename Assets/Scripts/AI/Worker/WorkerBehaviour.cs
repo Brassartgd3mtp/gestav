@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using static WorkerAIC;
 
@@ -9,6 +10,7 @@ public abstract class WorkerBehaviour : MonoBehaviour
     public bool canBeMovedbyPlayer;
     public bool TransferStarted = false;
     protected GameResourceManager gameResourceManager;
+    [SerializeField] protected TextMeshProUGUI currentActionText;
     public abstract void ApplyBehaviour();
     public abstract BehaviourName CheckTransition();
 

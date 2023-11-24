@@ -221,7 +221,7 @@ public class CharacterManager : UnitManager
                 //add to a list the inventories that accepts the items currently in the worker's invntory
                 foreach (InventoryHolder inv in inventories)
                 {
-                    if (inventories.Length > 0 && GetItemInFirstOccupiedSlot() != null && GetItemInFirstOccupiedSlot().resourceType == inv.validType)
+                if (inventories.Length > 0 && GetItemInFirstOccupiedSlot() != null && inv.validType.Contains(GetItemInFirstOccupiedSlot().resourceType))
                     {
                         correspondingInventories.Add(inv);
                     }

@@ -84,6 +84,11 @@ public class WorkerAIUse : WorkerBehaviour
 
     public void GoMining()
     {
+        currentActionText.text = "Collecting Items . . .";
+        currentActionText.outlineColor = Color.black;
+        currentActionText.color = Color.white;
+        currentActionText.outlineWidth = 0.35f;
+
         //search all the resources 
         Transform[] resourcesTranform = findingScript.GetTransformArray(Global.RESOURCE_LAYER_MASK);
 
@@ -99,7 +104,7 @@ public class WorkerAIUse : WorkerBehaviour
         }
         foreach (ItemRef item in resourcesTypes)
         {
-            if (item != null && item.item.resourceType == buildinv.validType)
+            if (item != null && buildinv.validType.Contains(item.item.resourceType))
             {
                 correspondingItems.Add(item);
             }
@@ -154,7 +159,7 @@ public class WorkerAIUse : WorkerBehaviour
 
                         //Put worker items into the building
 
-                        if (CharacterManagerRef.Inventory.InventorySystem.InventorySlots[i].ItemData != null && CharacterManagerRef.Inventory.InventorySystem.InventorySlots[i].ItemData.resourceType == _buildInv.validType)
+                        if (CharacterManagerRef.Inventory.InventorySystem.InventorySlots[i].ItemData != null && _buildInv.validType.Contains(CharacterManagerRef.Inventory.InventorySystem.InventorySlots[i].ItemData.resourceType))
                         {
                             _buildInv.InventorySystem.AddToInventory(CharacterManagerRef.Inventory.InventorySystem.InventorySlots[i].ItemData, 1);
                             CharacterManagerRef.Inventory.InventorySystem.InventorySlots[i].ClearSlot();

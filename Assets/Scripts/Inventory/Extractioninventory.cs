@@ -4,6 +4,7 @@ using Unity.VisualScripting;
 using UnityEngine;
 using System.Threading.Tasks;
 using TMPro;
+using JetBrains.Annotations;
 
 public class Extractioninventory : MonoBehaviour
 {
@@ -30,68 +31,29 @@ public class Extractioninventory : MonoBehaviour
         totalResourcesText.text = amountToExtract.ToString();
         currentResourcesText.text = resourcesExtracted.ToString();
     }
-    private async void OnTriggerEnter(Collider other)
+
+    public void UpdateInventoryInfo()
     {
-        if (other.GetComponent<CharacterManager>()  != null)
+        resourcesExtracted = thisInventory.InventorySystem.InventorySlots.Count - thisInventory.InventorySystem.AmountOfSlotsAvaliable();
+        currentResourcesText.text = resourcesExtracted.ToString();
+        if (resourcesExtracted >= amountToExtract)
         {
-            charactersInZone++;
-
-            characterManager = other.GetComponent<CharacterManager>();
-            Debug.Log("Character Manager trouvé");
-            workerInventory = other.GetComponentInChildren<InventoryHolder>();
-            workerInventoryList.Add(workerInventory);
-
-            foreach (InventoryHolder workerInventory in workerInventoryList)
-            {
-
-                for (int i = 0; i < workerInventory.InventorySystem.InventorySlots.Count; i++)
-                {
-                    if (workerInventory.InventorySystem.InventorySlots[i].ItemData != null)
-                    {
-                        await Task.Delay(characterManager.DepositDuration);
-
-                        //Do the inventory transfer
-                        thisInventory.InventorySystem.InventorySlots.Add(new InventorySlot());
-                        thisInventory.InventorySystem.AddToInventory(workerInventory.InventorySystem.InventorySlots[i].ItemData, 1);
-                        workerInventory.InventorySystem.InventorySlots[i].ClearSlot();
-
-                        resourcesExtracted = thisInventory.InventorySystem.InventorySlots.Count - thisInventory.InventorySystem.AmountOfSlotsAvaliable();
-                        Debug.Log(resourcesExtracted);
-
-                        //Update the bag and the UI
-                        characterManager.ChangeBagSize(characterManager.CalculateBagSize());
-                        characterManager.DisplayThisIventory();
-                        currentResourcesText.text = resourcesExtracted.ToString();
-                    }
-                    if (resourcesExtracted >= amountToExtract)
-                    {
-                        amountExctracted = true;
-                        VictoryUI.SetActive(true);
-                    }
-                }
-                //hide the worker's bag if their inv is empty
-                characterManager.HideBag();
-            }
+            amountExctracted = true;
+            VictoryUI.SetActive(true);
         }
 
 
+        
     }
-    private void OnTriggerExit(Collider other)
-    {
-        workerInventory = other.GetComponentInChildren<InventoryHolder>(); 
-        workerInventoryList.Remove(workerInventory);
-        charactersInZone--;
 
-        if (charactersInZone <= 0) 
+    public void UpdateaSlotsAmount()
+    {
+        foreach (InventorySlot slot in thisInventory.InventorySystem.InventorySlots)
         {
-            foreach (InventorySlot slot in thisInventory.InventorySystem.InventorySlots)
+            if (slot.ItemData == null)
             {
-                if (slot.ItemData == null)
-                {
-                    thisInventory.InventorySystem.InventorySlots.Remove(slot);
-                }
+                thisInventory.InventorySystem.InventorySlots.Remove(slot);
             }
         }
     }
-
 }

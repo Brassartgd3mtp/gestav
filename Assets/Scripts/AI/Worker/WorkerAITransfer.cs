@@ -85,7 +85,7 @@ public class WorkerAITransfer : WorkerBehaviour
         for (int i = 0; i < inventory.InventorySystem.InventorySlots.Count; i++)
         {
 
-            if (inventory.InventorySystem.InventorySlots[i].ItemData != null && inventory.InventorySystem.InventorySlots[i].ItemData.resourceType == TargetInventory.validType)
+            if (inventory.InventorySystem.InventorySlots[i].ItemData != null && TargetInventory.validType.Contains(inventory.InventorySystem.InventorySlots[i].ItemData.resourceType))
             {
                 TargetInventory.InventorySystem.AddToInventory(inventory.InventorySystem.InventorySlots[i].ItemData, 1);
                 inventory.InventorySystem.InventorySlots[i].ClearSlot();
@@ -133,7 +133,8 @@ public class WorkerAITransfer : WorkerBehaviour
         BuildingInventory inventoryToTakeTo = ActionSelection.TransferDropDownADD.CurrentlyAssociatedData;
         int amountToTransfer = ActionSelection.Amount.Result;
 
-        Debug.Log("resource : " + resourceToTransfer);
+        Debug.Log("take from " + inventoryToTakeFrom);
+        Debug.Log("take to " + inventoryToTakeTo);
 
         items = inventoryToTakeFrom.GetAllItems();
         int amountAvaliable = 0;
@@ -152,125 +153,255 @@ public class WorkerAITransfer : WorkerBehaviour
 
         // transfer from a building to another
 
-        if (amountAvaliable >= amountToTransfer && inventoryToTakeTo.InventorySystem.AmountOfSlotsAvaliable() >= amountToTransfer &&!TransferStarted)
+        if(inventoryToTakeTo.gameObject.GetComponent<Extractioninventory>() != null)
         {
-            TransferStarted = true;
+            Extractioninventory extractionInventory;
 
-            for(int amountTransfered = 0;amountTransfered < amountToTransfer; amountTransfered+=0)
+            if(!TransferStarted) 
             {
-                TargetBuilding = inventoryToTakeFrom.GetComponent<BuildingManager>();
-                Debug.Log("va prendre");
+                TransferStarted = true;
+                currentActionText.text = "Transfering Items . . .";
+                currentActionText.outlineWidth = 0.35f;
+                currentActionText.color = Color.white;
+                currentActionText.outlineColor = Color.black;
 
-
-                buildingReached = false;
-                Transform targetTransform = TargetBuilding.gameObject.transform;
-                float distanceToStop = targetTransform.GetComponent<BoxCollider>().size.z + 1.5f;
-                TargetInventory = inventoryToTakeFrom;
-                Debug.Log("prend");
-                CharacterManagerRef.MoveTo(targetTransform.position, distanceToStop);
-
-                while (!buildingReached)
+                for (int amountTransfered = 0; amountTransfered < amountToTransfer; amountTransfered += 0)
                 {
-                    if (Vector3.Distance(transform.position, targetTransform.position) < distanceToStop)
+                    TargetBuilding = inventoryToTakeFrom.GetComponent<BuildingManager>();
+                    Debug.Log("va prendre");
+
+
+                    buildingReached = false;
+                    Transform targetTransform = TargetBuilding.gameObject.transform;
+                    float distanceToStop = targetTransform.GetComponent<BoxCollider>().size.z + 1.5f;
+                    TargetInventory = inventoryToTakeFrom;
+                    Debug.Log("prend");
+                    CharacterManagerRef.MoveTo(targetTransform.position, distanceToStop);
+
+                    while (!buildingReached)
                     {
-                        buildingReached = true;
+                        if (Vector3.Distance(transform.position, targetTransform.position) < distanceToStop)
+                        {
+                            buildingReached = true;
+                        }
+                        await Task.Delay(500);
                     }
-                    await Task.Delay(250);
-                }
 
-
-                TargetInventory = inventoryToTakeFrom;
-                buildingStockageUI = TargetInventory.gameObject.GetComponent<BuildingStockageUI>();
-                Debug.Log(buildingReached);
-                if (buildingReached)
-                {
-                    if (inventory.InventorySystem.AmountOfSlotsAvaliable() >= 0)
+                    TargetInventory = inventoryToTakeFrom;
+                    buildingStockageUI = TargetInventory.gameObject.GetComponent<BuildingStockageUI>();
+                    Debug.Log(buildingReached);
+                    if (buildingReached)
                     {
+                        if (inventory.InventorySystem.AmountOfSlotsAvaliable() >= 0)
+                        {
 
-                        Debug.Log("slotsavaliable ok");
+                            Debug.Log("slotsavaliable ok");
+                            for (int i = 0; i < inventory.InventorySystem.InventorySlots.Count; i++)
+                            {
+
+                                if (inventory.InventorySystem.InventorySlots[i].ItemData == null)
+                                {
+                                    Debug.Log("slot libre");
+                                    int lastSlot = TargetInventory.InventorySystem.InventorySize - (TargetInventory.InventorySystem.AmountOfSlotsAvaliable() + 1);
+                                    if (lastSlot < 0) lastSlot = 0;
+
+                                    if (TargetInventory.InventorySystem.InventorySlots[lastSlot].ItemData != null && amountTransfered + i < amountToTransfer)
+                                    {
+                                        Debug.Log("item trouvé dans l'inventaire");
+                                        inventory.InventorySystem.AddToInventory(TargetInventory.InventorySystem.InventorySlots[lastSlot].ItemData, 1);
+                                        TargetInventory.InventorySystem.InventorySlots[lastSlot].ClearSlot();
+                                        buildingStockageUI.UpdateSpaceInUI();
+                                    }
+                                }
+                            }
+                            CharacterManagerRef.ShowBag();
+                        }
+                    }
+
+
+                    buildingReached = false;
+
+                    Debug.Log("va poser"); 
+                    targetTransform = inventoryToTakeTo.gameObject.GetComponent<Transform>();
+                    distanceToStop = targetTransform.GetComponent<BoxCollider>().size.z + 5f;
+
+                    CharacterManagerRef.MoveTo(targetTransform.position, distanceToStop);
+
+                    while (!buildingReached)
+                    {
+                        Debug.Log("while");
+                        if (Vector3.Distance(transform.position, targetTransform.position) < distanceToStop)
+                        {
+                            Debug.Log("reached");
+                            buildingReached = true;
+                        }
+                        await Task.Delay(500);
+                        Debug.Log("Pas reach");
+                    }
+
+                    TargetInventory = inventoryToTakeTo;
+                    buildingStockageUI = TargetInventory.gameObject.GetComponent<BuildingStockageUI>();
+                    extractionInventory = TargetInventory.gameObject.GetComponent<Extractioninventory>(); 
+
+                    if (buildingReached)
+                    {
+                        Debug.Log("pose");
                         for (int i = 0; i < inventory.InventorySystem.InventorySlots.Count; i++)
                         {
 
-                            if (inventory.InventorySystem.InventorySlots[i].ItemData == null)
+                            if (inventory.InventorySystem.InventorySlots[i].ItemData != null && TargetInventory.validType.Contains(inventory.InventorySystem.InventorySlots[i].ItemData.resourceType) && amountTransfered < amountToTransfer)
                             {
-                                Debug.Log("slot libre");
-                                int lastSlot = TargetInventory.InventorySystem.InventorySize - (TargetInventory.InventorySystem.AmountOfSlotsAvaliable() +1);
-                                if (lastSlot < 0) lastSlot = 0;
-
-                                
-
-                                if (TargetInventory.InventorySystem.InventorySlots[lastSlot].ItemData != null  && amountTransfered + i < amountToTransfer )
-                                {
-                                    Debug.Log("item trouvé dans l'inventaire");
-                                    inventory.InventorySystem.AddToInventory(TargetInventory.InventorySystem.InventorySlots[lastSlot].ItemData, 1);
-                                    TargetInventory.InventorySystem.InventorySlots[lastSlot].ClearSlot();
-                                    buildingStockageUI.UpdateSpaceInUI();
-                                }
+                                TargetInventory.InventorySystem.InventorySlots.Add(new InventorySlot());
+                                TargetInventory.InventorySystem.AddToInventory(inventory.InventorySystem.InventorySlots[i].ItemData, 1);
+                                inventory.InventorySystem.InventorySlots[i].ClearSlot();
+                                amountTransfered++;
+                                extractionInventory.UpdateInventoryInfo();
                             }
                         }
-                        CharacterManagerRef.ShowBag();
+
+                        CharacterManagerRef.HideBag();
+                        buildingReached = false;
                     }
                 }
 
 
-                TargetBuilding = inventoryToTakeTo.GetComponent<BuildingManager>();
-                buildingReached = false;
+                Debug.Log("transfer done");
+                TransferStarted = false;
+                CharacterManagerRef.isTransferingItems = false;
 
-                Debug.Log("va poser");
-                targetTransform = TargetBuilding.gameObject.transform;
-                distanceToStop = targetTransform.GetComponent<BoxCollider>().size.z + 1.5f;
-
-                CharacterManagerRef.MoveTo(targetTransform.position, distanceToStop);
-
-                while (!buildingReached)
-                {
-                    Debug.Log("while");
-                    if (Vector3.Distance(transform.position, targetTransform.position) < distanceToStop)
-                    {
-                        Debug.Log("reached");
-                        buildingReached = true;
-                    }
-                    await Task.Delay(250);
-                    Debug.Log("Pas reach");
-                }
-
-                TargetInventory = inventoryToTakeTo;
-                buildingStockageUI = TargetInventory.gameObject.GetComponent<BuildingStockageUI>();
-
-                if (buildingReached)
-                {
-                    Debug.Log("pose");
-                    for (int i = 0; i < inventory.InventorySystem.InventorySlots.Count; i++)
-                    {
-                        
-                        if (inventory.InventorySystem.InventorySlots[i].ItemData != null && inventory.InventorySystem.InventorySlots[i].ItemData.resourceType == TargetInventory.validType && amountTransfered < amountToTransfer)
-                        {
-                            
-
-                            TargetInventory.InventorySystem.AddToInventory(inventory.InventorySystem.InventorySlots[i].ItemData, 1);
-                            inventory.InventorySystem.InventorySlots[i].ClearSlot();
-                            amountTransfered++;
-                            buildingStockageUI.UpdateSpaceInUI();
-                        }
-                    }
-                    
-                    CharacterManagerRef.HideBag();
-                    buildingReached = false;
-                }
             }
-
-
-            Debug.Log("transfer done");
-            TransferStarted = false;
-            CharacterManagerRef.isTransferingItems = false;
+            else
+            {
+                Debug.Log("transfert pas ok");
+                CharacterManagerRef.isTransferingItems = false;
+                buildingReached = false;
+                TransferStarted = false;
+            }
         }
         else
         {
-            Debug.Log("transfert pas ok");
-            CharacterManagerRef.isTransferingItems = false;
-            buildingReached = false;
-            TransferStarted = false;
+            if (amountAvaliable >= amountToTransfer && inventoryToTakeTo.InventorySystem.AmountOfSlotsAvaliable() >= amountToTransfer && !TransferStarted)
+            {
+                TransferStarted = true;
+                currentActionText.text = "Transfering Items . . .";
+                currentActionText.outlineWidth = 0.35f;
+                currentActionText.color = Color.white;
+                currentActionText.outlineColor = Color.black;
+
+                for (int amountTransfered = 0; amountTransfered < amountToTransfer; amountTransfered += 0)
+                {
+                    TargetBuilding = inventoryToTakeFrom.GetComponent<BuildingManager>();
+                    Debug.Log("va prendre");
+
+
+                    buildingReached = false;
+                    Transform targetTransform = TargetBuilding.gameObject.transform;
+                    float distanceToStop = targetTransform.GetComponent<BoxCollider>().size.z + 1.5f;
+                    TargetInventory = inventoryToTakeFrom;
+                    Debug.Log("prend");
+                    CharacterManagerRef.MoveTo(targetTransform.position, distanceToStop);
+
+                    while (!buildingReached)
+                    {
+                        if (Vector3.Distance(transform.position, targetTransform.position) < distanceToStop)
+                        {
+                            buildingReached = true;
+                        }
+                        await Task.Delay(500);
+                    }
+
+
+                    TargetInventory = inventoryToTakeFrom;
+                    buildingStockageUI = TargetInventory.gameObject.GetComponent<BuildingStockageUI>();
+                    Debug.Log(buildingReached);
+                    if (buildingReached)
+                    {
+                        if (inventory.InventorySystem.AmountOfSlotsAvaliable() >= 0)
+                        {
+
+                            Debug.Log("slotsavaliable ok");
+                            for (int i = 0; i < inventory.InventorySystem.InventorySlots.Count; i++)
+                            {
+
+                                if (inventory.InventorySystem.InventorySlots[i].ItemData == null)
+                                {
+                                    Debug.Log("slot libre");
+                                    int lastSlot = TargetInventory.InventorySystem.InventorySize - (TargetInventory.InventorySystem.AmountOfSlotsAvaliable() + 1);
+                                    if (lastSlot < 0) lastSlot = 0;
+
+
+
+                                    if (TargetInventory.InventorySystem.InventorySlots[lastSlot].ItemData != null && amountTransfered + i < amountToTransfer)
+                                    {
+                                        Debug.Log("item trouvé dans l'inventaire");
+                                        inventory.InventorySystem.AddToInventory(TargetInventory.InventorySystem.InventorySlots[lastSlot].ItemData, 1);
+                                        TargetInventory.InventorySystem.InventorySlots[lastSlot].ClearSlot();
+                                        buildingStockageUI.UpdateSpaceInUI();
+                                    }
+                                }
+                            }
+                            CharacterManagerRef.ShowBag();
+                        }
+                    }
+
+
+                    TargetBuilding = inventoryToTakeTo.GetComponent<BuildingManager>();
+                    buildingReached = false;
+
+                    Debug.Log("va poser");
+                    targetTransform = TargetBuilding.gameObject.transform;
+                    distanceToStop = targetTransform.GetComponent<BoxCollider>().size.z + 1.5f;
+
+                    CharacterManagerRef.MoveTo(targetTransform.position, distanceToStop);
+
+                    while (!buildingReached)
+                    {
+                        Debug.Log("while");
+                        if (Vector3.Distance(transform.position, targetTransform.position) < distanceToStop)
+                        {
+                            Debug.Log("reached");
+                            buildingReached = true;
+                        }
+                        await Task.Delay(500);
+                        Debug.Log("Pas reach");
+                    }
+
+                    TargetInventory = inventoryToTakeTo;
+                    buildingStockageUI = TargetInventory.gameObject.GetComponent<BuildingStockageUI>();
+
+                    if (buildingReached)
+                    {
+                        Debug.Log("pose");
+                        for (int i = 0; i < inventory.InventorySystem.InventorySlots.Count; i++)
+                        {
+
+                            if (inventory.InventorySystem.InventorySlots[i].ItemData != null && TargetInventory.validType.Contains(inventory.InventorySystem.InventorySlots[i].ItemData.resourceType) && amountTransfered < amountToTransfer)
+                            {
+                                TargetInventory.InventorySystem.AddToInventory(inventory.InventorySystem.InventorySlots[i].ItemData, 1);
+                                inventory.InventorySystem.InventorySlots[i].ClearSlot();
+                                amountTransfered++;
+                                buildingStockageUI.UpdateSpaceInUI();
+                            }
+                        }
+
+                        CharacterManagerRef.HideBag();
+                        buildingReached = false;
+                    }
+                }
+
+
+                Debug.Log("transfer done");
+                TransferStarted = false;
+                CharacterManagerRef.isTransferingItems = false;
+            }
+            else
+            {
+                Debug.Log("transfert pas ok");
+                CharacterManagerRef.isTransferingItems = false;
+                buildingReached = false;
+                TransferStarted = false;
+            }
         }
     }
-
 }
+

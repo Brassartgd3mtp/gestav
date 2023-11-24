@@ -7184,8 +7184,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a02ef5b285c63ed4e96151bfa153a4ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  validType: 1
+  validType: 01000000
   inventorySize: 40
+  inventorySystem:
+    inventorySlots: []
   items: []
 --- !u!114 &1193171137107418262
 MonoBehaviour:
@@ -7225,8 +7227,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7f878419ea9682943810a64c91a7cb4d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  validType: 16
+  validType: 
   inventorySize: 3
+  inventorySystem:
+    inventorySlots: []
   workersFound: []
   buildingManager: {fileID: 0}
 --- !u!1 &8354989872919237307

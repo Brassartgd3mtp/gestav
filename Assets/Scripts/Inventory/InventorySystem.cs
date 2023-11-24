@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.Events;
 using System.Linq;
 
-
+[System.Serializable]
 public class InventorySystem
 {
     [SerializeField] private List<InventorySlot> inventorySlots;

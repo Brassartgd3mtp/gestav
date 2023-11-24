@@ -8,6 +8,10 @@ public class WorkerAIControlled : WorkerBehaviour
     public override void ApplyBehaviour()
     {
         canBeMovedbyPlayer = true;
+        currentActionText.text = "Controlled";
+        currentActionText.color = Color.green;
+        currentActionText.outlineColor = Color.black;
+        currentActionText.outlineWidth = 0.35f;
     }
     public override BehaviourName CheckTransition()
     {

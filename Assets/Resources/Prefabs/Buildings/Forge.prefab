@@ -1210,7 +1210,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a02ef5b285c63ed4e96151bfa153a4ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  validType: 4
+  validType: 0100000004000000
   inventorySize: 50
   inventorySystem:
     inventorySlots: []

@@ -24,7 +24,6 @@ public class GameManager : MonoBehaviour
     {
         CheckUnitsNavigation();
         CheckUnitInteractedWith();
-        Debug.Log(Global.SELECTED_UNITS.Count);
     }
     private void CheckUnitsNavigation()
     {

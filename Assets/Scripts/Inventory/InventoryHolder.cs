@@ -17,7 +17,7 @@ public enum InventoryResourceType
 
 public class InventoryHolder : MonoBehaviour
 {
-    public InventoryResourceType validType;
+    public List<InventoryResourceType> validType;
     [SerializeField] private int inventorySize;
     [SerializeField] protected InventorySystem inventorySystem;
 

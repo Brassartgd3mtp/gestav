@@ -122,6 +122,7 @@ public class BuildingActionSelection : MonoBehaviour
         {
             if (!transferPanel.activeInHierarchy)
             {
+
                 transferPanel.SetActive(true);
                 dropdownHandler.UpdateDropdown();
                 transferDropDownAdd.UpdateDropDown();

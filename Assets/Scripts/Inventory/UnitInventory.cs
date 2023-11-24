@@ -35,7 +35,7 @@ public class UnitInventory : InventoryHolder, IInteractable
     {
         for(int i = 0;i<inventoryGiver.InventorySystem.InventorySize;i++)
         {
-            if(inventoryGiver.InventorySystem.InventorySlots[i].ItemData.resourceType == inventoryReceiver.validType)
+            if( inventoryReceiver.validType.Contains(inventoryGiver.InventorySystem.InventorySlots[i].ItemData.resourceType))
             {
                 inventoryReceiver.InventorySystem.AddToInventory(inventoryGiver.InventorySystem.InventorySlots[i].ItemData, 1);
                 inventoryGiver.InventorySystem.InventorySlots[i].ClearSlot();

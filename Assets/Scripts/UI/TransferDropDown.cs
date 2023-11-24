@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,6 +17,7 @@ public class TransferDropDown : MonoBehaviour
     public BuildingInventory CurrentlyAssociatedData => currentlyAssociatedData;
 
 
+
     private Dictionary<string, BuildingInventory> optionsReferences = new Dictionary<string, BuildingInventory>();
 
     private void Awake()
@@ -26,6 +28,15 @@ public class TransferDropDown : MonoBehaviour
         dropdown.onValueChanged.AddListener(OnDropdownValueChanged);
 
         UpdateDropDown();
+
+        TMP_Dropdown.OptionData selectedOption = dropdown.options[0];
+
+        if (optionsReferences.TryGetValue(selectedOption.text, out BuildingInventory associatedData))
+        {
+            currentlyAssociatedData = associatedData;
+        }
+
+        currentlySelectedOption = selectedOption;
     }
 
     public void PopulateDropDown()
