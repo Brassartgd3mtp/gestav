@@ -964,6 +964,11 @@ PrefabInstance:
       propertyPath: groundMarker
       value: 
       objectReference: {fileID: 209782235}
+    - target: {fileID: 2537045459743570184, guid: f6b124c788d60b8478bfd05df7263650,
+        type: 3}
+      propertyPath: dragThreshold
+      value: 30
+      objectReference: {fileID: 0}
     - target: {fileID: 6802364537930570479, guid: f6b124c788d60b8478bfd05df7263650,
         type: 3}
       propertyPath: m_Name

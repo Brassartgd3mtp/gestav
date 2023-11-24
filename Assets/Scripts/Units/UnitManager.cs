@@ -21,7 +21,8 @@ public class UnitManager : MonoBehaviour
     // Called when the mouse is clicked on the unit
     private void OnMouseDown()
     {
-        if (IsActive())
+        bool isOverUI = UnityEngine.EventSystems.EventSystem.current.IsPointerOverGameObject();
+        if (IsActive() && !isOverUI)
             Select(true, Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift));
     }
 
@@ -34,6 +35,7 @@ public class UnitManager : MonoBehaviour
     // Utility method for selecting the unit
     protected virtual void SelectUtil()
     {
+
         if (Global.SELECTED_UNITS.Contains(this)) return;
         Global.SELECTED_UNITS.Add(this);
     }
@@ -46,7 +48,6 @@ public class UnitManager : MonoBehaviour
 
     public virtual void Select(bool _singleClick, bool _holdingShift)
     {
-        // Basic case: using the selection box
         if (!_singleClick)
         {
             SelectUtil();
