@@ -35,7 +35,7 @@ public class ResourceDropdownHandler : MonoBehaviour
 
         optionsReferences.Clear();
 
-        foreach (var kvp in gameResourceManager.totalItemCount)
+        foreach (var kvp in gameResourceManager.TotalItemCount)
         {
             string key = $"{kvp.Key.DisplayName} : {kvp.Value}";
             InventoryItemData value = kvp.Key;

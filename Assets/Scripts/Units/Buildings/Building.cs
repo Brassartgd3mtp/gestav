@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Unity.AI.Navigation;
 using UnityEngine.AI;
+using static UnityEditor.Progress;
 
 // Enumeration to represent the building placement state
 public enum BuildingPlacement
@@ -23,8 +24,6 @@ public class Building : Unit
     // Constructor for the Building class
     public Building(BuildingData _data) : base(_data)
     {
-
-        
         buildingManager = Transform.GetComponent<BuildingManager>();
 
         // Copy the initial rendering materials to the _materials list

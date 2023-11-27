@@ -4,9 +4,18 @@ using UnityEngine;
 
 public class GameResourceManager : MonoBehaviour
 {
+    private UIManager uiManager;
+
+
     private float updateTimer;
     private float updateInterval = 1f; 
-    public Dictionary<InventoryItemData, int> totalItemCount = new Dictionary<InventoryItemData, int>();
+    public Dictionary<InventoryItemData, int> TotalItemCount = new Dictionary<InventoryItemData, int>();
+
+    private void Awake()
+    {
+        uiManager = GetComponent<UIManager>();
+    }
+
 
     public Dictionary<InventoryItemData, int> SumItemCountsAcrossInventories(List<UnitInventory> unitsInventories)
     {
@@ -23,10 +32,12 @@ public class GameResourceManager : MonoBehaviour
                         if (itemCounts.ContainsKey(slot.ItemData))
                         {
                             itemCounts[slot.ItemData] += 1;
+                            Debug.Log(itemCounts);
                         }
                         else
                         {
                             itemCounts.Add(slot.ItemData, 1);
+                            Debug.Log(itemCounts);
                         }
                     }
                 }
@@ -60,8 +71,7 @@ public class GameResourceManager : MonoBehaviour
 
     public void GetTotalItems()
     {
-        totalItemCount.Clear();
-
+        TotalItemCount.Clear();
         Dictionary<InventoryItemData, int> _totalItemCounts = SumItemCountsAcrossInventories(Global.allInventories);
 
         // Access the total counts as needed
@@ -69,8 +79,8 @@ public class GameResourceManager : MonoBehaviour
         {
             Debug.Log($"{kvp.Key}: {kvp.Value}");
         }
-
-        totalItemCount = _totalItemCounts;
+        TotalItemCount = _totalItemCounts;
+        uiManager.UpdateResourceTexts(uiManager.CopperItemData, uiManager.CopperTMPro);
     }
 
     private void Update()

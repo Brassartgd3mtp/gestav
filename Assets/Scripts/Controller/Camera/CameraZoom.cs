@@ -13,15 +13,16 @@ namespace CameraControl
 		[SerializeField] private Transform _cameraHolder;
 		public Transform CameraHolder => _cameraHolder;
 
-		private Vector3 _cameraDirection => transform.InverseTransformDirection(_cameraHolder.forward);
+		public Vector3 CameraDirection => transform.InverseTransformDirection(_cameraHolder.forward);
 
-		private Vector3 _targetPosition;
+		public Vector3 TargetPosition;
+
 		private float _input;
 
 
 		private void Awake()
 		{
-			_targetPosition = _cameraHolder.localPosition;
+			TargetPosition = _cameraHolder.localPosition;
 		}
 
 		private void HandleInput()
@@ -31,9 +32,9 @@ namespace CameraControl
 
 		private void Zoom()
 		{
-			Vector3 nextTargetPosition = _targetPosition + _cameraDirection * (_input * _speed);
-			if (IsInBounds(nextTargetPosition)) _targetPosition = nextTargetPosition;
-			_cameraHolder.localPosition = Vector3.Lerp(_cameraHolder.localPosition, _targetPosition, Time.deltaTime * _smoothing);
+			Vector3 nextTargetPosition = TargetPosition + CameraDirection * (_input * _speed);
+			if (IsInBounds(nextTargetPosition)) TargetPosition = nextTargetPosition;
+			_cameraHolder.localPosition = Vector3.Lerp(_cameraHolder.localPosition, TargetPosition, Time.deltaTime * _smoothing);
 		}
 
 		private bool IsInBounds(Vector3 position)

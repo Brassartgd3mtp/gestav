@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using Unity.VisualScripting;
 using UnityEngine;
+using static UnityEditor.Progress;
 
 [Flags]
 public enum BuildingType
@@ -18,11 +19,27 @@ public class BuildingManager : UnitManager
     public BuildingType TypeOfBuilding;
 
     private Building building;
+    private GameResourceManager gameResourceManager;
+
+    private List<ItemTypeAndCount> items = new List<ItemTypeAndCount>();
 
     protected override Unit Unit
     {
         get { return building; }
         set { building = value is Building ? (Building)value : null; }
+    }
+
+    private void Awake()
+    {
+        gameResourceManager = FindAnyObjectByType<GameResourceManager>();
+    }
+
+    private void Update()
+    {
+        if(Input.GetKeyDown(KeyCode.L)) 
+        {
+            Debug.Log(CanBuild(building.Data));
+        }
     }
 
     private int nCollisions = 0;  // Counter for collision events
@@ -103,6 +120,46 @@ public class BuildingManager : UnitManager
     {
         return building.IsFixed;
     }
+
+
+
+
+    private bool CanBuild(UnitData data)
+    {
+        items.Clear();
+        gameResourceManager.FindInventories();
+        foreach(UnitInventory inventory in Global.allInventories)
+        {
+            foreach(ItemTypeAndCount itac in inventory.items)
+            {
+                if(items.Contains(itac))
+                {
+                    itac.count++;
+                }
+                else
+                {
+                    items.Add(itac);
+                }
+
+            }
+        }
+
+        int foundItems = 0;
+        foreach (ItemTypeAndCount neededItemsAndCount in data.resourcesToBuild)
+        {
+            foreach (ItemTypeAndCount foundItemAndCount in items)
+            {
+                if (foundItemAndCount.item == neededItemsAndCount.item && foundItemAndCount.count >= neededItemsAndCount.count)
+                {
+                    foundItems++;
+                    break;
+                }
+            }
+        }
+
+        return foundItems == data.resourcesToBuild.Length;
+    }
+
 
 
     protected override void SelectUtil()

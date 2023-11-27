@@ -10,12 +10,12 @@ namespace CameraControl
 		[SerializeField] private float _smoothing = 5f;
 		[SerializeField] private Vector2 _range = new(100, 100);
 
-		private Vector3 _targetPosition;
+		public Vector3 TargetPosition;
 		private Vector3 _input;
 
 		private void Awake()
 		{
-			_targetPosition = transform.position;
+			TargetPosition = transform.position;
 		}
 
 		private void HandleInput()
@@ -31,9 +31,9 @@ namespace CameraControl
 
 		private void Move()
 		{
-			Vector3 nextTargetPosition = _targetPosition + _input * _speed;
-			if (IsInBounds(nextTargetPosition)) _targetPosition = nextTargetPosition;
-			transform.position = Vector3.Lerp(transform.position, _targetPosition, Time.deltaTime * _smoothing);
+			Vector3 nextTargetPosition = TargetPosition + _input * _speed;
+			if (IsInBounds(nextTargetPosition)) TargetPosition = nextTargetPosition;
+			transform.position = Vector3.Lerp(transform.position, TargetPosition, Time.deltaTime * _smoothing);
 		}
 
 		private bool IsInBounds(Vector3 position)

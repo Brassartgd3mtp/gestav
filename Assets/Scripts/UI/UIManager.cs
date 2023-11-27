@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using CameraControl;
+using System.Linq;
+using Unity.VisualScripting;
 
 public class UIManager : MonoBehaviour
 {
@@ -15,15 +18,30 @@ public class UIManager : MonoBehaviour
     [SerializeField] private Transform workersMenu;
     [SerializeField] private GameObject workersButtonPrefab;
 
-    private UnitManager unitManager;
     private BuildingPlacer buildingPlacer; // Reference to the BuildingPlacer script
+    private CameraMotion cameraMotion;
+    private GameResourceManager gameResourceManager;
+
     private Dictionary<string, Button> buildingButtons; // Dictionary to hold the building buttons
     private Dictionary<Button, CharacterManager> workerButtons;
+
+    [SerializeField] private Transform resourceMenu;
+    [SerializeField] private GameObject resourceTextPrefab;
+
+    [Header("Item Datas")]
+
+    [SerializeField] private InventoryItemData copperItemData;
+    public InventoryItemData CopperItemData => copperItemData;
+    private TextMeshProUGUI copperTMPro;
+    public TextMeshProUGUI CopperTMPro => copperTMPro;
+
 
     private void Awake()
     {
         buildingPlacer = GetComponent<BuildingPlacer>(); // Get the BuildingPlacer component of the same GameObject
-     // Create buttons for each building type
+        cameraMotion = FindAnyObjectByType<CameraMotion>();
+        gameResourceManager = GetComponent<GameResourceManager>();
+        // Create buttons for each building type
 
         buildingButtons = new Dictionary<string, Button>();
 
@@ -52,6 +70,11 @@ public class UIManager : MonoBehaviour
             AddWorkerButtonListener(b, workers[i]);
             workerButtons.Add(b, workers[i]);
         }
+
+        GameObject copperText = Instantiate(resourceTextPrefab, resourceMenu);
+        copperText.transform.GetComponent<TextMeshProUGUI>();
+        copperTMPro = copperText.GetComponent<TextMeshProUGUI>();
+        UpdateResourceTexts(copperItemData, copperTMPro);
     }
 
     // Add a listener to a building button
@@ -63,9 +86,9 @@ public class UIManager : MonoBehaviour
 
     public void AddWorkerButtonListener(Button b, CharacterManager characterManager)
     {
-            b.onClick.AddListener(() => characterManager.Select(true, Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift)));
+        b.onClick.AddListener(() => characterManager.Select(true, Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift)));
+        b.onClick.AddListener(() => cameraMotion.TargetPosition = new(characterManager.gameObject.transform.localPosition.x, characterManager.gameObject.transform.localPosition.y));
     }
-
 
     private void Update()
     {
@@ -79,4 +102,16 @@ public class UIManager : MonoBehaviour
         }
     }
 
+
+    public void UpdateResourceTexts(InventoryItemData resourceData, TextMeshProUGUI resourcetext)
+    {
+        if (gameResourceManager.TotalItemCount.TryGetValue(resourceData, out int value))
+        {
+            resourcetext.text = $"Copper : {value}";
+        }
+        else
+        {
+            resourcetext.text = $"Copper : 0";
+        }
+    }
 }
