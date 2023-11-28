@@ -15,7 +15,7 @@ public class CharacterManager : UnitManager
 
     private Character character;
     [SerializeField] private Find findingScript;
-    private AssignWorker assignWorker;
+    private AssignWorkerInventory assignWorker;
 
     private ResourceSpot resourceSpot;
     public ResourceSpot ResourceSpot => resourceSpot;
@@ -57,7 +57,6 @@ public class CharacterManager : UnitManager
 
     private UnitInventory inventory;
     public UnitInventory Inventory => inventory;
-    private DynamicInventoryDisplay inventoryDisplay;
 
 
     [Header("Animations & graphics")]

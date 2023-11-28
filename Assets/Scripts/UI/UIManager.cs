@@ -102,7 +102,6 @@ public class UIManager : MonoBehaviour
         }
     }
 
-
     public void UpdateResourceTexts(InventoryItemData resourceData, TextMeshProUGUI resourcetext)
     {
         if (gameResourceManager.TotalItemCount.TryGetValue(resourceData, out int value))

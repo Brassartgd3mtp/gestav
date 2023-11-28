@@ -4,7 +4,7 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-public class AssignWorker : InventoryHolder
+public class AssignWorkerInventory : InventoryHolder
 {
     public List<CharacterManager> workersFound = new List<CharacterManager>(); //contain the characters that are currently selected
 

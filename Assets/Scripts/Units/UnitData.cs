@@ -10,4 +10,6 @@ public class UnitData : ScriptableObject
     public int healthpoints;
     public GameObject prefab;
     public ItemTypeAndCount[] resourcesToBuild;
+
+
 }

@@ -5,26 +5,52 @@ using UnityEngine;
 
 public class BuildingStockageUI : MonoBehaviour
 {
+    [Header("Batiment construit")]
+
     public GameObject PopUpPanel;
     public TextMeshProUGUI MaxQuantityText;
     public TextMeshProUGUI CurrentQuantityText;
+
+    [Header("Batiment en cours de construction")]
+
+    public GameObject BuildProgresionPanel;
+    public TextMeshProUGUI MaxQuantityNecessaryText;
+    public TextMeshProUGUI CurrentQuantityGivenText;
+
+    [Header("Overall")]
+
     public InventoryHolder Inventory;
     public Material OutilineMaterial;
 
+    private BuildingManager buildingManager;
+    public UnitData buildingData;
+
     private void Awake()
     {
+        buildingManager = GetComponent<BuildingManager>();
+        Debug.Log(buildingManager);
+
         PopUpPanel.gameObject.SetActive(false);
+        BuildProgresionPanel.gameObject.SetActive(false);
+
         Inventory = GetComponent<InventoryHolder>();
         UpdateSpaceInUI();
-    }
-    private void Start()
-    {
-        UpdateSpaceInUI();
+        UpdateBuildingStatus();
+
     }
 
     private void OnMouseEnter()
     {
-        PopUpPanel.gameObject.SetActive(true);
+        if (buildingManager.hasBeenBuilt)
+        {
+            PopUpPanel.gameObject.SetActive(true);
+            BuildProgresionPanel.gameObject.SetActive(false);
+        }
+        else
+        {
+            PopUpPanel.gameObject.SetActive(false);
+            BuildProgresionPanel.gameObject.SetActive(true);
+        }
         AddMaterial(OutilineMaterial);
 
         foreach (GameObject go in GetAllWorkersAssigned())
@@ -42,7 +68,10 @@ public class BuildingStockageUI : MonoBehaviour
 
     private void OnMouseExit()
     {
+
+        BuildProgresionPanel.gameObject.SetActive(false);
         PopUpPanel.gameObject.SetActive(false);
+
         RemoveMaterial("M_Outline (Instance)");
 
         foreach (GameObject go in GetAllWorkersAssigned())
@@ -59,7 +88,7 @@ public class BuildingStockageUI : MonoBehaviour
 
     public void UpdateSpaceInUI()
     {
-        if (Inventory.InventorySystem != null)
+        if (Inventory.InventorySystem != null && PopUpPanel.activeSelf && MaxQuantityText != null && CurrentQuantityText != null)
         {
             MaxQuantityText.text = Inventory.InventorySystem.InventorySlots.Count.ToString();
             CurrentQuantityText.text = (Inventory.InventorySystem.InventorySlots.Count - Inventory.InventorySystem.AmountOfSlotsAvaliable()).ToString();
@@ -75,6 +104,12 @@ public class BuildingStockageUI : MonoBehaviour
                 CurrentQuantityText.color = Color.white;
             }
         }
+    }
+
+    public void UpdateBuildingStatus()
+    {
+        Debug.Log(buildingData.resourcesToBuild.Length);
+        MaxQuantityNecessaryText.text = "TEST";
     }
 
     public void AddMaterial(Material material)

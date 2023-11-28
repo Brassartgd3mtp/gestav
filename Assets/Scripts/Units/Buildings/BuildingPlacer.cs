@@ -6,10 +6,17 @@ using UnityEngine.EventSystems;
 public class BuildingPlacer : MonoBehaviour
 {
     private Building placedBuilding = null; // The building that is currently being placed
+    private UIManager uiManager;
+
 
     private Ray ray; // A ray used for raycasting
     private RaycastHit raycastHit; // Stores information about the object hit by the ray
     private Vector3 lastPlacementPosition; // The last known position where the building was placed
+
+    private void Awake()
+    {
+        uiManager = FindAnyObjectByType<UIManager>();
+    }
 
     void Update()
     {

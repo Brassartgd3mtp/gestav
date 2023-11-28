@@ -9,7 +9,7 @@ public class CharacterUI : MonoBehaviour
 
     [SerializeField] private Button removeAssignationButton;
 
-    private AssignWorker _assignedBuildingWorkerInv;
+    private AssignWorkerInventory _assignedBuildingWorkerInv;
     private BuildingActionSelection buildingActionSelection;
 
     private void Awake()
@@ -38,7 +38,7 @@ public class CharacterUI : MonoBehaviour
                 if (_characterManagerRef != null && _assignedBuildingRef != null)
                 {
 
-                    _assignedBuildingWorkerInv = _assignedBuildingRef.GetComponent<AssignWorker>();
+                    _assignedBuildingWorkerInv = _assignedBuildingRef.GetComponent<AssignWorkerInventory>();
 
                     _assignedBuildingWorkerInv.RemoveWorkers();
 

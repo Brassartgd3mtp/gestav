@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static UnityEditor.Progress;
 
 public class GameResourceManager : MonoBehaviour
 {
@@ -75,10 +76,10 @@ public class GameResourceManager : MonoBehaviour
         Dictionary<InventoryItemData, int> _totalItemCounts = SumItemCountsAcrossInventories(Global.allInventories);
 
         // Access the total counts as needed
-        foreach (var kvp in _totalItemCounts)
+       /* foreach (var kvp in _totalItemCounts)
         {
             Debug.Log($"{kvp.Key}: {kvp.Value}");
-        }
+        } */
         TotalItemCount = _totalItemCounts;
         uiManager.UpdateResourceTexts(uiManager.CopperItemData, uiManager.CopperTMPro);
     }
@@ -94,4 +95,29 @@ public class GameResourceManager : MonoBehaviour
         }
 
     }
+
+    public void GetTotalItemsTypeAndCount()
+    {
+        Global.TotalItemsTypeAndCount.Clear();
+
+        foreach (UnitInventory inventory in Global.allInventories)
+        {
+            Debug.Log(Global.allInventories);
+            inventory.items = inventory.GetAllItems();
+
+            foreach (ItemTypeAndCount itac in inventory.items)
+            {
+                if (Global.TotalItemsTypeAndCount.Contains(itac))
+                {
+                    itac.count++;
+                }
+                else
+                {
+                    Global.TotalItemsTypeAndCount.Add(itac);
+                }
+            }
+        }
+    }
+
+
 }

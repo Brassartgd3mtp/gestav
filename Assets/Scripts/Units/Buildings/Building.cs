@@ -5,6 +5,7 @@ using Unity.AI.Navigation;
 using UnityEngine.AI;
 using static UnityEditor.Progress;
 
+
 // Enumeration to represent the building placement state
 public enum BuildingPlacement
 {
@@ -20,6 +21,7 @@ public class Building : Unit
     private List<Material> _materials;    // List of materials for rendering
 
     private BuildingManager buildingManager;  // Building manager
+    private BuildingStockageUI buildingStockageUI;
 
     // Constructor for the Building class
     public Building(BuildingData _data) : base(_data)
@@ -78,16 +80,19 @@ public class Building : Unit
     // Method to place the building
     public override void Place()
     {
-        base.Place();
-        // Set the placement state to "fixed"
-        placement = BuildingPlacement.FIXED;
+    //    if(buildingManager.CanBuild(data))
+    //    {
+            base.Place();
+            // Set the placement state to "fixed"
+            placement = BuildingPlacement.FIXED;
 
             // Change the building's materials
             SetMaterials();
 
+            //rebuild the navmesh
+            Global.RebuildNavMesh();
+     //   }
 
-        //rebuild the navmesh
-        Global.RebuildNavMesh();
     }
 
 

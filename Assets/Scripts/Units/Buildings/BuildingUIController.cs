@@ -8,29 +8,52 @@ public class BuildingUIController : MonoBehaviour
 {
     public GameObject ActionsPopUpPanel;
     private BuildingManager unitAssociated;
+    public GameObject BuildPopUpPanel;
 
     private void Awake()
     {
-        unitAssociated = GetComponent<BuildingManager>();
-        HideBuildingUIPopUp();
+       unitAssociated = GetComponent<BuildingManager>();
+       HideActionsUIPopUp();
+       HideBuildPopUp();
     }
 
     private void Update()
     {
-        if (Global.SELECTED_BUILDINGS.Contains(unitAssociated) /*&& Global.SELECTED_UNITS.Count ==1*/)
+        if (Global.SELECTED_BUILDINGS.Contains(unitAssociated) && Global.SELECTED_BUILDINGS.Count == 1 && unitAssociated.hasBeenBuilt)
         {
-            DisplayBuildingUIPopUp();
+            DisplayActionsUIPopUp();
+            HideBuildPopUp();
         }
-        else HideBuildingUIPopUp();
+        else if (Global.SELECTED_BUILDINGS.Contains(unitAssociated) && Global.SELECTED_BUILDINGS.Count == 1 && !unitAssociated.hasBeenBuilt)
+        {
+            HideActionsUIPopUp();
+            DisplayBuildPopUp();
+        } 
+        else
+        {
+            HideBuildPopUp();
+            HideActionsUIPopUp();
+        }
+
     }
 
-    public void DisplayBuildingUIPopUp()
+    public void DisplayActionsUIPopUp()
     {
-        ActionsPopUpPanel.gameObject.SetActive(true);
+        if(ActionsPopUpPanel != null) ActionsPopUpPanel.gameObject.SetActive(true);
     }
 
-    public void HideBuildingUIPopUp()
+    public void HideActionsUIPopUp()
     {
-        ActionsPopUpPanel.gameObject.SetActive(false);
+        if (ActionsPopUpPanel != null) ActionsPopUpPanel.gameObject.SetActive(false);
     }
+
+    public void DisplayBuildPopUp()
+    {
+        if(BuildPopUpPanel != null) BuildPopUpPanel.gameObject.SetActive(true);
+    }
+
+    public void HideBuildPopUp()
+    {
+        if (BuildPopUpPanel != null) BuildPopUpPanel.gameObject.SetActive(false);
+    } 
 }

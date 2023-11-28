@@ -6,6 +6,8 @@ using UnityEngine;
 using static UnityEditor.Progress;
 using static WorkerAIC;
 using System.Threading.Tasks;
+using Unity.VisualScripting;
+using System.Xml;
 
 public class WorkerAIUse : WorkerBehaviour
 {
@@ -20,9 +22,13 @@ public class WorkerAIUse : WorkerBehaviour
     }
     public override void ApplyBehaviour()
     {
-        if (CharacterManagerRef.isAssignedToABuilding)
+        if (CharacterManagerRef.isAssignedToABuilding && CharacterManagerRef.buildingAssigned.hasBeenBuilt)
         {
             UseBuilding();
+        }
+        else if(CharacterManagerRef.isAssignedToABuilding && !CharacterManagerRef.buildingAssigned.hasBeenBuilt)
+        {
+            DoBuild();
         }
     }
     public override BehaviourName CheckTransition()
@@ -153,7 +159,7 @@ public class WorkerAIUse : WorkerBehaviour
             {
                 if (Vector3.Distance(transform.position, targetLocation) <= distanceToStop) //Si l'ouvrier est suffisament près de la mine
                 {
-                    InventoryHolder _buildInv = targetTransform.GetComponent<InventoryHolder>();
+                    BuildingInventory _buildInv = targetTransform.GetComponent<BuildingInventory>();
                     for (int i = 0; i < CharacterManagerRef.Inventory.InventorySystem.InventorySlots.Count; i++) //transfert les objets de son inventaire à celui de la mine
                     {
 
@@ -208,6 +214,129 @@ public class WorkerAIUse : WorkerBehaviour
             }
 
         }
+    }
+
+    public async void DoBuild()
+    {
+        Transform targetTransform = CharacterManagerRef.buildingAssigned.transform;
+        ConstructionInventory constructionInventory = CharacterManagerRef.buildingAssigned.GetComponent<ConstructionInventory>();
+
+        //SETP ONE : Check if assigned worker has resources to build in his inventory
+
+        bool hasResourcesToBuild = false;
+
+        for (int i = 0; i < CharacterManagerRef.Inventory.InventorySystem.InventorySlots.Count; i++)
+        {
+            if (constructionInventory.validType.Contains(CharacterManagerRef.Inventory.InventorySystem.InventorySlots[i].ItemData.resourceType))
+            {
+                hasResourcesToBuild = true;
+                break;
+            }
+
+        }
+
+        // STEP TWO : If worker has resources to build, go deposit them in the temporary building inventory
+
+        if (hasResourcesToBuild)
+        {
+            if (targetTransform != null) //Si a trouvé le batiment
+            {
+                float distanceToStop = targetTransform.GetComponent<BoxCollider>().size.z + 1.5f;
+                bool locationReached = false;
+                Vector3 targetLocation = targetTransform.position;
+                CharacterManagerRef.MoveTo(targetLocation, distanceToStop); //Va a la position du building
+
+                while (locationReached == false)
+                {
+                    if (Vector3.Distance(transform.position, targetLocation) <= distanceToStop) //Si l'ouvrier est suffisament près de la mine
+                    {
+                        for (int i = 0; i < CharacterManagerRef.Inventory.InventorySystem.InventorySlots.Count; i++) //transfert les objets de son inventaire à celui de la mine
+                        {
+
+                            //Put worker items into the building
+
+                            if (CharacterManagerRef.Inventory.InventorySystem.InventorySlots[i].ItemData != null && constructionInventory.validType.Contains(CharacterManagerRef.Inventory.InventorySystem.InventorySlots[i].ItemData.resourceType))
+                            {
+                                constructionInventory.InventorySystem.AddToInventory(CharacterManagerRef.Inventory.InventorySystem.InventorySlots[i].ItemData, 1);
+                                CharacterManagerRef.Inventory.InventorySystem.InventorySlots[i].ClearSlot();
+
+                                CharacterManagerRef.ChangeBagSize(CharacterManagerRef.CalculateBagSize()); // change the bag size
+
+                                await Task.Delay(CharacterManagerRef.DepositDuration);
+
+                                //change the UI pop up on top of the building
+                                BuildingStockageUI buildingStockageUI = constructionInventory.gameObject.GetComponent<BuildingStockageUI>();
+                                if (buildingStockageUI != null)
+                                {
+                                    buildingStockageUI.UpdateBuildingStatus();
+                                }
+
+                                if (constructionInventory.InventorySystem.AmountOfSlotsAvaliable() == 0)
+                                {
+                                    CharacterManagerRef.isAssignedToABuilding = false;
+                                    CharacterManagerRef.buildingAssigned = null;
+                                    return;
+                                }
+                            }
+
+                        }
+                        constructionInventory = null;
+                        locationReached = true;
+
+                        if (CharacterManagerRef.Inventory.InventorySystem.KnowIfInventoryIsEmpty())
+                        {
+                            CharacterManagerRef.HideBag();
+                        }
+
+                    }
+                    await Task.Delay(250);
+                }
+
+            }
+        }
+
+        // STEP THREE : Check for resources in other buildings
+
+        Transform[] buildingTransform = findingScript.GetTransformArray(Global.BUILDING_LAYER_MASK);
+        List<Transform> buildingTransformsWithItems = new List<Transform>();
+
+        foreach (Transform t in buildingTransform) 
+        {
+            ConstructionInventory inventoryFound = t.GetComponent<ConstructionInventory>();
+            foreach(InventoryResourceType validtype in inventoryFound.validType)
+            {
+                if(constructionInventory.validType.Contains(validtype) && !inventoryFound.InventorySystem.KnowIfInventoryIsEmpty())
+                {
+                    foreach(InventorySlot slot in inventoryFound.InventorySystem.InventorySlots) 
+                    { 
+                    if(slot.ItemData.resourceType == validtype) 
+                        {
+                        if(!buildingTransformsWithItems.Contains(t)) 
+                            {
+                                buildingTransformsWithItems.Add(t);
+                                break;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        // Go to the closest buildings with the correspondaing items
+
+        Transform[] FoundBuildings = buildingTransformsWithItems.ToArray();
+
+        targetTransform = findingScript.GetClosestBuilding(FoundBuildings);
+        buildingTransformsWithItems.Remove(targetTransform);
+
+
+
+
+    }
+
+    public void DoCancelBuild()
+    {
+
     }
 
 }

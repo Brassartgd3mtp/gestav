@@ -11,14 +11,15 @@ public enum TransferType
 {
     Deposit = 1 << 0,
     Take = 1 << 1,
-    Transfer = 1 << 2
+    Transfer = 1 << 2,
+    Build = 1 << 3,
+    CancelBuild = 1 << 4
 }
 
 public class BuildingActionSelection : MonoBehaviour
 {
 
-    private CharacterManager characterManager;
-    private AssignWorker assignWorker;
+    private AssignWorkerInventory assignWorker;
     private BuildingManager buildingManager;
     public BuildingManager BuildingManager => buildingManager;
     private BuildingInventory buildingInventory;
@@ -69,7 +70,7 @@ public class BuildingActionSelection : MonoBehaviour
     {
         buildingInventory = gameObject.GetComponentInParent<BuildingInventory>();
         buildingManager = gameObject.GetComponentInParent<BuildingManager>();
-        assignWorker = gameObject.GetComponentInParent<AssignWorker>();
+        assignWorker = gameObject.GetComponentInParent<AssignWorkerInventory>();
 
         dropdownHandler = ResourceDropDown.gameObject.GetComponent<ResourceDropdownHandler>();
         transferDropDownAdd = TransferToDropdown.gameObject.GetComponent<TransferDropDown>();
@@ -164,6 +165,16 @@ public class BuildingActionSelection : MonoBehaviour
             }
         }
         return charasFound;
+    }
+
+    public void StartBuilding()
+    {
+        assignWorker.AddWorkersToList();
+    }
+
+    public void CancelBuilding()
+    {
+
     }
 
 }

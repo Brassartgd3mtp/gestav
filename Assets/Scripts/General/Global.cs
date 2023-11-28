@@ -25,6 +25,7 @@ public class Global
 
     public static List<UnitInventory> allInventories = new List<UnitInventory>();
     public static List<InventoryItemData> allItems = new List<InventoryItemData>();
+    public static List<ItemTypeAndCount> TotalItemsTypeAndCount = new List<ItemTypeAndCount>();
 
     public static void RebuildNavMesh()
     {
