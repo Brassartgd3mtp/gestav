@@ -315,6 +315,7 @@ public class WorkerAIUse : WorkerBehaviour
                             {
                                 buildingTransformsWithItems.Add(t);
                                 break;
+
                             }
                         }
                     }
