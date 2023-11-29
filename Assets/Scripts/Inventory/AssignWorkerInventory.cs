@@ -8,7 +8,6 @@ public class AssignWorkerInventory : InventoryHolder
 {
     public List<CharacterManager> workersFound = new List<CharacterManager>(); //contain the characters that are currently selected
 
-    private CharacterManager characterManager;
     private ItemRef workerItem;
     public BuildingManager buildingManager;
     private BuildingActionSelection buildingActionSelection;
@@ -24,7 +23,7 @@ public class AssignWorkerInventory : InventoryHolder
         {
             foreach(CharacterManager _worker in workersFound) 
             {
-                if(_worker.isAssignedToABuilding == false)
+                if(!_worker.isAssignedToABuilding)
                 {
                     _worker.isAssignedToABuilding = true;
                     workerItem = _worker.gameObject.GetComponent<ItemRef>();
