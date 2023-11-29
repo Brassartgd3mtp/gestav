@@ -17,7 +17,6 @@ public class GameManager : MonoBehaviour
     private void Awake()
     {
         DataHandler.LoadGameData();
-        Debug.Log("Game Data Loaded");
     }
 
     private void Update()

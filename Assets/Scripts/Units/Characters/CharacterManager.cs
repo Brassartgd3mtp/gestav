@@ -13,8 +13,9 @@ public class CharacterManager : UnitManager
 {
     [Header("Scripts")]
 
-    private Character character;
     [SerializeField] private Find findingScript;
+    public UnitData unitData;
+    private Character character;
     private AssignWorkerInventory assignWorker;
 
     private ResourceSpot resourceSpot;
@@ -27,7 +28,7 @@ public class CharacterManager : UnitManager
 
     [SerializeField] private NavMeshAgent agent;
     [SerializeField] private float stoppingDistance;
-    [SerializeField] private float stoppingMultiplicator = 0.3f;
+    //[SerializeField] private float stoppingMultiplicator = 0.3f;
 
 
     [Header("IA")]

@@ -14,7 +14,7 @@ public class Unit
     public Unit(UnitData _data)
     {
         data = _data;
-        currentHealth = _data.healthpoints;
+        currentHealth = _data.healthPoints;
 
         // Instantiate a GameObject based on the unit's code from a prefab
         GameObject g = GameObject.Instantiate(data.prefab) as GameObject;
@@ -42,7 +42,7 @@ public class Unit
     public string Code { get => data.code; }
     public Transform Transform { get => transform; }
     public int HP { get => currentHealth; set => currentHealth = value; }
-    public int MaxHP { get => data.healthpoints; }
+    public int MaxHP { get => data.healthPoints; }
 
     public string Uid { get => uid; }
     public int Level { get => level; }

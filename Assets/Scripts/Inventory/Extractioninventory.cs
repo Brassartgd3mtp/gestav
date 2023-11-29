@@ -13,19 +13,19 @@ public class Extractioninventory : MonoBehaviour
     private CharacterManager characterManager;
     private int resourcesExtracted = 0;
     private int amountToExtract;
-    private bool amountExctracted;
+    //private bool amountExctracted;
     [SerializeField] private GameObject VictoryUI;
     [SerializeField] private TextMeshProUGUI currentResourcesText;
     [SerializeField] private TextMeshProUGUI totalResourcesText;
 
 
-    private int charactersInZone = 0;
+    //private int charactersInZone = 0;
     private List<InventoryHolder> workerInventoryList = new List<InventoryHolder>();
 
     private void Awake()
     {
         thisInventory = GetComponent<InventoryHolder>();
-        amountExctracted = false;
+        //amountExctracted = false;
         amountToExtract = 5;
         VictoryUI.SetActive(false);
         totalResourcesText.text = amountToExtract.ToString();
@@ -38,7 +38,7 @@ public class Extractioninventory : MonoBehaviour
         currentResourcesText.text = resourcesExtracted.ToString();
         if (resourcesExtracted >= amountToExtract)
         {
-            amountExctracted = true;
+            //amountExctracted = true;
             VictoryUI.SetActive(true);
         }
 
