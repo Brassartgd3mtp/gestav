@@ -28,7 +28,6 @@ public class BuildingStockageUI : MonoBehaviour
     private void Awake()
     {
         buildingManager = GetComponent<BuildingManager>();
-        Debug.Log(buildingManager);
 
         PopUpPanel.gameObject.SetActive(false);
         BuildProgresionPanel.gameObject.SetActive(false);
@@ -108,7 +107,6 @@ public class BuildingStockageUI : MonoBehaviour
 
     public void UpdateBuildingStatus()
     {
-        Debug.Log(buildingData.resourcesToBuild.Length);
         MaxQuantityNecessaryText.text = "TEST";
     }
 
