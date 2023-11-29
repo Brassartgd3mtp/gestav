@@ -218,6 +218,11 @@ public class WorkerAIUse : WorkerBehaviour
 
     public async void DoBuild()
     {
+        currentActionText.text = "Building . . .";
+        currentActionText.outlineColor = Color.black;
+        currentActionText.color = Color.white;
+        currentActionText.outlineWidth = 0.35f;
+
         Transform targetTransform = CharacterManagerRef.buildingAssigned.transform;
         ConstructionInventory constructionInventory = CharacterManagerRef.buildingAssigned.GetComponent<ConstructionInventory>();
 
@@ -245,7 +250,7 @@ public class WorkerAIUse : WorkerBehaviour
 
                 for (int i = 0; i < CharacterManagerRef.Inventory.InventorySystem.InventorySlots.Count; i++)
                 {
-                    if (constructionInventory != null && CharacterManagerRef.Inventory.InventorySystem.InventorySlots[i].ItemData.resourceType == itemdata.resourceType)
+                    if (constructionInventory != null && CharacterManagerRef.Inventory.InventorySystem.InventorySlots[i].ItemData !=null && CharacterManagerRef.Inventory.InventorySystem.InventorySlots[i].ItemData.resourceType == itemdata.resourceType)
                     {
                         hasResourcesToBuild = true;
                         break;
@@ -282,11 +287,7 @@ public class WorkerAIUse : WorkerBehaviour
                                         amountToTransfer++;
 
                                         //change the UI pop up on top of the building
-                                        BuildingStockageUI buildingStockageUI = constructionInventory.gameObject.GetComponent<BuildingStockageUI>();
-                                        if (buildingStockageUI != null)
-                                        {
-                                            buildingStockageUI.UpdateBuildingStatus();
-                                        }
+
 
                                         if (constructionInventory.InventorySystem.AmountOfSlotsAvaliable() == 0)
                                         {
@@ -316,33 +317,37 @@ public class WorkerAIUse : WorkerBehaviour
 
                 Transform[] buildingTransform = findingScript.GetTransformArray(Global.BUILDING_LAYER_MASK);
                 List<Transform> buildingTransformsWithItems = new List<Transform>();
+                buildingTransformsWithItems.Remove(CharacterManagerRef.buildingAssigned.transform);
 
                 foreach (Transform t in buildingTransform)
                 {
-                    ConstructionInventory inventoryFound = t.GetComponent<ConstructionInventory>();
-                    foreach (InventoryResourceType validtype in inventoryFound.validType)
+                    BuildingInventory inventoryFound = t.GetComponent<BuildingInventory>();
+
+                    if(inventoryFound != null && constructionInventory != null)
                     {
-                        if (constructionInventory.validType.Contains(validtype) && !inventoryFound.InventorySystem.KnowIfInventoryIsEmpty())
+                        foreach (InventoryResourceType validtype in inventoryFound.validType)
                         {
-                            foreach (InventorySlot slot in inventoryFound.InventorySystem.InventorySlots)
+                            if (constructionInventory.validType.Contains(validtype) && !inventoryFound.InventorySystem.KnowIfInventoryIsEmpty())
                             {
-                                if (slot.ItemData.resourceType == validtype)
+                                foreach (InventorySlot slot in inventoryFound.InventorySystem.InventorySlots)
                                 {
-                                    if (!buildingTransformsWithItems.Contains(t))
+                                    if (slot.ItemData.resourceType == validtype)
                                     {
-                                        buildingTransformsWithItems.Add(t);
-                                        break;
+                                        if (!buildingTransformsWithItems.Contains(t))
+                                        {
+                                            buildingTransformsWithItems.Add(t);
+                                            break;
+                                        }
                                     }
                                 }
                             }
                         }
-                    }
+                    }    
                 }
 
                 // Go to the closest buildings with the correspondaing items
 
                 Transform[] FoundBuildings = buildingTransformsWithItems.ToArray();
-
                 targetTransform = findingScript.GetClosestBuilding(FoundBuildings);
                 buildingTransformsWithItems.Remove(targetTransform);
 
@@ -391,7 +396,11 @@ public class WorkerAIUse : WorkerBehaviour
                         await Task.Delay(250);
                     }
                 }
-
+                else
+                {
+                    CharacterManagerRef.isAssignedToABuilding = false;
+                    CharacterManagerRef.buildingAssigned = null;
+                }
                 // Desposit to building
 
                 targetTransform = CharacterManagerRef.buildingAssigned.GetComponent<Transform>();
@@ -423,11 +432,6 @@ public class WorkerAIUse : WorkerBehaviour
                                     await Task.Delay(CharacterManagerRef.DepositDuration);
 
                                     //change the UI pop up on top of the building
-                                    BuildingStockageUI buildingStockageUI = constructionInventory.gameObject.GetComponent<BuildingStockageUI>();
-                                    if (buildingStockageUI != null)
-                                    {
-                                        buildingStockageUI.UpdateBuildingStatus();
-                                    }
 
                                     if (constructionInventory.InventorySystem.AmountOfSlotsAvaliable() == 0)
                                     {
@@ -451,16 +455,14 @@ public class WorkerAIUse : WorkerBehaviour
                     }
                 }
             }
+            if (constructionInventory.InventorySystem.AmountOfSlotsAvaliable() == 0)
+            {
+             CharacterManagerRef.buildingAssigned.hasBeenBuilt = true;
+             CharacterManagerRef.isAssignedToABuilding = false;
+             CharacterManagerRef.buildingAssigned = null;
+            }
 
         }
-        //SETP ONE : Check if assigned worker has resources to build in his inventory
-
-
-
-
-        // STEP TWO : If worker has resources to build, go deposit them in the temporary building inventory
-
-  
 
     }
     public void DoCancelBuild()

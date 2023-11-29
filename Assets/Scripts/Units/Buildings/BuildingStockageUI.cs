@@ -20,6 +20,7 @@ public class BuildingStockageUI : MonoBehaviour
     [Header("Overall")]
 
     public InventoryHolder Inventory;
+    private ConstructionInventory constructionInventory;
     public Material OutilineMaterial;
 
     private BuildingManager buildingManager;
@@ -33,10 +34,13 @@ public class BuildingStockageUI : MonoBehaviour
         PopUpPanel.gameObject.SetActive(false);
         BuildProgresionPanel.gameObject.SetActive(false);
 
-        Inventory = GetComponent<InventoryHolder>();
+        Inventory = GetComponent<BuildingInventory>();
+        constructionInventory = GetComponent<ConstructionInventory>();
         UpdateSpaceInUI();
-        UpdateBuildingStatus();
-
+    }
+    private void Start()
+    {
+        UpdateSpaceInUI();
     }
 
     private void OnMouseEnter()
@@ -68,9 +72,8 @@ public class BuildingStockageUI : MonoBehaviour
 
     private void OnMouseExit()
     {
-
-        BuildProgresionPanel.gameObject.SetActive(false);
-        PopUpPanel.gameObject.SetActive(false);
+        if(BuildProgresionPanel.activeSelf) BuildProgresionPanel.gameObject.SetActive(false);
+        if(PopUpPanel.activeSelf) PopUpPanel.gameObject.SetActive(false);
 
         RemoveMaterial("M_Outline (Instance)");
 
@@ -88,12 +91,14 @@ public class BuildingStockageUI : MonoBehaviour
 
     public void UpdateSpaceInUI()
     {
-        if (Inventory.InventorySystem != null && PopUpPanel.activeSelf && MaxQuantityText != null && CurrentQuantityText != null)
-        {
             MaxQuantityText.text = Inventory.InventorySystem.InventorySlots.Count.ToString();
             CurrentQuantityText.text = (Inventory.InventorySystem.InventorySlots.Count - Inventory.InventorySystem.AmountOfSlotsAvaliable()).ToString();
 
-            if (Inventory.InventorySystem.AmountOfSlotsAvaliable() == 0)
+
+            MaxQuantityNecessaryText.text = constructionInventory.InventorySystem.InventorySize.ToString();
+            CurrentQuantityGivenText.text = (constructionInventory.InventorySystem.InventorySize - constructionInventory.InventorySystem.AmountOfSlotsAvaliable()).ToString();
+
+        if (Inventory.InventorySystem.AmountOfSlotsAvaliable() == 0)
             {
                 MaxQuantityText.color = Color.red;
                 CurrentQuantityText.color = Color.red;
@@ -103,13 +108,6 @@ public class BuildingStockageUI : MonoBehaviour
                 MaxQuantityText.color = Color.white;
                 CurrentQuantityText.color = Color.white;
             }
-        }
-    }
-
-    public void UpdateBuildingStatus()
-    {
-        Debug.Log(buildingData.resourcesToBuild.Length);
-        MaxQuantityNecessaryText.text = "TEST";
     }
 
     public void AddMaterial(Material material)
