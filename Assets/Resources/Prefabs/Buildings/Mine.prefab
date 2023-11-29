@@ -2579,7 +2579,6 @@ GameObject:
   - component: {fileID: 1193171137107418262}
   - component: {fileID: 4480219938279092597}
   - component: {fileID: 8893517686905672891}
-  - component: {fileID: 6919355330415456301}
   m_Layer: 10
   m_Name: Mine
   m_TagString: Unit
@@ -2768,24 +2767,6 @@ MonoBehaviour:
   inventorySystem:
     inventorySlots: []
   items: []
---- !u!114 &6919355330415456301
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8316421863545563184}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 495477898bcc51d46b51a9648a201538, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  validType: 
-  inventorySize: 3
-  inventorySystem:
-    inventorySlots: []
-  workersFound: []
-  buildingManager: {fileID: 0}
 --- !u!1 &8354989872919237307
 GameObject:
   m_ObjectHideFlags: 0
