@@ -10,7 +10,6 @@ public class CharacterUI : MonoBehaviour
     [SerializeField] private Button removeAssignationButton;
 
     private AssignWorkerInventory _assignedBuildingWorkerInv;
-    private BuildingActionSelection buildingActionSelection;
 
     private void Awake()
     {
@@ -34,18 +33,27 @@ public class CharacterUI : MonoBehaviour
             CharacterManager _characterManagerRef = Unit.GetComponent<CharacterManager>();
             if(_characterManagerRef != null)
             {
+                ResourceSpotUI _assignedResourceRef = _characterManagerRef.resourceAssigned;
                 BuildingManager _assignedBuildingRef = _characterManagerRef.buildingAssigned;
-                if (_characterManagerRef != null && _assignedBuildingRef != null)
-                {
-
-                    _assignedBuildingWorkerInv = _assignedBuildingRef.GetComponent<AssignWorkerInventory>();
-
-                    _assignedBuildingWorkerInv.RemoveWorkers();
-
-                }
+                RemoveOneWorker(_characterManagerRef, _assignedBuildingRef, _assignedResourceRef);
             }
          
 
+
+        }
+    }
+
+    public void RemoveOneWorker(CharacterManager _characterManagerRef, BuildingManager _assignedBuildingRef, ResourceSpotUI _assignedResourceRef)
+    {
+        if (_characterManagerRef != null)
+        {
+            if (_assignedBuildingRef != null)
+            _assignedBuildingWorkerInv = _assignedBuildingRef.GetComponent<AssignWorkerInventory>();
+
+            if(_assignedResourceRef != null)
+            _assignedBuildingWorkerInv = _assignedResourceRef.GetComponent<AssignWorkerInventory>();
+
+            _assignedBuildingWorkerInv.RemoveWorkers();
 
         }
     }
