@@ -61,7 +61,7 @@ public class CharacterManager : UnitManager
 
     [SerializeField] GameObject bag;
     [SerializeField] GameObject bagContainer;
-    [SerializeField] private Slider healtBar;
+    [SerializeField] private Slider healthBar;
     private Vector3 startingBagScale;
 
     public Animator animator;
@@ -92,13 +92,13 @@ public class CharacterManager : UnitManager
         bagContainer.SetActive(false);
         workerAIUse = gameObject.GetComponentInChildren<WorkerAIUse>();
         workerAIC = gameObject.GetComponentInChildren<WorkerAIC>();
+
+        healthBar.maxValue = unitData.healthPoints;
         HealthPoints = unitData.healthPoints;
     }
 
     private void Update()
     {
-        HealthManager();
-
         if(isGathering && workerAIC.CurrentBehaviour == workerAIUse)
         {
             if (inventory.InventorySystem.HasFreeSlot(out InventorySlot _freeSlot))
@@ -132,10 +132,15 @@ public class CharacterManager : UnitManager
             }
         }
     }
-    
-    private void HealthManager()
+
+    private void FixedUpdate()
     {
-        healtBar.value = HealthPoints;
+        HealthUpdate();
+    }
+
+    private void HealthUpdate()
+    {
+        healthBar.value = HealthPoints;
 
         if (HealthPoints <= 0)
             Destroy(gameObject);

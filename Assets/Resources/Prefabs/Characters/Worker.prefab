@@ -355,6 +355,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   OutilineMaterial: {fileID: 2100000, guid: 0634b05414478cc439d03427eaa410a3, type: 2}
+  HealthPoints: 0
   findingScript: {fileID: 8466157469576545125}
   unitData: {fileID: 11400000, guid: c8e1b7a7471415240882f5812752ef31, type: 2}
   agent: {fileID: 1689742863027917839}
@@ -366,7 +367,7 @@ MonoBehaviour:
   inventory: {fileID: 0}
   bag: {fileID: 6013164946446559602}
   bagContainer: {fileID: 5341555039358360323}
-  healtBar: {fileID: 9160698491249958942}
+  healthBar: {fileID: 9160698491249958942}
   animator: {fileID: 3060517887225741967}
   isAssignedToABuilding: 0
   buildingAssigned: {fileID: 0}
