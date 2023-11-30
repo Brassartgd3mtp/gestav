@@ -25,6 +25,7 @@ public class BuildingStockageUI : MonoBehaviour
 
     private BuildingManager buildingManager;
     public UnitData buildingData;
+    public int HealthPoints;
 
     private void Awake()
     {
@@ -41,6 +42,9 @@ public class BuildingStockageUI : MonoBehaviour
     private void Start()
     {
         UpdateSpaceInUI();
+        UpdateBuildingStatus();
+
+        HealthPoints = buildingData.healthPoints;
     }
 
     private void OnMouseEnter()
@@ -116,13 +120,13 @@ public class BuildingStockageUI : MonoBehaviour
 
         if (meshRenderer != null)
         {
-            // Récupère les matériaux actuels
+            // Rï¿½cupï¿½re les matï¿½riaux actuels
             List<Material> materialList = new List<Material>(meshRenderer.materials);
 
-            // Ajoute le nouveau matériau à la liste des matériaux
+            // Ajoute le nouveau matï¿½riau ï¿½ la liste des matï¿½riaux
             materialList.Add(material);
 
-            // Applique la nouvelle liste de matériaux au MeshRenderer
+            // Applique la nouvelle liste de matï¿½riaux au MeshRenderer
             meshRenderer.materials = materialList.ToArray();
         }
     }
@@ -133,17 +137,17 @@ public class BuildingStockageUI : MonoBehaviour
 
         if (meshRenderer != null)
         {
-            // Récupère les matériaux actuels
+            // Rï¿½cupï¿½re les matï¿½riaux actuels
             List<Material> materialList = new List<Material>(meshRenderer.materials);
 
-            // Recherche et enlève le matériau spécifié de la liste par nom
+            // Recherche et enlï¿½ve le matï¿½riau spï¿½cifiï¿½ de la liste par nom
             Material materialToRemove = materialList.Find(m => m.name == materialName);
 
             if (materialToRemove != null)
             {
                 materialList.Remove(materialToRemove);
 
-                // Applique la nouvelle liste de matériaux au MeshRenderer
+                // Applique la nouvelle liste de matï¿½riaux au MeshRenderer
                 meshRenderer.materials = materialList.ToArray();
             }
         }
