@@ -5,7 +5,6 @@ using UnityEngine.AI;
 public class EnemyAI : MonoBehaviour
 {
     [SerializeField] private GameObject currentTarget;
-    [SerializeField] private UnitData targetHealth;
 
     [Space]
     [SerializeField] private int detectionRange = 12;
@@ -57,7 +56,6 @@ public class EnemyAI : MonoBehaviour
 
                 agent.SetDestination(nearestObject.transform.position);
                 currentTarget = nearestObject;
-                targetHealth = _bsui.buildingData;
                 Debug.Log("Building Found !");
                 return true;
             }
@@ -73,7 +71,6 @@ public class EnemyAI : MonoBehaviour
 
                 agent.SetDestination(nearestObject.transform.position);
                 currentTarget = nearestObject;
-                targetHealth = _cm.unitData;
                 Debug.Log("Worker Found !");
                 return true;
             }
@@ -89,10 +86,14 @@ public class EnemyAI : MonoBehaviour
         {
             while (compareDistance <= damageRange)
             {
-                if (targetHealth != null)
+                if (currentTarget != null)
                 {
                     yield return new WaitForSeconds(attackCooldown);
-                    targetHealth.healthPoints -= attackDamage;
+
+                    if (currentTarget.TryGetComponent(out BuildingStockageUI _bsui))
+                        _bsui.HealthPoints -= attackDamage;
+                    else if (currentTarget.TryGetComponent(out CharacterManager _cm))
+                        _cm.HealthPoints -= attackDamage;
                 }
                 else
                     yield break;

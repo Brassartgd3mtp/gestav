@@ -24,6 +24,7 @@ public class BuildingStockageUI : MonoBehaviour
 
     private BuildingManager buildingManager;
     public UnitData buildingData;
+    public int HealthPoints;
 
     private void Awake()
     {
@@ -36,6 +37,7 @@ public class BuildingStockageUI : MonoBehaviour
         UpdateSpaceInUI();
         UpdateBuildingStatus();
 
+        HealthPoints = buildingData.healthPoints;
     }
 
     private void OnMouseEnter()

@@ -14,5 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   code: Worker
   unitName: Worker
-  healthpoints: 0
+  healthPoints: 20
   prefab: {fileID: 0}
+  resourcesToBuild: []

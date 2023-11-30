@@ -1,16 +1,14 @@
-using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Resources;
 using System.Threading.Tasks;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.AI;
-using UnityEngine.Apple;
-using Random = UnityEngine.Random;
+using UnityEngine.UI;
 
 public class CharacterManager : UnitManager
 {
+    [Header("Statistics")]
+    public int HealthPoints;
+
     [Header("Scripts")]
 
     [SerializeField] private Find findingScript;
@@ -55,8 +53,7 @@ public class CharacterManager : UnitManager
 
 
     [Header("Inventory Management")]
-
-    private UnitInventory inventory;
+    [SerializeField] private UnitInventory inventory;
     public UnitInventory Inventory => inventory;
 
 
@@ -64,6 +61,7 @@ public class CharacterManager : UnitManager
 
     [SerializeField] GameObject bag;
     [SerializeField] GameObject bagContainer;
+    [SerializeField] private Slider healtBar;
     private Vector3 startingBagScale;
 
     public Animator animator;
@@ -94,10 +92,13 @@ public class CharacterManager : UnitManager
         bagContainer.SetActive(false);
         workerAIUse = gameObject.GetComponentInChildren<WorkerAIUse>();
         workerAIC = gameObject.GetComponentInChildren<WorkerAIC>();
+        HealthPoints = unitData.healthPoints;
     }
 
     private void Update()
     {
+        HealthManager();
+
         if(isGathering && workerAIC.CurrentBehaviour == workerAIUse)
         {
             if (inventory.InventorySystem.HasFreeSlot(out InventorySlot _freeSlot))
@@ -129,9 +130,16 @@ public class CharacterManager : UnitManager
             {
                 ExitGatheringMode(); // a bouger dans un endroit ou l'on check si l'inventaire est plein
             }
-
         }
-    } 
+    }
+    
+    private void HealthManager()
+    {
+        healtBar.value = HealthPoints;
+
+        if (HealthPoints <= 0)
+            Destroy(gameObject);
+    }
 
     public async void MoveTo(Vector3 targetPosition, float _rangeToStop)
     {
