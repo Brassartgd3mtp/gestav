@@ -11,11 +11,12 @@ public class AssignWorkerInventory : InventoryHolder
     private ItemRef workerItem;
     public BuildingManager buildingManager;
     private BuildingActionSelection buildingActionSelection;
-
+    public ResourceSpotUI resourceSpot;
     public void AddWorkersToList()
     {
         buildingManager = this.gameObject.GetComponent<BuildingManager>();
         buildingActionSelection = this.gameObject.GetComponentInChildren<BuildingActionSelection>();
+        resourceSpot = this.gameObject.GetComponentInParent<ResourceSpotUI>();
 
         FindWorkers();
 
@@ -28,10 +29,22 @@ public class AssignWorkerInventory : InventoryHolder
                     _worker.isAssignedToABuilding = true;
                     workerItem = _worker.gameObject.GetComponent<ItemRef>();
 
-                    _worker.buildingAssigned = buildingManager;
+                    if(buildingManager != null )
+                    {
+                        _worker.buildingAssigned = buildingManager;
+                    }
+                    else if(resourceSpot != null)
+                    {
+                        _worker.resourceAssigned = resourceSpot;
+                    }
+
 
                     inventorySystem.AddToInventory(workerItem.item, 1);
-                    buildingActionSelection.UpdateAssignedWorkerUI();
+                    if(buildingActionSelection != null)
+                    {
+                        buildingActionSelection.UpdateAssignedWorkerUI();
+                    }
+
                 }
             }
 

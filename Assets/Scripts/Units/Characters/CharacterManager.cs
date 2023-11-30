@@ -14,7 +14,6 @@ public class CharacterManager : UnitManager
     [SerializeField] private Find findingScript;
     public UnitData unitData;
     private Character character;
-    private AssignWorkerInventory assignWorker;
 
     private ResourceSpot resourceSpot;
     public ResourceSpot ResourceSpot => resourceSpot;
@@ -72,6 +71,7 @@ public class CharacterManager : UnitManager
     public bool isAssignedToABuilding;
     public BuildingManager buildingAssigned;
     public WorkerAIUse workerAIUse;
+    public ResourceSpotUI resourceAssigned;
 
 
     [Header("Item transfer")]

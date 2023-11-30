@@ -22,13 +22,17 @@ public class WorkerAIUse : WorkerBehaviour
     }
     public override void ApplyBehaviour()
     {
-        if (CharacterManagerRef.isAssignedToABuilding && CharacterManagerRef.buildingAssigned.hasBeenBuilt)
+        if (CharacterManagerRef.isAssignedToABuilding && CharacterManagerRef.buildingAssigned != null && CharacterManagerRef.buildingAssigned.hasBeenBuilt)
         {
             UseBuilding();
         }
-        else if(CharacterManagerRef.isAssignedToABuilding && !CharacterManagerRef.buildingAssigned.hasBeenBuilt)
+        else if(CharacterManagerRef.isAssignedToABuilding && CharacterManagerRef.buildingAssigned != null && !CharacterManagerRef.buildingAssigned.hasBeenBuilt)
         {
             DoBuild();
+        }
+        else if (CharacterManagerRef.isAssignedToABuilding && CharacterManagerRef.resourceAssigned != null)
+        {
+            Collect();
         }
     }
     public override BehaviourName CheckTransition()
@@ -63,8 +67,6 @@ public class WorkerAIUse : WorkerBehaviour
                         GoStoreResources();
                     }
 
-
-
                     break;
                 case BuildingType.Crafting:
                     //
@@ -86,6 +88,30 @@ public class WorkerAIUse : WorkerBehaviour
             CharacterManagerRef.EnterGatheringMode();
         }
 
+    }
+
+    public void Collect()
+    {
+        currentActionText.text = "Collecting Items . . .";
+        currentActionText.outlineColor = Color.black;
+        currentActionText.color = Color.white;
+        currentActionText.outlineWidth = 0.35f;
+
+        Transform targetTransform = CharacterManagerRef.resourceAssigned.gameObject.transform;
+
+        if (targetTransform != null) //Si a trouvé une ressource
+        {
+            float distanceToStop = targetTransform.GetComponentInParent<BoxCollider>().size.z + 1.5f;
+            Vector3 targetLocation = targetTransform.position;
+            CharacterManagerRef.MoveTo(targetLocation, distanceToStop); //Va a la position de la mine
+            CharacterManagerRef.EnterGatheringMode();
+        }
+        if(CharacterManagerRef.Inventory.InventorySystem.AmountOfSlotsAvaliable() == 0) 
+        {
+            CharacterManagerRef.resourceAssigned = null;
+            CharacterManagerRef.isAssignedToABuilding = false;
+            CharacterManagerRef.ExitGatheringMode();
+        }
     }
 
     public void GoMining()
