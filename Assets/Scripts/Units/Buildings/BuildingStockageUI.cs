@@ -42,7 +42,6 @@ public class BuildingStockageUI : MonoBehaviour
     private void Start()
     {
         UpdateSpaceInUI();
-        UpdateBuildingStatus();
 
         HealthPoints = buildingData.healthPoints;
     }
