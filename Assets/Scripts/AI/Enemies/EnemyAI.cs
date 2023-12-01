@@ -53,11 +53,6 @@ public class EnemyAI : MonoBehaviour
                     distanceMin = nearestCollider;
                     nearestObject = _bsui.gameObject;
                 }
-
-                agent.SetDestination(nearestObject.transform.position);
-                currentTarget = nearestObject;
-                Debug.Log("Building Found !");
-                return true;
             }
             else if (hitCollider.TryGetComponent(out CharacterManager _cm))
             {
@@ -68,25 +63,34 @@ public class EnemyAI : MonoBehaviour
                     distanceMin = nearestCollider;
                     nearestObject = _cm.gameObject;
                 }
-
-                agent.SetDestination(nearestObject.transform.position);
-                currentTarget = nearestObject;
-                Debug.Log("Worker Found !");
-                return true;
             }
             else
-                Debug.LogWarning("Object don't have any of the needed component.");
+            {
+                Debug.LogError($"{hitCollider} don't have any of the required component !");
+                return false;
+            }
         }
-        return false;
+
+        if (nearestObject is not null)
+        {
+            agent.SetDestination(nearestObject.transform.position);
+            currentTarget = nearestObject;
+            //Debug.Log($"{nearestObject} Found !");
+            return true;
+        }
+        else
+            return false;
+        
     }
 
     private IEnumerator ApplyDamage()
     {
         while(true)
         {
-            while (compareDistance <= damageRange)
+            if (currentTarget is not null)
             {
-                if (currentTarget != null)
+                Debug.Log(currentTarget);
+                while (compareDistance <= damageRange)
                 {
                     yield return new WaitForSeconds(attackCooldown);
 
@@ -94,13 +98,15 @@ public class EnemyAI : MonoBehaviour
                         _bsui.HealthPoints -= attackDamage;
                     else if (currentTarget.TryGetComponent(out CharacterManager _cm))
                         _cm.HealthPoints -= attackDamage;
-                }
-                else
-                    yield break;
+                    else
+                        yield break;
 
+                    yield return null;
+                }
                 yield return null;
             }
-            yield return null;
+            else
+                yield break;
         }
     }
 

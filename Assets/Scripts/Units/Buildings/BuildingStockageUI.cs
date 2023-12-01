@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class BuildingStockageUI : MonoBehaviour
 {
@@ -25,6 +26,7 @@ public class BuildingStockageUI : MonoBehaviour
 
     private BuildingManager buildingManager;
     public UnitData buildingData;
+    [SerializeField] private Slider healthBar;
     public int HealthPoints;
 
     private void Awake()
@@ -43,7 +45,21 @@ public class BuildingStockageUI : MonoBehaviour
     {
         UpdateSpaceInUI();
 
+        healthBar.maxValue = buildingData.healthPoints;
         HealthPoints = buildingData.healthPoints;
+    }
+
+    private void FixedUpdate()
+    {
+        HealthUpdate();
+    }
+
+    private void HealthUpdate()
+    {
+        healthBar.value = HealthPoints;
+
+        if (HealthPoints <= 0)
+            Destroy(gameObject);
     }
 
     private void OnMouseEnter()
