@@ -109,8 +109,20 @@ public class WorkerAIUse : WorkerBehaviour
         }
         if(CharacterManagerRef.Inventory.InventorySystem.AmountOfSlotsAvaliable() == 0) 
         {
-            CharacterManagerRef.resourceAssigned = null;
             CharacterManagerRef.isAssignedToABuilding = false;
+
+            AssignWorkerInventory assignInv = CharacterManagerRef.resourceAssigned.GetComponent<AssignWorkerInventory>();
+
+            for (int i = 0; i < assignInv.InventorySystem.InventorySize; i++)
+            {
+                if (assignInv.InventorySystem.InventorySlots[i].ItemData != null)
+                {
+                    assignInv.InventorySystem.InventorySlots[i].ClearSlot();
+                    break;
+                }
+            }
+
+            CharacterManagerRef.resourceAssigned = null;
             CharacterManagerRef.ExitGatheringMode();
         }
     }
@@ -316,12 +328,6 @@ public class WorkerAIUse : WorkerBehaviour
                                         //change the UI pop up on top of the building
 
 
-                                        if (constructionInventory.InventorySystem.AmountOfSlotsAvaliable() == 0)
-                                        {
-                                            CharacterManagerRef.isAssignedToABuilding = false;
-                                            CharacterManagerRef.buildingAssigned = null;
-                                            return;
-                                        }
                                     }
 
                                 }
@@ -342,6 +348,8 @@ public class WorkerAIUse : WorkerBehaviour
                     {
                         CharacterManagerRef.buildingAssigned.hasBeenBuilt = true;
                         CharacterManagerRef.isAssignedToABuilding = false;
+
+
                         if (CharacterManagerRef.buildingAssigned != null)
                         {
                             AssignWorkerInventory assignInv = CharacterManagerRef.buildingAssigned.GetComponent<AssignWorkerInventory>();

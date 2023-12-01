@@ -37,9 +37,6 @@ public class CharacterUI : MonoBehaviour
                 BuildingManager _assignedBuildingRef = _characterManagerRef.buildingAssigned;
                 RemoveOneWorker(_characterManagerRef, _assignedBuildingRef, _assignedResourceRef);
             }
-         
-
-
         }
     }
 
