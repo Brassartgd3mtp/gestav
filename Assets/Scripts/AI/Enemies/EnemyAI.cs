@@ -1,10 +1,13 @@
 using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.AI;
 
 public class EnemyAI : MonoBehaviour
 {
     [SerializeField] private GameObject currentTarget;
+    [SerializeField] private Collider[] colliders;
 
     [Space]
     [SerializeField] private int detectionRange = 12;
@@ -15,7 +18,7 @@ public class EnemyAI : MonoBehaviour
 
     [Space]
     private NavMeshAgent agent;
-    float compareDistance = 0;
+    private float compareDistance = 0;
 
     void Awake()
     {
@@ -30,14 +33,25 @@ public class EnemyAI : MonoBehaviour
             {
                 StartCoroutine(ApplyDamage());
             }
-        }
+            else
+                Debug.Log("Target not found !");
+        }       
         else
+        {
             compareDistance = Vector3.Distance(transform.position, currentTarget.transform.position);
+
+            if (compareDistance > detectionRange)
+            {
+                currentTarget = null;
+            }
+        }
     }
 
     private bool Detect()
     {
+        Debug.Log("Start detection");
         Collider[] hit = Physics.OverlapSphere(transform.position, detectionRange, detectable);
+        colliders = hit;
 
         float distanceMin = float.MaxValue;
         GameObject nearestObject = null;
@@ -71,42 +85,57 @@ public class EnemyAI : MonoBehaviour
             }
         }
 
-        if (nearestObject is not null)
+        if (hit.Count() > 0 && nearestObject != null)
         {
-            agent.SetDestination(nearestObject.transform.position);
             currentTarget = nearestObject;
-            //Debug.Log($"{nearestObject} Found !");
+            Debug.Log($"New target is {currentTarget} !");
+            if (currentTarget != null)
+                StartCoroutine(FollowTarget());
             return true;
         }
         else
             return false;
-        
     }
 
     private IEnumerator ApplyDamage()
     {
         while(true)
         {
-            if (currentTarget is not null)
+            while (compareDistance <= damageRange)
             {
-                Debug.Log(currentTarget);
-                while (compareDistance <= damageRange)
-                {
-                    yield return new WaitForSeconds(attackCooldown);
+                yield return new WaitForSeconds(attackCooldown);
 
+                if (currentTarget != null)
+                {
                     if (currentTarget.TryGetComponent(out BuildingStockageUI _bsui))
                         _bsui.HealthPoints -= attackDamage;
                     else if (currentTarget.TryGetComponent(out CharacterManager _cm))
                         _cm.HealthPoints -= attackDamage;
-                    else
-                        yield break;
-
-                    yield return null;
                 }
+                else
+                    yield break;
+
                 yield return null;
+            }
+            yield return null;
+        }
+    }
+
+    private IEnumerator FollowTarget()
+    {
+        while (true)
+        {
+            if (currentTarget != null)
+            {
+                if (compareDistance <= detectionRange)
+                {
+                    agent.destination = currentTarget.transform.position;
+                }
             }
             else
                 yield break;
+
+            yield return new WaitForSeconds(.1f);
         }
     }
 
