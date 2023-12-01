@@ -16,7 +16,7 @@ public class AssignWorkerInventory : InventoryHolder
     {
         buildingManager = this.gameObject.GetComponent<BuildingManager>();
         buildingActionSelection = this.gameObject.GetComponentInChildren<BuildingActionSelection>();
-        resourceSpot = this.gameObject.GetComponentInParent<ResourceSpotUI>();
+        resourceSpot = this.gameObject.GetComponent<ResourceSpotUI>();
 
         FindWorkers();
 
@@ -63,15 +63,23 @@ public class AssignWorkerInventory : InventoryHolder
 
         foreach (CharacterManager _worker in workersFound)
             {
-                if (_worker.isAssignedToABuilding == true && _worker.buildingAssigned == buildingManager)
+                if (_worker.isAssignedToABuilding == true)
                 {
 
-                    amountOfWorkersToRemove++;
-                    _worker.isAssignedToABuilding = false;
-                    _worker.buildingAssigned = null;
+                    if (_worker.buildingAssigned != null && _worker.buildingAssigned == buildingManager)
+                    {   
+                        amountOfWorkersToRemove++;
+                        _worker.isAssignedToABuilding = false;
+                        _worker.buildingAssigned = null;
+                    }
+                    if (_worker.resourceAssigned != null && _worker.resourceAssigned == resourceSpot)
+                    {
+                        amountOfWorkersToRemove++;
+                        _worker.isAssignedToABuilding = false;
+                        _worker.resourceAssigned = null;
+                    }
 
-
-                    
+    
                 }
             }
         Debug.Log(amountOfWorkersToRemove);

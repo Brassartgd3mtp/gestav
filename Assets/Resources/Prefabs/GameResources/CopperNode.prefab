@@ -398,6 +398,7 @@ GameObject:
   - component: {fileID: 5033214376049666318}
   - component: {fileID: 2660618651056307100}
   - component: {fileID: 7174197678704347740}
+  - component: {fileID: 1979823444061449024}
   m_Layer: 13
   m_Name: CopperNode
   m_TagString: Resource
@@ -520,6 +521,20 @@ MonoBehaviour:
     inventorySlots: []
   workersFound: []
   buildingManager: {fileID: 0}
+  resourceSpot: {fileID: 2660618651056307100}
+--- !u!114 &1979823444061449024
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3514603389035645901}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 92309364d37da6c409ca4a15110209a8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ActionsPopUpPanel: {fileID: 2420104590340033504}
 --- !u!1 &4034006540606565630
 GameObject:
   m_ObjectHideFlags: 0

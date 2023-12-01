@@ -13,12 +13,13 @@ public class WorkerAIUse : WorkerBehaviour
 {
     private bool buildingReached;
     private Find findingScript;
-
+    private CharacterUI characterUI;
     protected override void Awake()
     {
         base.Awake();
         findingScript = GetComponentInParent<Find>();
         canBeMovedbyPlayer = false;
+        characterUI = FindAnyObjectByType<CharacterUI>();
     }
     public override void ApplyBehaviour()
     {
@@ -108,8 +109,20 @@ public class WorkerAIUse : WorkerBehaviour
         }
         if(CharacterManagerRef.Inventory.InventorySystem.AmountOfSlotsAvaliable() == 0) 
         {
-            CharacterManagerRef.resourceAssigned = null;
             CharacterManagerRef.isAssignedToABuilding = false;
+
+            AssignWorkerInventory assignInv = CharacterManagerRef.resourceAssigned.GetComponent<AssignWorkerInventory>();
+
+            for (int i = 0; i < assignInv.InventorySystem.InventorySize; i++)
+            {
+                if (assignInv.InventorySystem.InventorySlots[i].ItemData != null)
+                {
+                    assignInv.InventorySystem.InventorySlots[i].ClearSlot();
+                    break;
+                }
+            }
+
+            CharacterManagerRef.resourceAssigned = null;
             CharacterManagerRef.ExitGatheringMode();
         }
     }
@@ -315,12 +328,6 @@ public class WorkerAIUse : WorkerBehaviour
                                         //change the UI pop up on top of the building
 
 
-                                        if (constructionInventory.InventorySystem.AmountOfSlotsAvaliable() == 0)
-                                        {
-                                            CharacterManagerRef.isAssignedToABuilding = false;
-                                            CharacterManagerRef.buildingAssigned = null;
-                                            return;
-                                        }
                                     }
 
                                 }
@@ -335,6 +342,45 @@ public class WorkerAIUse : WorkerBehaviour
                             }
                             await Task.Delay(250);
                         }
+
+                    }
+                    if (constructionInventory.InventorySystem.AmountOfSlotsAvaliable() == 0)
+                    {
+                        CharacterManagerRef.buildingAssigned.hasBeenBuilt = true;
+                        CharacterManagerRef.isAssignedToABuilding = false;
+
+
+                        if (CharacterManagerRef.buildingAssigned != null)
+                        {
+                            AssignWorkerInventory assignInv = CharacterManagerRef.buildingAssigned.GetComponent<AssignWorkerInventory>();
+
+                            for (int i = 0; i < assignInv.InventorySystem.InventorySize; i++)
+                            {
+                                if (assignInv.InventorySystem.InventorySlots[i].ItemData != null)
+                                {
+                                    assignInv.InventorySystem.InventorySlots[i].ClearSlot();
+                                    break;
+                                }
+                            }
+
+                            CharacterManagerRef.buildingAssigned = null;
+                        }
+                        if (CharacterManagerRef.resourceAssigned != null)
+                        {
+                            AssignWorkerInventory assignInv = CharacterManagerRef.resourceAssigned.GetComponent<AssignWorkerInventory>();
+
+                            for (int i = 0; i < assignInv.InventorySystem.InventorySize; i++)
+                            {
+                                if (assignInv.InventorySystem.InventorySlots[i].ItemData != null)
+                                {
+                                    assignInv.InventorySystem.InventorySlots[i].ClearSlot();
+                                    break;
+                                }
+                            }
+
+                            CharacterManagerRef.resourceAssigned = null;
+                        }
+
 
                     }
                 }
@@ -483,9 +529,38 @@ public class WorkerAIUse : WorkerBehaviour
             }
             if (constructionInventory.InventorySystem.AmountOfSlotsAvaliable() == 0)
             {
-             CharacterManagerRef.buildingAssigned.hasBeenBuilt = true;
-             CharacterManagerRef.isAssignedToABuilding = false;
-             CharacterManagerRef.buildingAssigned = null;
+                CharacterManagerRef.buildingAssigned.hasBeenBuilt = true;
+                CharacterManagerRef.isAssignedToABuilding = false;
+                if (CharacterManagerRef.buildingAssigned != null)
+                {
+                    AssignWorkerInventory assignInv = CharacterManagerRef.buildingAssigned.GetComponent<AssignWorkerInventory>();
+
+                    for (int i = 0; i < assignInv.InventorySystem.InventorySize; i++)
+                    {
+                        if (assignInv.InventorySystem.InventorySlots[i].ItemData != null)
+                        {
+                            assignInv.InventorySystem.InventorySlots[i].ClearSlot();
+                            break;
+                        }
+                    }
+
+                    CharacterManagerRef.buildingAssigned = null;
+                }
+                if (CharacterManagerRef.resourceAssigned != null)
+                {
+                    AssignWorkerInventory assignInv = CharacterManagerRef.resourceAssigned.GetComponent<AssignWorkerInventory>();
+
+                    for (int i = 0; i < assignInv.InventorySystem.InventorySize; i++)
+                    {
+                        if (assignInv.InventorySystem.InventorySlots[i].ItemData != null)
+                        {
+                            assignInv.InventorySystem.InventorySlots[i].ClearSlot();
+                            break;
+                        }
+                    }
+
+                    CharacterManagerRef.resourceAssigned = null;
+                }
             }
 
         }

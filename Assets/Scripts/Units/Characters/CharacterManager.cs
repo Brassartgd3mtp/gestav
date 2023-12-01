@@ -25,7 +25,6 @@ public class CharacterManager : UnitManager
 
     [SerializeField] private NavMeshAgent agent;
     [SerializeField] private float stoppingDistance;
-    //[SerializeField] private float stoppingMultiplicator = 0.3f;
 
 
     [Header("IA")]
@@ -114,7 +113,7 @@ public class CharacterManager : UnitManager
                         resourceSpot.GatherResources(resourceToGather);
                         inventory.InventorySystem.AddToInventory(item.item, resourceToGather);
                         LastGatheredResource = item.item.resourceType;
-                       
+
                         //change the bag according to how much there is inside
                         ShowBag();
                         ChangeBagSize(CalculateBagSize());
@@ -128,7 +127,7 @@ public class CharacterManager : UnitManager
             }
             else
             {
-                ExitGatheringMode(); // a bouger dans un endroit ou l'on check si l'inventaire est plein
+                ExitGatheringMode();
             }
         }
     }
