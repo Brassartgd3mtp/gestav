@@ -170,10 +170,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   currentTarget: {fileID: 0}
+  colliders: []
   detectionRange: 12
-  damageRange: 3
-  attackDamage: 5
-  attackCooldown: 1
+  damageRange: 2
+  attackDamage: 2
+  attackCooldown: 3
   detectable:
     serializedVersion: 2
     m_Bits: 119808
