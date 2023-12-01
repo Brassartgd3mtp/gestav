@@ -324,7 +324,7 @@ public class WorkerAIUse : WorkerBehaviour
                                         await Task.Delay(CharacterManagerRef.DepositDuration);
 
                                         amountToTransfer++;
-
+                                        constructionInventory.GetComponent<BuildingStockageUI>().UpdateSpaceInUI();
                                         //change the UI pop up on top of the building
 
 
@@ -377,11 +377,10 @@ public class WorkerAIUse : WorkerBehaviour
                                     break;
                                 }
                             }
-
                             CharacterManagerRef.resourceAssigned = null;
                         }
 
-
+                        Destroy(constructionInventory);
                     }
                 }
 
@@ -499,10 +498,11 @@ public class WorkerAIUse : WorkerBehaviour
                                     CharacterManagerRef.Inventory.InventorySystem.InventorySlots[i].ClearSlot();
 
                                     CharacterManagerRef.ChangeBagSize(CharacterManagerRef.CalculateBagSize()); // change the bag size
-                                    amountTransfered++;
+                                    
 
                                     await Task.Delay(CharacterManagerRef.DepositDuration);
-
+                                    amountTransfered++;
+                                    constructionInventory.GetComponent<BuildingStockageUI>().UpdateSpaceInUI();
                                     //change the UI pop up on top of the building
 
                                     if (constructionInventory.InventorySystem.AmountOfSlotsAvaliable() == 0)
@@ -561,6 +561,8 @@ public class WorkerAIUse : WorkerBehaviour
 
                     CharacterManagerRef.resourceAssigned = null;
                 }
+
+                Destroy(constructionInventory);
             }
 
         }

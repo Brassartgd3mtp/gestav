@@ -14,5 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   code: Workshop
   unitName: Workshop
-  healthpoints: 40
-  prefab: {fileID: 4657272848100013260, guid: 75515505f2198504c94b2034521d6caa, type: 3}
+  healthPoints: 0
+  prefab: {fileID: 8316421863545563184, guid: 512d28b9cc0c08140a9440c9d7d368ae, type: 3}
+  resourcesToBuild:
+  - item: {fileID: 11400000, guid: 8709e5e20a1ece94daec5cfe25325579, type: 2}
+    count: 4
+  - item: {fileID: 11400000, guid: 99d9e9118ed84d14a8b52c44a0833cf4, type: 2}
+    count: 4
