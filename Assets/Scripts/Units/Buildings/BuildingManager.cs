@@ -112,6 +112,7 @@ public class BuildingManager : UnitManager
     // Determine if the BuildingManager is active (used for base class UnitManager)
     protected override bool IsActive()
     {
+        base.IsActive();
         return building.IsFixed;
     }
 

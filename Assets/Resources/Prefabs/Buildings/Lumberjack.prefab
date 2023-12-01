@@ -8463,7 +8463,7 @@ GameObject:
   - component: {fileID: 6774202510452695970}
   - component: {fileID: 4071348802955819878}
   m_Layer: 10
-  m_Name: Workshop
+  m_Name: Lumberjack
   m_TagString: Unit
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -8524,7 +8524,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   OutilineMaterial: {fileID: 2100000, guid: 0634b05414478cc439d03427eaa410a3, type: 2}
-  TypeOfBuilding: 2
+  TypeOfBuilding: 1
   hasBeenBuilt: 0
 --- !u!54 &4476076860485327923
 Rigidbody:
@@ -8604,7 +8604,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a02ef5b285c63ed4e96151bfa153a4ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  validType: 040000002000000008000000
+  validType: 02000000
   inventorySize: 40
   inventorySystem:
     inventorySlots: []
@@ -8654,8 +8654,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f404325e13c316e4aa6c7885bd16b7a4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  validType: 0400000020000000
-  inventorySize: 6
+  validType: 02000000
+  inventorySize: 3
   inventorySystem:
     inventorySlots: []
   items: []
@@ -9329,7 +9329,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 1.5, z: 0}
-  m_LocalScale: {x: 5, y: 3, z: 5}
+  m_LocalScale: {x: 2, y: 3, z: 2}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 4621197654105193589}

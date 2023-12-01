@@ -10,9 +10,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 8582d150e895b944caa03186b6322cd1, type: 3}
-  m_Name: Scierie
+  m_Name: Lumberjack
   m_EditorClassIdentifier: 
-  code: Scierie
-  unitName: Scierie
-  healthpoints: 20
-  prefab: {fileID: 5107880386229869334, guid: e693c59ac223fc24f99b923e84c06393, type: 3}
+  code: LumberjackCabin
+  unitName: Lumberjack Cabin
+  healthPoints: 0
+  prefab: {fileID: 8316421863545563184, guid: f067316960f69814f83e5bf8619a3ecc, type: 3}
+  resourcesToBuild:
+  - item: {fileID: 11400000, guid: 314ee73523bde604dba3ca011266aa88, type: 2}
+    count: 3
