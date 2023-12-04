@@ -173,7 +173,7 @@ AnimatorController:
   m_Name: AC_Hero
   serializedVersion: 5
   m_AnimatorParameters:
-  - m_Name: Moving
+  - m_Name: Walking
     m_Type: 4
     m_DefaultFloat: 0
     m_DefaultInt: 0
@@ -295,7 +295,7 @@ AnimatorStateTransition:
   m_Name: 
   m_Conditions:
   - m_ConditionMode: 2
-    m_ConditionEvent: Moving
+    m_ConditionEvent: Walking
     m_EventTreshold: 0
   - m_ConditionMode: 2
     m_ConditionEvent: Attacking
@@ -353,7 +353,7 @@ AnimatorStateTransition:
   m_Name: 
   m_Conditions:
   - m_ConditionMode: 1
-    m_ConditionEvent: Moving
+    m_ConditionEvent: Walking
     m_EventTreshold: 0
   - m_ConditionMode: 2
     m_ConditionEvent: Attacking
@@ -432,7 +432,7 @@ AnimatorStateTransition:
   m_Name: 
   m_Conditions:
   - m_ConditionMode: 2
-    m_ConditionEvent: Moving
+    m_ConditionEvent: Walking
     m_EventTreshold: 0
   - m_ConditionMode: 2
     m_ConditionEvent: Attacking
@@ -485,7 +485,7 @@ AnimatorStateTransition:
   m_Name: 
   m_Conditions:
   - m_ConditionMode: 1
-    m_ConditionEvent: Moving
+    m_ConditionEvent: Walking
     m_EventTreshold: 0
   - m_ConditionMode: 2
     m_ConditionEvent: Attacking

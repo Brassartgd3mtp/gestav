@@ -28,33 +28,32 @@ public class GameManager : MonoBehaviour
     {
         if (Global.SELECTED_CHARACTERS.Count > 0 && Input.GetMouseButtonUp(1))
         {
-            foreach(UnitManager unit in Global.SELECTED_CHARACTERS) 
+            foreach (UnitManager unit in Global.SELECTED_CHARACTERS)
             {
-            WorkerAIC aic = unit.gameObject.GetComponentInChildren<WorkerAIC>();
-                if (aic != null && aic.CurrentBehaviour.canBeMovedbyPlayer)
+                WorkerAIC aic = unit.gameObject.GetComponentInChildren<WorkerAIC>();
+
+                ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+                bool isOverUI = UnityEngine.EventSystems.EventSystem.current.IsPointerOverGameObject();
+                if (Physics.Raycast(ray, out raycastHit, 1000f, Global.TERRAIN_LAYER_MASK) && !isOverUI)
                 {
-                    ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-                    bool isOverUI = UnityEngine.EventSystems.EventSystem.current.IsPointerOverGameObject();
-                    if (Physics.Raycast(ray, out raycastHit, 1000f, Global.TERRAIN_LAYER_MASK) && !isOverUI)
-                    {
 
-                        groundMarker.transform.position = raycastHit.point;
-                        groundMarker.SetActive(true);
+                    groundMarker.transform.position = raycastHit.point;
+                    groundMarker.SetActive(true);
 
-                        // Active le timer en passant isActive à true
-                        Invoke("DisableGroundMarker", 2.0f); // Appelle la méthode DisableGroundMarker après 2 secondes
+                    // Active le timer en passant isActive à true
+                    Invoke("DisableGroundMarker", 2.0f); // Appelle la méthode DisableGroundMarker après 2 secondes
 
 
-                        foreach (UnitManager um in Global.SELECTED_CHARACTERS)
-                            if (um is CharacterManager)
-                            {
-                                ((CharacterManager)um).MoveTo(raycastHit.point, 1f);
-                                ((WorkerManager)um).ExitGatheringMode();
-                            }
-                    }
+                    foreach (UnitManager um in Global.SELECTED_CHARACTERS)
+                        if (um is CharacterManager)
+                        {
+                            ((CharacterManager)um).MoveTo(raycastHit.point, 1f);
+                            ((WorkerManager)um).ExitGatheringMode();
+                        }
+                }
             }
-
-            }
+        }
+    
 
 
             if (Global.SELECTED_CHARACTERS.Count > 0 && Input.GetMouseButtonUp(1))
@@ -78,8 +77,8 @@ public class GameManager : MonoBehaviour
                 }
 
             }
-        }
     }
+    
 
 
     void DisableGroundMarker()
