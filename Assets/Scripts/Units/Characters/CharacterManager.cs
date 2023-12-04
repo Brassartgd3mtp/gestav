@@ -62,7 +62,7 @@ public class CharacterManager : UnitManager
     [SerializeField] private Slider healthBar;
     private Vector3 startingBagScale;
 
-    public Animator animator;
+    [SerializeField] private Animator animator;
 
 
     [Header("Building assignation")]
@@ -85,6 +85,7 @@ public class CharacterManager : UnitManager
 
     private void Awake()
     {
+        animator = GetComponent<Animator>();
         inventory = gameObject.GetComponent<UnitInventory>();
         resourceToGather = 1;
         startingBagScale = bag.transform.localScale;
@@ -102,8 +103,8 @@ public class CharacterManager : UnitManager
         {
             if (inventory.InventorySystem.HasFreeSlot(out InventorySlot _freeSlot))
             {
-
-                animator.SetBool("isMining", true);
+                animator.SetBool("Walking", false);
+                animator.SetBool("Interaction", true);
 
                 timer -= Time.deltaTime;
                 if (timer <= 0f)
@@ -148,22 +149,32 @@ public class CharacterManager : UnitManager
     public async void MoveTo(Vector3 targetPosition, float _rangeToStop)
     {
         // Stop the current movement
+        agent.velocity = Vector3.zero;
         agent.isStopped = true;
+        animator.SetBool("Walking", false);
+        Debug.Log(animator.GetBool("Walking"));
         // Set the new destination
         agent.destination = targetPosition;
 
         // Resume movement
         agent.isStopped = false;
-        while(agent.velocity != Vector3.zero)
+        agent.velocity = (targetPosition - transform.position).normalized;
+        animator.SetBool("Walking", true);
+        Debug.Log(animator.GetBool("Walking"));
+        while (agent.velocity != Vector3.zero)
         {
-            if(Vector3.Distance(transform.position, targetPosition) < _rangeToStop)
+            animator.SetBool("Walking", true);
+            Debug.Log(animator.GetBool("Walking"));
+            if (Vector3.Distance(transform.position, targetPosition) < _rangeToStop)
             {
+                animator.SetBool("Walking", false);
+                Debug.Log(animator.GetBool("Walking"));
+                agent.velocity = Vector3.zero;
                 agent.isStopped = true;
                 return;
             }
-            await Task.Delay(100);
+        await Task.Delay(100);
         }
-        
     }
 
 
@@ -192,7 +203,7 @@ public class CharacterManager : UnitManager
 
     public void StopGathering() //make the unit stop gathering resources
     {
-        animator.SetBool("isMining", false);
+        animator.SetBool("Interaction", false);
         isGathering = false;
         timer = miningDuration;
     }
