@@ -30,7 +30,7 @@ public class Building : Unit
 
         // Copy the initial rendering materials to the _materials list
         _materials = new List<Material>();
-        foreach (Material material in transform.Find("Mesh").GetComponent<Renderer>().materials)
+        foreach (Material material in transform.GetComponentInChildren<MeshRenderer>().materials)
         {
             _materials.Add(new Material(material));
         }
@@ -74,7 +74,7 @@ public class Building : Unit
         }
 
         // Apply the materials to the building's rendering
-        transform.Find("Mesh").GetComponent<Renderer>().materials = materials.ToArray();
+        transform.GetComponentInChildren<MeshRenderer>().materials = materials.ToArray();
     }
 
     // Method to place the building

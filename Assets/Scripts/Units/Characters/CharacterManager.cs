@@ -1,5 +1,7 @@
+using System.Collections;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using TMPro;
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.UI;
@@ -25,6 +27,7 @@ public class CharacterManager : UnitManager
 
     [SerializeField] private NavMeshAgent agent;
     [SerializeField] private float stoppingDistance;
+    private Vector3 targetPosition;
 
 
     [Header("IA")]
@@ -146,7 +149,7 @@ public class CharacterManager : UnitManager
             Destroy(gameObject);
     }
 
-    public async void MoveTo(Vector3 targetPosition, float _rangeToStop)
+    public async void MoveTo(Vector3 _targetPosition, float _rangeToStop)
     {
         bool positionReached = false;
 
@@ -156,17 +159,20 @@ public class CharacterManager : UnitManager
         animator.SetBool("Walking", false);
         Debug.Log(animator.GetBool("Walking"));
         // Set the new destination
-        agent.destination = targetPosition;
-
+        agent.destination = _targetPosition;
+        targetPosition = _targetPosition;
         // Resume movement
         agent.isStopped = false;
         animator.SetBool("Walking", true);
         Debug.Log(animator.GetBool("Walking"));
+
+      //  Vector3 dir = transform.position - targetPosition;
+        // transform.rotation = Quaternion.LookRotation(dir);
+    
         while (!positionReached)
         {
             await Task.Delay(100);
-            Debug.Log("while");
-            Vector2 pos = new Vector2 (transform.position.x, transform.position.z);
+
             if (agent.velocity == Vector3.zero)
             {
                 animator.SetBool("Walking", false);
@@ -177,9 +183,9 @@ public class CharacterManager : UnitManager
             }
 
         }
+
+
     }
-
-
 
     private void OnTriggerEnter(Collider other)
     {

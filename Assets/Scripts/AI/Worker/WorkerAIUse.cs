@@ -286,7 +286,8 @@ public class WorkerAIUse : WorkerBehaviour
 
             for (int amountTransfered = 0; amountTransfered < amountToTransfer; amountTransfered += 0)
             {
-
+                Debug.Log(amountTransfered);
+                Debug.Log(amountToTransfer);
                 for (int i = 0; i < CharacterManagerRef.Inventory.InventorySystem.InventorySlots.Count; i++)
                 {
                     if (constructionInventory != null && CharacterManagerRef.Inventory.InventorySystem.InventorySlots[i].ItemData !=null && CharacterManagerRef.Inventory.InventorySystem.InventorySlots[i].ItemData.resourceType == itemdata.resourceType)
@@ -344,7 +345,7 @@ public class WorkerAIUse : WorkerBehaviour
                         }
 
                     }
-                    if (constructionInventory.InventorySystem.AmountOfSlotsAvaliable() == 0)
+                    if (constructionInventory.InventorySystem.AmountOfSlotsAvaliable() == 0 || amountTransfered >= amountToTransfer)
                     {
                         CharacterManagerRef.buildingAssigned.hasBeenBuilt = true;
                         CharacterManagerRef.isAssignedToABuilding = false;
@@ -521,8 +522,46 @@ public class WorkerAIUse : WorkerBehaviour
                         await Task.Delay(250);
                     }
                 }
+
+                if(amountTransfered >= amountToTransfer)
+                {
+                    CharacterManagerRef.buildingAssigned.hasBeenBuilt = true;
+                    CharacterManagerRef.isAssignedToABuilding = false;
+                    if (CharacterManagerRef.buildingAssigned != null)
+                    {
+                        AssignWorkerInventory assignInv = CharacterManagerRef.buildingAssigned.GetComponent<AssignWorkerInventory>();
+
+                        for (int i = 0; i < assignInv.InventorySystem.InventorySize; i++)
+                        {
+                            if (assignInv.InventorySystem.InventorySlots[i].ItemData != null)
+                            {
+                                assignInv.InventorySystem.InventorySlots[i].ClearSlot();
+                                break;
+                            }
+                        }
+
+                        CharacterManagerRef.buildingAssigned = null;
+                    }
+                    if (CharacterManagerRef.resourceAssigned != null)
+                    {
+                        AssignWorkerInventory assignInv = CharacterManagerRef.resourceAssigned.GetComponent<AssignWorkerInventory>();
+
+                        for (int i = 0; i < assignInv.InventorySystem.InventorySize; i++)
+                        {
+                            if (assignInv.InventorySystem.InventorySlots[i].ItemData != null)
+                            {
+                                assignInv.InventorySystem.InventorySlots[i].ClearSlot();
+                                break;
+                            }
+                        }
+
+                        CharacterManagerRef.resourceAssigned = null;
+                    }
+                }
+
+
             }
-            if (constructionInventory.InventorySystem.AmountOfSlotsAvaliable() == 0)
+            if (constructionInventory.InventorySystem.AmountOfSlotsAvaliable() == 0 )
             {
                 CharacterManagerRef.buildingAssigned.hasBeenBuilt = true;
                 CharacterManagerRef.isAssignedToABuilding = false;
