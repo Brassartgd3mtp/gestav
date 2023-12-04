@@ -148,6 +148,7 @@ MonoBehaviour:
   stoppingDistance: 0.25
   animator: {fileID: 1277535324797957342}
   healthBar: {fileID: 9160698491249958942}
+  corpse: {fileID: 2019966834684936119, guid: 8cdd8fc15319a404b8ca0d2f623d8812, type: 3}
 --- !u!114 &851149025857833745
 MonoBehaviour:
   m_ObjectHideFlags: 0

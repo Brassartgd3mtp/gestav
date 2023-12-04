@@ -508,6 +508,7 @@ MonoBehaviour:
   stoppingDistance: 0.25
   animator: {fileID: 3177651736305246939}
   healthBar: {fileID: 9160698491249958942}
+  corpse: {fileID: 2019966834684936119, guid: 28fd9c1cc7730b14781022000e6c94bc, type: 3}
   resourceToGather: 1
   GatheringMode: 0
   BuildingMode: 0

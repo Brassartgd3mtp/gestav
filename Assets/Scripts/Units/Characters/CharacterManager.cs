@@ -33,6 +33,7 @@ public class CharacterManager : UnitManager
 
     [SerializeField] protected Animator animator;
     [SerializeField] protected Slider healthBar;
+    [SerializeField] protected GameObject corpse;
 
 
     protected override Unit Unit
@@ -57,7 +58,11 @@ public class CharacterManager : UnitManager
         healthBar.value = HealthPoints;
 
         if (HealthPoints <= 0)
-            animator.SetBool("Dies", true);
+        {
+            Instantiate(corpse, transform.position, Quaternion.identity);
+            Destroy(gameObject);
+        }
+            
     }
     public async void MoveTo(Vector3 _targetPosition, float _rangeToStop)
     {
