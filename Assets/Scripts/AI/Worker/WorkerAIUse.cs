@@ -467,11 +467,6 @@ public class WorkerAIUse : WorkerBehaviour
                         await Task.Delay(250);
                     }
                 }
-                else
-                {
-                    CharacterManagerRef.isAssignedToABuilding = false;
-                    CharacterManagerRef.buildingAssigned = null;
-                }
                 // Desposit to building
 
                 targetTransform = CharacterManagerRef.buildingAssigned.GetComponent<Transform>();
@@ -566,6 +561,41 @@ public class WorkerAIUse : WorkerBehaviour
             }
 
         }
+
+
+        CharacterManagerRef.buildingAssigned.hasBeenBuilt = true;
+        CharacterManagerRef.isAssignedToABuilding = false;
+        if (CharacterManagerRef.buildingAssigned != null)
+        {
+            AssignWorkerInventory assignInv = CharacterManagerRef.buildingAssigned.GetComponent<AssignWorkerInventory>();
+
+            for (int i = 0; i < assignInv.InventorySystem.InventorySize; i++)
+            {
+                if (assignInv.InventorySystem.InventorySlots[i].ItemData != null)
+                {
+                    assignInv.InventorySystem.InventorySlots[i].ClearSlot();
+                    break;
+                }
+            }
+
+            CharacterManagerRef.buildingAssigned = null;
+        }
+        if (CharacterManagerRef.resourceAssigned != null)
+        {
+            AssignWorkerInventory assignInv = CharacterManagerRef.resourceAssigned.GetComponent<AssignWorkerInventory>();
+
+            for (int i = 0; i < assignInv.InventorySystem.InventorySize; i++)
+            {
+                if (assignInv.InventorySystem.InventorySlots[i].ItemData != null)
+                {
+                    assignInv.InventorySystem.InventorySlots[i].ClearSlot();
+                    break;
+                }
+            }
+
+            CharacterManagerRef.resourceAssigned = null;
+        }
+
 
     }
     public void DoCancelBuild()
