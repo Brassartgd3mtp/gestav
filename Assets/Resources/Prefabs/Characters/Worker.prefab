@@ -328,7 +328,6 @@ GameObject:
   - component: {fileID: 1689742863027917839}
   - component: {fileID: 9152607663828230570}
   - component: {fileID: 8466157469576545125}
-  - component: {fileID: 3060517887225741967}
   - component: {fileID: 3261263250596637997}
   - component: {fileID: 6828548498444926733}
   m_Layer: 12
@@ -432,7 +431,7 @@ MonoBehaviour:
   bag: {fileID: 6013164946446559602}
   bagContainer: {fileID: 5341555039358360323}
   healthBar: {fileID: 9160698491249958942}
-  animator: {fileID: 3060517887225741967}
+  animator: {fileID: 3177651736305246939}
   isAssignedToABuilding: 0
   buildingAssigned: {fileID: 0}
   workerAIUse: {fileID: 0}
@@ -491,27 +490,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 22e2940f5c9b0454e92275953cbd8f29, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!95 &3060517887225741967
-Animator:
-  serializedVersion: 5
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2019966834684936119}
-  m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 84dee6a05e9118543a191f14c5b7fd0f, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_StabilizeFeet: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorStateOnDisable: 0
-  m_WriteDefaultValuesOnDisable: 0
 --- !u!114 &3261263250596637997
 MonoBehaviour:
   m_ObjectHideFlags: 0

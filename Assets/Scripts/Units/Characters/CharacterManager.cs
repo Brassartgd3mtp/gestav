@@ -85,7 +85,7 @@ public class CharacterManager : UnitManager
 
     private void Awake()
     {
-        animator = GetComponent<Animator>();
+        animator = GetComponentInChildren<Animator>();
         inventory = gameObject.GetComponent<UnitInventory>();
         resourceToGather = 1;
         startingBagScale = bag.transform.localScale;
@@ -148,6 +148,8 @@ public class CharacterManager : UnitManager
 
     public async void MoveTo(Vector3 targetPosition, float _rangeToStop)
     {
+        bool positionReached = false;
+
         // Stop the current movement
         agent.velocity = Vector3.zero;
         agent.isStopped = true;
@@ -158,22 +160,22 @@ public class CharacterManager : UnitManager
 
         // Resume movement
         agent.isStopped = false;
-        agent.velocity = (targetPosition - transform.position).normalized;
         animator.SetBool("Walking", true);
         Debug.Log(animator.GetBool("Walking"));
-        while (agent.velocity != Vector3.zero)
+        while (!positionReached)
         {
-            animator.SetBool("Walking", true);
-            Debug.Log(animator.GetBool("Walking"));
-            if (Vector3.Distance(transform.position, targetPosition) < _rangeToStop)
+            await Task.Delay(100);
+            Debug.Log("while");
+            Vector2 pos = new Vector2 (transform.position.x, transform.position.z);
+            if (agent.velocity == Vector3.zero)
             {
                 animator.SetBool("Walking", false);
                 Debug.Log(animator.GetBool("Walking"));
-                agent.velocity = Vector3.zero;
                 agent.isStopped = true;
+                positionReached = true;
                 return;
             }
-        await Task.Delay(100);
+
         }
     }
 
