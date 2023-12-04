@@ -146,7 +146,7 @@ public class CharacterManager : UnitManager
         healthBar.value = HealthPoints;
 
         if (HealthPoints <= 0)
-            Destroy(gameObject);
+            animator.SetBool("Dies", true);
     }
 
     public async void MoveTo(Vector3 _targetPosition, float _rangeToStop)
