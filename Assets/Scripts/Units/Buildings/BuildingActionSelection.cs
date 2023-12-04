@@ -98,9 +98,9 @@ public class BuildingActionSelection : MonoBehaviour
         /*
         Add UI selection here
         */
-        foreach (CharacterManager c in charasFound)
+        foreach (WorkerManager wm in charasFound)
         {
-            c.isTransferingItems = true;
+            wm.isTransferingItems = true;
         }
     }
 
@@ -111,9 +111,9 @@ public class BuildingActionSelection : MonoBehaviour
         /*
         Add UI selection here
         */
-        foreach (CharacterManager c in charasFound) 
+        foreach (WorkerManager wm in charasFound) 
         {
-            c.isTransferingItems = true;
+            wm.isTransferingItems = true;
         }
     }
 
@@ -138,9 +138,9 @@ public class BuildingActionSelection : MonoBehaviour
         TypeOfTransfer = TransferType.Transfer;
         GetReferences();
 
-        foreach (CharacterManager c in charasFound)
+        foreach (WorkerManager wm in charasFound)
         {
-            c.isTransferingItems = true;
+            wm.isTransferingItems = true;
         }
 
     }

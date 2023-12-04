@@ -6,7 +6,7 @@ using static WorkerAIC;
 
 public abstract class WorkerBehaviour : MonoBehaviour
 {
-    public CharacterManager CharacterManagerRef;
+    public WorkerManager WorkerManagerRef;
     public bool canBeMovedbyPlayer;
     public bool TransferStarted = false;
     protected GameResourceManager gameResourceManager;
@@ -17,7 +17,7 @@ public abstract class WorkerBehaviour : MonoBehaviour
 
     protected virtual void Awake()
     {
-        CharacterManagerRef = GetComponentInParent<CharacterManager>();
+        WorkerManagerRef = GetComponentInParent<WorkerManager>();
         gameResourceManager = FindObjectOfType<GameResourceManager>();
     }
 }

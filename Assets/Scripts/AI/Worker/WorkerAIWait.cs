@@ -19,7 +19,7 @@ public class WorkerAIWait : WorkerBehaviour
         {
             return BehaviourName.Controlled;
         }
-        if (CharacterManagerRef.isTransferingItems)
+        if (WorkerManagerRef.isTransferingItems)
         {
             return BehaviourName.Transfer;
         }

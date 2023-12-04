@@ -22,7 +22,7 @@ public class AssignWorkerInventory : InventoryHolder
 
         if(workersFound.Count <= inventorySystem.AmountOfSlotsAvaliable()) 
         {
-            foreach(CharacterManager _worker in workersFound) 
+            foreach(WorkerManager _worker in workersFound) 
             {
                 if(!_worker.isAssignedToABuilding)
                 {
@@ -61,7 +61,7 @@ public class AssignWorkerInventory : InventoryHolder
 
         int amountOfWorkersToRemove = 0;
 
-        foreach (CharacterManager _worker in workersFound)
+        foreach (WorkerManager _worker in workersFound)
             {
                 if (_worker.isAssignedToABuilding == true)
                 {

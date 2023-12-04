@@ -60,7 +60,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c99dcd268f5f3ef499c75c4184a17272, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  CharacterManagerRef: {fileID: 0}
+  WorkerManagerRef: {fileID: 2005762523665065977}
   canBeMovedbyPlayer: 0
   TransferStarted: 0
   currentActionText: {fileID: 6693756074958917519}
@@ -76,7 +76,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eda9176bf23a4b84289be54ee021a507, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  CharacterManagerRef: {fileID: 0}
+  WorkerManagerRef: {fileID: 2005762523665065977}
   canBeMovedbyPlayer: 0
   TransferStarted: 0
   currentActionText: {fileID: 6693756074958917519}
@@ -95,7 +95,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5edbc78bbe3b8f947abb4378a8eb3fdc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  CharacterManagerRef: {fileID: 0}
+  WorkerManagerRef: {fileID: 2005762523665065977}
   canBeMovedbyPlayer: 0
   TransferStarted: 0
   currentActionText: {fileID: 6693756074958917519}
@@ -111,7 +111,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 39a77cf9bf79d444db6f96f7c23f095a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  CharacterManagerRef: {fileID: 0}
+  WorkerManagerRef: {fileID: 2005762523665065977}
   canBeMovedbyPlayer: 0
   TransferStarted: 0
   currentActionText: {fileID: 6693756074958917519}
@@ -324,12 +324,12 @@ GameObject:
   - component: {fileID: 8963163834974895649}
   - component: {fileID: 104085989781521593}
   - component: {fileID: 2303141456327847002}
-  - component: {fileID: 4347793817180003407}
   - component: {fileID: 1689742863027917839}
   - component: {fileID: 9152607663828230570}
   - component: {fileID: 8466157469576545125}
   - component: {fileID: 3261263250596637997}
   - component: {fileID: 6828548498444926733}
+  - component: {fileID: 2005762523665065977}
   m_Layer: 12
   m_Name: Worker
   m_TagString: Unit
@@ -405,38 +405,6 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 1.5, z: 1}
   m_Center: {x: 0, y: 0.75, z: 0}
---- !u!114 &4347793817180003407
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2019966834684936119}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 36254380acd89814489a9c609bff8f77, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  OutilineMaterial: {fileID: 2100000, guid: 0634b05414478cc439d03427eaa410a3, type: 2}
-  HealthPoints: 0
-  findingScript: {fileID: 8466157469576545125}
-  unitData: {fileID: 11400000, guid: c8e1b7a7471415240882f5812752ef31, type: 2}
-  agent: {fileID: 1689742863027917839}
-  stoppingDistance: 0.3
-  resourceToGather: 1
-  GatheringMode: 0
-  BuildingMode: 0
-  LastGatheredResource: 0
-  inventory: {fileID: 0}
-  bag: {fileID: 6013164946446559602}
-  bagContainer: {fileID: 5341555039358360323}
-  healthBar: {fileID: 9160698491249958942}
-  animator: {fileID: 3177651736305246939}
-  isAssignedToABuilding: 0
-  buildingAssigned: {fileID: 0}
-  workerAIUse: {fileID: 0}
-  resourceAssigned: {fileID: 0}
-  isTransferingItems: 0
 --- !u!195 &1689742863027917839
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -520,6 +488,38 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   item: {fileID: 11400000, guid: 7a3a132c32013404b86a37667faa8d5b, type: 2}
+--- !u!114 &2005762523665065977
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2019966834684936119}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: eedbe49334fa23541821e5aa8607ff43, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  OutilineMaterial: {fileID: 2100000, guid: 0634b05414478cc439d03427eaa410a3, type: 2}
+  HealthPoints: 0
+  findingScript: {fileID: 8466157469576545125}
+  unitData: {fileID: 11400000, guid: c8e1b7a7471415240882f5812752ef31, type: 2}
+  agent: {fileID: 1689742863027917839}
+  stoppingDistance: 0.25
+  animator: {fileID: 3177651736305246939}
+  healthBar: {fileID: 9160698491249958942}
+  resourceToGather: 1
+  GatheringMode: 0
+  BuildingMode: 0
+  LastGatheredResource: 0
+  inventory: {fileID: 3261263250596637997}
+  bag: {fileID: 6013164946446559602}
+  bagContainer: {fileID: 5341555039358360323}
+  isAssignedToABuilding: 0
+  buildingAssigned: {fileID: 0}
+  workerAIUse: {fileID: 4084818087585122331}
+  resourceAssigned: {fileID: 0}
+  isTransferingItems: 0
 --- !u!1 &2077983242471989877
 GameObject:
   m_ObjectHideFlags: 0

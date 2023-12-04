@@ -46,10 +46,10 @@ public class GameManager : MonoBehaviour
 
 
                         foreach (UnitManager um in Global.SELECTED_CHARACTERS)
-                            if (um.GetType() == typeof(CharacterManager))
+                            if (um is CharacterManager)
                             {
-                                ((CharacterManager)um).MoveTo(raycastHit.point, 0f);
-                                ((CharacterManager)um).ExitGatheringMode();
+                                ((CharacterManager)um).MoveTo(raycastHit.point, 1f);
+                                ((WorkerManager)um).ExitGatheringMode();
                             }
                     }
             }
@@ -69,10 +69,10 @@ public class GameManager : MonoBehaviour
                 ) && !isOverUI)
                 {
                     foreach (UnitManager um in Global.SELECTED_CHARACTERS)
-                        if (um.GetType() == typeof(CharacterManager))
+                        if (um is CharacterManager)
                         {
                             ((CharacterManager)um).MoveTo(raycastHit.point, 1f);
-                            ((CharacterManager)um).EnterGatheringMode();
+                            ((WorkerManager)um).EnterGatheringMode();
                         }
 
                 }

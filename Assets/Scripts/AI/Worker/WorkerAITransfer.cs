@@ -31,14 +31,14 @@ public class WorkerAITransfer : WorkerBehaviour
     }
     public override void ApplyBehaviour()
     {
-        if (CharacterManagerRef.isTransferingItems)
+        if (WorkerManagerRef.isTransferingItems)
         {
             DoTransferActions();
         }
     }
     public override BehaviourName CheckTransition()
     {
-        if (!CharacterManagerRef.isTransferingItems)
+        if (!WorkerManagerRef.isTransferingItems)
         {
             return BehaviourName.Controlled;
         }
@@ -74,7 +74,7 @@ public class WorkerAITransfer : WorkerBehaviour
         Transform targetTransform = TargetBuilding.gameObject.transform;
         float distanceToStop = targetTransform.GetComponent<BoxCollider>().size.z + 1.5f;
 
-        CharacterManagerRef.MoveTo(targetTransform.position, distanceToStop);
+        WorkerManagerRef.MoveTo(targetTransform.position, distanceToStop);
         if (Vector3.Distance(transform.position, targetTransform.position) < distanceToStop)
         {
             buildingReached = true;
@@ -95,10 +95,10 @@ public class WorkerAITransfer : WorkerBehaviour
                 buildingStockageUI.UpdateSpaceInUI();
             }
         }
-        CharacterManagerRef.HideBag();
+        WorkerManagerRef.HideBag();
 
         buildingReached = false;
-        CharacterManagerRef.isTransferingItems = false;
+        WorkerManagerRef.isTransferingItems = false;
     }
 
     public void DoTake()
@@ -122,11 +122,11 @@ public class WorkerAITransfer : WorkerBehaviour
                     }
                 }
             }
-            CharacterManagerRef.ShowBag();
+            WorkerManagerRef.ShowBag();
         }
 
         buildingReached = false;
-        CharacterManagerRef.isTransferingItems = false;
+        WorkerManagerRef.isTransferingItems = false;
     }
 
     public async void DoTransfer()
@@ -179,7 +179,7 @@ public class WorkerAITransfer : WorkerBehaviour
                     float distanceToStop = targetTransform.GetComponent<BoxCollider>().size.z + 1.5f;
                     TargetInventory = inventoryToTakeFrom;
                     Debug.Log("prend");
-                    CharacterManagerRef.MoveTo(targetTransform.position, distanceToStop);
+                    WorkerManagerRef.MoveTo(targetTransform.position, distanceToStop);
 
                     while (!buildingReached)
                     {
@@ -217,7 +217,7 @@ public class WorkerAITransfer : WorkerBehaviour
                                     }
                                 }
                             }
-                            CharacterManagerRef.ShowBag();
+                            WorkerManagerRef.ShowBag();
                         }
                     }
 
@@ -228,7 +228,7 @@ public class WorkerAITransfer : WorkerBehaviour
                     targetTransform = inventoryToTakeTo.gameObject.GetComponent<Transform>();
                     distanceToStop = targetTransform.GetComponent<BoxCollider>().size.z + 5f;
 
-                    CharacterManagerRef.MoveTo(targetTransform.position, distanceToStop);
+                    WorkerManagerRef.MoveTo(targetTransform.position, distanceToStop);
 
                     while (!buildingReached)
                     {
@@ -262,7 +262,7 @@ public class WorkerAITransfer : WorkerBehaviour
                             }
                         }
 
-                        CharacterManagerRef.HideBag();
+                        WorkerManagerRef.HideBag();
                         buildingReached = false;
                     }
                 }
@@ -270,13 +270,13 @@ public class WorkerAITransfer : WorkerBehaviour
 
                 Debug.Log("transfer done");
                 TransferStarted = false;
-                CharacterManagerRef.isTransferingItems = false;
+                WorkerManagerRef.isTransferingItems = false;
 
             }
             else
             {
                 Debug.Log("transfert pas ok");
-                CharacterManagerRef.isTransferingItems = false;
+                WorkerManagerRef.isTransferingItems = false;
                 buildingReached = false;
                 TransferStarted = false;
             }
@@ -302,7 +302,7 @@ public class WorkerAITransfer : WorkerBehaviour
                     float distanceToStop = targetTransform.GetComponent<BoxCollider>().size.z + 1.5f;
                     TargetInventory = inventoryToTakeFrom;
                     Debug.Log("prend");
-                    CharacterManagerRef.MoveTo(targetTransform.position, distanceToStop);
+                    WorkerManagerRef.MoveTo(targetTransform.position, distanceToStop);
 
                     while (!buildingReached)
                     {
@@ -343,7 +343,7 @@ public class WorkerAITransfer : WorkerBehaviour
                                     }
                                 }
                             }
-                            CharacterManagerRef.ShowBag();
+                            WorkerManagerRef.ShowBag();
                         }
                     }
 
@@ -355,7 +355,7 @@ public class WorkerAITransfer : WorkerBehaviour
                     targetTransform = TargetBuilding.gameObject.transform;
                     distanceToStop = targetTransform.GetComponent<BoxCollider>().size.z + 1.5f;
 
-                    CharacterManagerRef.MoveTo(targetTransform.position, distanceToStop);
+                    WorkerManagerRef.MoveTo(targetTransform.position, distanceToStop);
 
                     while (!buildingReached)
                     {
@@ -387,7 +387,7 @@ public class WorkerAITransfer : WorkerBehaviour
                             }
                         }
 
-                        CharacterManagerRef.HideBag();
+                        WorkerManagerRef.HideBag();
                         buildingReached = false;
                     }
                 }
@@ -395,12 +395,12 @@ public class WorkerAITransfer : WorkerBehaviour
 
                 Debug.Log("transfer done");
                 TransferStarted = false;
-                CharacterManagerRef.isTransferingItems = false;
+                WorkerManagerRef.isTransferingItems = false;
             }
             else
             {
                 Debug.Log("transfert pas ok");
-                CharacterManagerRef.isTransferingItems = false;
+                WorkerManagerRef.isTransferingItems = false;
                 buildingReached = false;
                 TransferStarted = false;
             }

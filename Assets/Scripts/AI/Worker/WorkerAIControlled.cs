@@ -15,7 +15,7 @@ public class WorkerAIControlled : WorkerBehaviour
     }
     public override BehaviourName CheckTransition()
     {
-        if(CharacterManagerRef.isAssignedToABuilding) 
+        if(WorkerManagerRef.isAssignedToABuilding) 
         {
             return BehaviourName.Use;
         }
@@ -23,7 +23,7 @@ public class WorkerAIControlled : WorkerBehaviour
         {
             return BehaviourName.Wait;
         }
-        if(CharacterManagerRef.isTransferingItems)
+        if(WorkerManagerRef.isTransferingItems)
         {
             return BehaviourName.Transfer;
         }

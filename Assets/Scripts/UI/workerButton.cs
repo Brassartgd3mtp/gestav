@@ -21,9 +21,9 @@ public class workerButton : MonoBehaviour
     {
         foreach (GameObject go in GetAllWorkersAssigned())
         {
-            CharacterManager characterManagerRef = go.GetComponent<CharacterManager>();
+            WorkerManager workerManagerRef = go.GetComponent<WorkerManager>();
             BuildingManager buildingManager = gameObject.GetComponentInParent<BuildingManager>();
-            if(characterManagerRef.buildingAssigned == buildingManager) 
+            if(workerManagerRef.buildingAssigned == buildingManager) 
             {
                 Blink blink = go.GetComponentInChildren<Blink>();
                 blink.StartBlinking();

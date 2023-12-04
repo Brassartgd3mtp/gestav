@@ -78,9 +78,9 @@ public class BuildingStockageUI : MonoBehaviour
 
         foreach (GameObject go in GetAllWorkersAssigned())
         {
-            CharacterManager characterManagerRef = go.GetComponent<CharacterManager>();
+            WorkerManager workerManagerRef = go.GetComponent<WorkerManager>();
             BuildingManager buildingManager = gameObject.GetComponent<BuildingManager>();
-            if (characterManagerRef != null && characterManagerRef.buildingAssigned == buildingManager)
+            if (workerManagerRef != null && workerManagerRef.buildingAssigned == buildingManager)
             {
                 Blink blink = go.GetComponentInChildren<Blink>();
                 blink.StartBlinking();
@@ -98,9 +98,9 @@ public class BuildingStockageUI : MonoBehaviour
 
         foreach (GameObject go in GetAllWorkersAssigned())
         {
-            CharacterManager characterManagerRef = go.GetComponent<CharacterManager>();
+            WorkerManager workerManagerRef = go.GetComponent<WorkerManager>();
             BuildingManager buildingManager = gameObject.GetComponent<BuildingManager>();
-            if (characterManagerRef != null && characterManagerRef.buildingAssigned == buildingManager)
+            if (workerManagerRef != null && workerManagerRef.buildingAssigned == buildingManager)
             {
                 Blink blink = go.GetComponentInChildren<Blink>();
                 blink.StopBlinking();
