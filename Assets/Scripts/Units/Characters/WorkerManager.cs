@@ -9,6 +9,7 @@ public class WorkerManager : CharacterManager
     [Header("IA")]
 
     private WorkerAIC workerAIC;
+    public WorkerBehaviour workerBehaviour;
 
     [Header("Collect")]
 
@@ -46,6 +47,7 @@ public class WorkerManager : CharacterManager
     public WorkerAIUse workerAIUse;
     public ResourceSpotUI resourceAssigned;
 
+    public bool canBeMovedByPlayer;
 
     [Header("Item transfer")]
 
@@ -59,6 +61,7 @@ public class WorkerManager : CharacterManager
         bagContainer.SetActive(false);
         workerAIUse = gameObject.GetComponentInChildren<WorkerAIUse>();
         workerAIC = gameObject.GetComponentInChildren<WorkerAIC>();
+        workerBehaviour = gameObject.GetComponentInChildren<WorkerBehaviour>();
 
         base.Awake();
     }

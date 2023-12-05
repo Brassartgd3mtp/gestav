@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class HeroManager : CharacterManager
@@ -7,6 +8,14 @@ public class HeroManager : CharacterManager
     [Header("Statistics")]
     public int Attack;
     public float AttackSpeed;
+
+
+    private bool inIsBattle;
+    public bool IsInBattle => inIsBattle;
+
+    public bool canBeMovedByPlayer;
+    public EnemyManager CurrentTarget;
+
     protected override void Awake()
     {
         base.Awake();
@@ -19,5 +28,9 @@ public class HeroManager : CharacterManager
         damage = Attack;
         target.HealthPoints -= damage;
         target.HealthUpdate();
+    }
+    private void Update()
+    {
+        Debug.Log(CurrentTarget);
     }
 }

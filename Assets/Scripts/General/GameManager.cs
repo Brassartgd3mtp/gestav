@@ -47,36 +47,23 @@ public class GameManager : MonoBehaviour
                     foreach (UnitManager um in Global.SELECTED_CHARACTERS)
                         if (um is CharacterManager)
                         {
-                            ((CharacterManager)um).MoveTo(raycastHit.point, 1f);
-                            ((WorkerManager)um).ExitGatheringMode();
+                         WorkerManager wm = um as WorkerManager;
+                         HeroManager hm = um as HeroManager;
+                            if (wm!= null && wm.canBeMovedByPlayer)
+                            {
+                                ((WorkerManager)um).MoveTo(raycastHit.point, 1f);
+                                ((WorkerManager)um).ExitGatheringMode();
+                            }
+                         
+                            if(hm != null && hm.canBeMovedByPlayer)
+                            {
+                                ((HeroManager)um).MoveTo(raycastHit.point, 1f);
+                            }
+                            
                         }
                 }
             }
         }
-    
-
-
-            if (Global.SELECTED_CHARACTERS.Count > 0 && Input.GetMouseButtonUp(1))
-            {
-                ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-                bool isOverUI = UnityEngine.EventSystems.EventSystem.current.IsPointerOverGameObject();
-                if (Physics.Raycast(
-                    ray,
-                    out raycastHit,
-                    1000f,
-                    Global.RESOURCE_LAYER_MASK
-                ) && !isOverUI)
-                {
-                    foreach (UnitManager um in Global.SELECTED_CHARACTERS)
-                        if (um is CharacterManager)
-                        {
-                            ((CharacterManager)um).MoveTo(raycastHit.point, 1f);
-                            ((WorkerManager)um).EnterGatheringMode();
-                        }
-
-                }
-
-            }
     }
     
 
