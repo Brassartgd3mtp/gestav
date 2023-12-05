@@ -7,7 +7,7 @@ public class WorkerAIControlled : WorkerBehaviour
 {
     public override void ApplyBehaviour()
     {
-        canBeMovedbyPlayer = true;
+        WorkerManagerRef.canBeMovedByPlayer = true;
         currentActionText.text = "Controlled";
         currentActionText.color = Color.green;
         currentActionText.outlineColor = Color.black;

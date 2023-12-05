@@ -24,13 +24,15 @@ public class WorkerAITransfer : WorkerBehaviour
         base.Awake();
         buildingReached = false;
         inventory = gameObject.GetComponentInParent<UnitInventory>();
-        canBeMovedbyPlayer = false;
+        WorkerManagerRef.canBeMovedByPlayer = false;
         TransferStarted = false;
         buildingStockageUI = null;
         findingScript = GetComponentInParent<Find>();
     }
     public override void ApplyBehaviour()
     {
+        WorkerManagerRef.canBeMovedByPlayer = false;
+
         if (WorkerManagerRef.isTransferingItems)
         {
             DoTransferActions();

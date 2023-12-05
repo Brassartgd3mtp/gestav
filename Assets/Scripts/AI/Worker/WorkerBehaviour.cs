@@ -7,7 +7,6 @@ using static WorkerAIC;
 public abstract class WorkerBehaviour : MonoBehaviour
 {
     public WorkerManager WorkerManagerRef;
-    public bool canBeMovedbyPlayer;
     public bool TransferStarted = false;
     protected GameResourceManager gameResourceManager;
     [SerializeField] protected TextMeshProUGUI currentActionText;

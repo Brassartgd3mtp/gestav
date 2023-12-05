@@ -52,7 +52,15 @@ public class UnitsSelection : MonoBehaviour
                 {
                     if (raycastHit.transform.tag == "Terrain" && !isNotOverUI)
                         DeselectAllUnits();
-  
+                    if (raycastHit.transform.TryGetComponent(out EnemyManager em))
+                    {
+                        foreach (UnitManager um in Global.SELECTED_CHARACTERS)
+                            if (um is HeroManager)
+                            {
+                                HeroManager hm = um as HeroManager;
+                                hm.CurrentTarget = em;
+                            }
+                    }
                 }
             }
         }

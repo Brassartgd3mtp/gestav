@@ -22,11 +22,6 @@ public class UnitManager : MonoBehaviour
         buildingActionSelection = GetComponentInChildren<BuildingActionSelection>();
     }
 
-
-    protected virtual void FixedUpdate()
-    {
-        HealthUpdate();
-    }
     public virtual void  HealthUpdate()
     {
         healthBar.value = HealthPoints;

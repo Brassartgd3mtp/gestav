@@ -18,11 +18,13 @@ public class WorkerAIUse : WorkerBehaviour
     {
         base.Awake();
         findingScript = GetComponentInParent<Find>();
-        canBeMovedbyPlayer = false;
+        WorkerManagerRef.canBeMovedByPlayer = false;
         characterUI = FindAnyObjectByType<CharacterUI>();
     }
     public override void ApplyBehaviour()
     {
+        WorkerManagerRef.canBeMovedByPlayer = false;
+
         if (WorkerManagerRef.isAssignedToABuilding && WorkerManagerRef.buildingAssigned != null && WorkerManagerRef.buildingAssigned.hasBeenBuilt)
         {
             UseBuilding();

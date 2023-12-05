@@ -44,11 +44,6 @@ public class CharacterManager : UnitManager
         HealthPoints = unitData.healthPoints;
     }
 
-    protected override void FixedUpdate()
-    {
-        base.FixedUpdate();
-    }
-
     public override void HealthUpdate()
     {
         base.HealthUpdate();
@@ -68,14 +63,12 @@ public class CharacterManager : UnitManager
         agent.velocity = Vector3.zero;
         agent.isStopped = true;
         animator.SetBool("Walking", false);
-        Debug.Log(animator.GetBool("Walking"));
         // Set the new destination
         agent.destination = _targetPosition;
         targetPosition = _targetPosition;
         // Resume movement
         agent.isStopped = false;
         animator.SetBool("Walking", true);
-        Debug.Log(animator.GetBool("Walking"));
 
       //  Vector3 dir = transform.position - targetPosition;
         // transform.rotation = Quaternion.LookRotation(dir);
@@ -87,7 +80,6 @@ public class CharacterManager : UnitManager
             if (agent.velocity == Vector3.zero)
             {
                 animator.SetBool("Walking", false);
-                Debug.Log(animator.GetBool("Walking"));
                 agent.isStopped = true;
                 positionReached = true;
                 return;

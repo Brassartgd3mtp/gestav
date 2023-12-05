@@ -1,5 +1,91 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &1043994808747404515
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3088247311242642146}
+  - component: {fileID: 7147761042410419569}
+  - component: {fileID: 580745299309292327}
+  - component: {fileID: 4504860229071591678}
+  - component: {fileID: 7804336123584270923}
+  m_Layer: 12
+  m_Name: Brain
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &3088247311242642146
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1043994808747404515}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 8963163834974895649}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &7147761042410419569
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1043994808747404515}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ff175d2b0587bdf42b1c73a2557dad64, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &580745299309292327
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1043994808747404515}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6daee41623c95d64187ea5bc62ffc47c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  HeroManagerRef: {fileID: 383454507321897915}
+--- !u!114 &4504860229071591678
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1043994808747404515}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e32e1a61f82d9ef45803406ec8123fb8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  HeroManagerRef: {fileID: 383454507321897915}
+--- !u!114 &7804336123584270923
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1043994808747404515}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 285b2678013887f4e9318ecb27b3975f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  HeroManagerRef: {fileID: 383454507321897915}
 --- !u!1 &2019966834684936119
 GameObject:
   m_ObjectHideFlags: 0
@@ -37,6 +123,7 @@ Transform:
   m_Children:
   - {fileID: 5141592690145996452}
   - {fileID: 4503573546422283391}
+  - {fileID: 3088247311242642146}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!54 &104085989781521593
@@ -140,15 +227,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1e4e9dd5ea26bdf4d80bc00addb96d9c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  OutilineMaterial: {fileID: 2100000, guid: 0634b05414478cc439d03427eaa410a3, type: 2}
   HealthPoints: 0
+  OutilineMaterial: {fileID: 2100000, guid: 0634b05414478cc439d03427eaa410a3, type: 2}
+  healthBar: {fileID: 9160698491249958942}
   findingScript: {fileID: 851149025857833745}
   unitData: {fileID: 11400000, guid: 95c7a526d13053e41b0db307fa02e668, type: 2}
   agent: {fileID: 1689742863027917839}
   stoppingDistance: 0.25
   animator: {fileID: 1277535324797957342}
-  healthBar: {fileID: 9160698491249958942}
   corpse: {fileID: 2019966834684936119, guid: 8cdd8fc15319a404b8ca0d2f623d8812, type: 3}
+  Attack: 0
+  AttackSpeed: 0
+  canBeMovedByPlayer: 0
 --- !u!114 &851149025857833745
 MonoBehaviour:
   m_ObjectHideFlags: 0

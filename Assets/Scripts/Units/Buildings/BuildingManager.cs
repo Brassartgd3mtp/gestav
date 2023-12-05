@@ -109,10 +109,6 @@ public class BuildingManager : UnitManager
         return _invalidCornersCount < 3;
     }
 
-    protected override void FixedUpdate()
-    {
-        base.FixedUpdate();
-    }
 
     public override void HealthUpdate()
     {
