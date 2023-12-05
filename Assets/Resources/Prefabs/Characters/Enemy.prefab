@@ -509,8 +509,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Size: {x: 2, y: 3, z: 2}
+  m_Center: {x: 0, y: 1, z: 0}
 --- !u!195 &6175688067580031554
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -573,8 +573,8 @@ MonoBehaviour:
   agent: {fileID: 6175688067580031554}
   stoppingDistance: 0.2
   animator: {fileID: 0}
-  healthBar: {fileID: 0}
-  corpse: {fileID: 0}
+  healthBar: {fileID: 640792597918926589}
+  corpse: {fileID: 4202299266704800787, guid: 1d0a73574fb8f9745a140fa56391dc3f, type: 3}
 --- !u!1 &4493655452644344707
 GameObject:
   m_ObjectHideFlags: 0

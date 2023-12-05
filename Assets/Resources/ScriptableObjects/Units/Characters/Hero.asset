@@ -18,5 +18,6 @@ MonoBehaviour:
   prefab: {fileID: 2019966834684936119, guid: c0b7016f66761424bbad399a99092846, type: 3}
   resourcesToBuild: []
   damages: 4
-  attackSpeed: 1.5
+  attackSpeed: 0.5
   moveSpeed: 0
+  attackRange: 6

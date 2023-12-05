@@ -50,9 +50,8 @@ public class UnitsSelection : MonoBehaviour
                     1000f
                 ))
                 {
-                    if (raycastHit.transform.tag == "Terrain" && !isNotOverUI)
-                        DeselectAllUnits();
-                    if (raycastHit.transform.TryGetComponent(out EnemyManager em))
+                    
+                    if (raycastHit.collider.gameObject.TryGetComponent(out EnemyManager em))
                     {
                         foreach (UnitManager um in Global.SELECTED_CHARACTERS)
                             if (um is HeroManager)
@@ -61,6 +60,8 @@ public class UnitsSelection : MonoBehaviour
                                 hm.CurrentTarget = em;
                             }
                     }
+                    else if (raycastHit.transform.tag == "Terrain" && !isNotOverUI)
+                        DeselectAllUnits();
                 }
             }
         }

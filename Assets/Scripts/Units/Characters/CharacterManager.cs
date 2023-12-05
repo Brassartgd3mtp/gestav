@@ -5,6 +5,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.UI;
+using UnityEngine.XR;
 
 public class CharacterManager : UnitManager
 {
@@ -29,7 +30,10 @@ public class CharacterManager : UnitManager
     [Header("Animations & graphics")]
 
     [SerializeField] protected Animator animator;
+    public Animator Animator => animator;
     [SerializeField] protected GameObject corpse;
+
+    [SerializeField] private Transform meshTrasnform;
 
 
     protected override Unit Unit
@@ -58,7 +62,7 @@ public class CharacterManager : UnitManager
     public async void MoveTo(Vector3 _targetPosition, float _rangeToStop)
     {
         bool positionReached = false;
-
+        meshTrasnform.rotation = transform.rotation;
         // Stop the current movement
         agent.velocity = Vector3.zero;
         agent.isStopped = true;
@@ -70,14 +74,13 @@ public class CharacterManager : UnitManager
         agent.isStopped = false;
         animator.SetBool("Walking", true);
 
-      //  Vector3 dir = transform.position - targetPosition;
-        // transform.rotation = Quaternion.LookRotation(dir);
+        transform.LookAt(targetPosition);
     
         while (!positionReached)
         {
             await Task.Delay(100);
 
-            if (agent.velocity == Vector3.zero)
+            if (agent.velocity == Vector3.zero || Vector3.Distance(transform.position, _targetPosition) < _rangeToStop)
             {
                 animator.SetBool("Walking", false);
                 agent.isStopped = true;

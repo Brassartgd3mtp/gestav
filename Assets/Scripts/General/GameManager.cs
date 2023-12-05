@@ -58,6 +58,7 @@ public class GameManager : MonoBehaviour
                             if(hm != null && hm.canBeMovedByPlayer)
                             {
                                 ((HeroManager)um).MoveTo(raycastHit.point, 1f);
+                                hm.CurrentTarget = null;
                             }
                             
                         }

@@ -8,6 +8,7 @@ public class HeroManager : CharacterManager
     [Header("Statistics")]
     public int Attack;
     public float AttackSpeed;
+    public float AttackRange;
 
 
     private bool inIsBattle;
@@ -21,9 +22,10 @@ public class HeroManager : CharacterManager
         base.Awake();
         Attack = unitData.damages;
         AttackSpeed = unitData.attackSpeed;
+        AttackRange = unitData.attackRange;
     }
 
-    private void InflictDamage(EnemyManager target, int damage)
+    public void InflictDamage(EnemyManager target, int damage)
     {
         damage = Attack;
         target.HealthPoints -= damage;

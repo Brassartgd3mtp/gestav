@@ -61,7 +61,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   WorkerManagerRef: {fileID: 2005762523665065977}
-  canBeMovedbyPlayer: 0
   TransferStarted: 0
   currentActionText: {fileID: 6693756074958917519}
 --- !u!114 &1591616980658407193
@@ -77,7 +76,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   WorkerManagerRef: {fileID: 2005762523665065977}
-  canBeMovedbyPlayer: 0
   TransferStarted: 0
   currentActionText: {fileID: 6693756074958917519}
   TargetBuilding: {fileID: 0}
@@ -96,7 +94,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   WorkerManagerRef: {fileID: 2005762523665065977}
-  canBeMovedbyPlayer: 0
   TransferStarted: 0
   currentActionText: {fileID: 6693756074958917519}
 --- !u!114 &6187519603997441879
@@ -112,7 +109,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   WorkerManagerRef: {fileID: 2005762523665065977}
-  canBeMovedbyPlayer: 0
   TransferStarted: 0
   currentActionText: {fileID: 6693756074958917519}
 --- !u!1 &304185757276725103
@@ -500,15 +496,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eedbe49334fa23541821e5aa8607ff43, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  OutilineMaterial: {fileID: 2100000, guid: 0634b05414478cc439d03427eaa410a3, type: 2}
   HealthPoints: 0
+  OutilineMaterial: {fileID: 2100000, guid: 0634b05414478cc439d03427eaa410a3, type: 2}
+  healthBar: {fileID: 9160698491249958942}
   findingScript: {fileID: 8466157469576545125}
   unitData: {fileID: 11400000, guid: c8e1b7a7471415240882f5812752ef31, type: 2}
   agent: {fileID: 1689742863027917839}
   stoppingDistance: 0.25
   animator: {fileID: 3177651736305246939}
-  healthBar: {fileID: 9160698491249958942}
   corpse: {fileID: 2019966834684936119, guid: 28fd9c1cc7730b14781022000e6c94bc, type: 3}
+  meshTrasnform: {fileID: 8861225615376611489}
+  workerBehaviour: {fileID: 0}
   resourceToGather: 1
   GatheringMode: 0
   BuildingMode: 0
@@ -520,6 +518,7 @@ MonoBehaviour:
   buildingAssigned: {fileID: 0}
   workerAIUse: {fileID: 4084818087585122331}
   resourceAssigned: {fileID: 0}
+  canBeMovedByPlayer: 0
   isTransferingItems: 0
 --- !u!1 &2077983242471989877
 GameObject:

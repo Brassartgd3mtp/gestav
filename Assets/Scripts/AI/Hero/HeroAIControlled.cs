@@ -16,7 +16,7 @@ public class HeroAIControlled : HeroBehaviour
         {
             return BehaviourName.Wait;
         }
-        else if (HeroManagerRef.IsInBattle) 
+        else if (HeroManagerRef.CurrentTarget != null) 
         {
             return BehaviourName.Attack;
         }
