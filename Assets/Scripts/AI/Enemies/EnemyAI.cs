@@ -107,10 +107,8 @@ public class EnemyAI : MonoBehaviour
 
                 if (currentTarget != null)
                 {
-                    if (currentTarget.TryGetComponent(out BuildingStockageUI _bsui))
-                        _bsui.HealthPoints -= attackDamage;
-                    else if (currentTarget.TryGetComponent(out CharacterManager _cm))
-                        _cm.HealthPoints -= attackDamage;
+                    if (currentTarget.TryGetComponent(out UnitManager _um))
+                        _um.HealthPoints -= attackDamage;
                 }
                 else
                     yield break;

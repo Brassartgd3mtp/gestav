@@ -109,6 +109,22 @@ public class BuildingManager : UnitManager
         return _invalidCornersCount < 3;
     }
 
+    protected override void FixedUpdate()
+    {
+        base.FixedUpdate();
+    }
+
+    public override void HealthUpdate()
+    {
+        base.HealthUpdate();
+
+        if (HealthPoints <= 0)
+        {
+            Destroy(gameObject);
+        }
+
+    }
+
     // Determine if the BuildingManager is active (used for base class UnitManager)
     protected override bool IsActive()
     {

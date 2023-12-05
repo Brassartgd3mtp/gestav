@@ -8,9 +8,6 @@ using UnityEngine.UI;
 
 public class CharacterManager : UnitManager
 {
-    [Header("Statistics")]
-    public int HealthPoints;
-
     [Header("Scripts")]
 
     [SerializeField] protected Find findingScript;
@@ -32,7 +29,6 @@ public class CharacterManager : UnitManager
     [Header("Animations & graphics")]
 
     [SerializeField] protected Animator animator;
-    [SerializeField] protected Slider healthBar;
     [SerializeField] protected GameObject corpse;
 
 
@@ -48,14 +44,14 @@ public class CharacterManager : UnitManager
         HealthPoints = unitData.healthPoints;
     }
 
-    protected void FixedUpdate()
+    protected override void FixedUpdate()
     {
-        HealthUpdate();
+        base.FixedUpdate();
     }
 
-    protected void HealthUpdate()
+    public override void HealthUpdate()
     {
-        healthBar.value = HealthPoints;
+        base.HealthUpdate();
 
         if (HealthPoints <= 0)
         {
