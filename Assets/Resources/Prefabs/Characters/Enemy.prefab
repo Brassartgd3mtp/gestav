@@ -223,12 +223,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1e818859aa757c84ab14cd122664bad6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  currentTarget: {fileID: 0}
-  colliders: []
-  detectionRange: 12
-  damageRange: 2
-  attackDamage: 2
-  attackCooldown: 3
-  detectable:
+  CurrentTarget: {fileID: 0}
+  DetectionRange: 12
+  DamageRange: 2
+  AttackDamage: 2
+  Detectable:
     serializedVersion: 2
     m_Bits: 119808
+  MaxAttackCooldown: 3
+  AttackCooldown: 3
+  Agent: {fileID: 0}
+  CompareDistance: 0

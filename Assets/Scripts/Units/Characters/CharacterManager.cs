@@ -155,7 +155,7 @@ public class CharacterManager : UnitManager
 
         // Resume movement
         agent.isStopped = false;
-        while(agent.velocity != Vector3.zero)
+        while (agent != null && agent.velocity != Vector3.zero)
         {
             if(Vector3.Distance(transform.position, targetPosition) < _rangeToStop)
             {
