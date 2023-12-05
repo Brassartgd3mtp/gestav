@@ -10,6 +10,8 @@ public class UnitData : ScriptableObject
     public int healthPoints;
     public GameObject prefab;
     public ItemTypeAndCount[] resourcesToBuild;
-
+    public int damages;
+    public float attackSpeed;
+    public float moveSpeed;
 
 }

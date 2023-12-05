@@ -16,3 +16,7 @@ MonoBehaviour:
   unitName: Enemy
   healthPoints: 20
   prefab: {fileID: 4202299266704800787, guid: 697aad4bde3560a44b06a11d0126f2ea, type: 3}
+  resourcesToBuild: []
+  damages: 2
+  attackSpeed: 1.5
+  moveSpeed: 0

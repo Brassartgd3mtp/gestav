@@ -2,20 +2,35 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.UI;
 
 [RequireComponent(typeof(BoxCollider))]
 public class UnitManager : MonoBehaviour
 {
+    [Header("Statistics")]
+    public int HealthPoints;
+
     public Material OutilineMaterial;
 
     protected BoxCollider _collider;
     protected BuildingActionSelection buildingActionSelection;
+
+    [SerializeField] protected Slider healthBar;
 
     private void Awake()
     {
         buildingActionSelection = GetComponentInChildren<BuildingActionSelection>();
     }
 
+
+    protected virtual void FixedUpdate()
+    {
+        HealthUpdate();
+    }
+    public virtual void  HealthUpdate()
+    {
+        healthBar.value = HealthPoints;
+    }
     protected virtual Unit Unit { get; set; }
 
     // Called when the mouse is clicked on the unit

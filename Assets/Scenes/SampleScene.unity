@@ -4791,6 +4791,16 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1019006193472766131, guid: 697aad4bde3560a44b06a11d0126f2ea,
+        type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1019006193472766131, guid: 697aad4bde3560a44b06a11d0126f2ea,
+        type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1131769259582519196, guid: 697aad4bde3560a44b06a11d0126f2ea,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -4845,6 +4855,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Enemy (3)
+      objectReference: {fileID: 0}
+    - target: {fileID: 7625446356085526419, guid: 697aad4bde3560a44b06a11d0126f2ea,
+        type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7625446356085526419, guid: 697aad4bde3560a44b06a11d0126f2ea,
+        type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8267625425774090428, guid: 697aad4bde3560a44b06a11d0126f2ea,
         type: 3}
