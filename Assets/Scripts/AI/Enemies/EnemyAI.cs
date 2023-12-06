@@ -1,8 +1,5 @@
-using System.Collections;
-using System.Linq;
 using UnityEngine;
 using UnityEngine.AI;
-using UnityEngine.Rendering;
 
 public class EnemyAI : MonoBehaviour
 {
@@ -19,14 +16,18 @@ public class EnemyAI : MonoBehaviour
     [Space]
     [Tooltip("Don't modify this variable in Runtime !")]
     public float CompareDistance = 0;
+    [Tooltip("Don't modify this variable in Runtime !")]
     public CurrentState State = new CurrentState();
-    public float wanderingDelay;
+    [Tooltip("Don't modify this variable in Runtime !")]
+    public Vector3 spawnPos;
+    [Tooltip("Don't modify this variable in Runtime !")]
+    public bool isWandering = false;
     [HideInInspector] public NavMeshAgent Agent;
 
     public EnemySM EnemyStateMachine = new EnemySM();
     public Wandering Wandering;
     public Detect Detect;
-    public Follow Follow;
+    public DefineTargetType DefineTargetType;
     public FollowAttack FollowAttack;
     public StandAttack StandAttack;
 
@@ -37,9 +38,11 @@ public class EnemyAI : MonoBehaviour
 
     private void Start()
     {
+        spawnPos = transform.position;
+
         Wandering = new Wandering(this);
         Detect = new Detect(this);
-        Follow = new Follow(this);
+        DefineTargetType = new DefineTargetType(this);
         FollowAttack = new FollowAttack(this);
         StandAttack = new StandAttack(this);
 
@@ -48,18 +51,20 @@ public class EnemyAI : MonoBehaviour
 
     private void FixedUpdate()
     {
-        wanderingDelay = Wandering.wanderingDelay;
+        EnemyStateMachine.Update();
+
         if (CurrentTarget != null)
         {
-            CompareDistance = Vector3.Distance(transform.position, CurrentTarget.transform.position);
-
-            if (CompareDistance > DetectionRange)
+            if (State != CurrentState.StandAttack)
             {
-                Debug.LogWarning("Target is out of range !");
-                CurrentTarget = null;
-            }
+                CompareDistance = Agent.remainingDistance;
 
-            EnemyStateMachine.Update();
+                if (Agent.hasPath && CompareDistance > DetectionRange)
+                {
+                    Debug.LogWarning("Target is out of range !");
+                    CurrentTarget = null;
+                }
+            }
         }
         else
             EnemyStateMachine.ChangeState(Detect);
@@ -84,7 +89,7 @@ public enum CurrentState
 {
     Wandering,
     Detect,
-    Follow,
+    DefineTargetType,
     FollowAttack,
     StandAttack
 }

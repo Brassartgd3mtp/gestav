@@ -26,7 +26,8 @@ public class EnemySM
 
     public void Update()
     {
-        if (currentState != null) currentState.Execute();
+        if (currentState != null)
+            currentState.Execute();
     }
 }
 
@@ -38,10 +39,8 @@ public class Wandering : IState
         this.owner = owner;
     }
 
-    public float wanderingDelay;
     private int wanderingIndex;
 
-    private Vector3 basePos;
     private Vector3[] wanderingSpotPos =
     {
         new Vector3(10, 0, 0),
@@ -52,26 +51,22 @@ public class Wandering : IState
 
     public void Enter()
     {
-        owner.SetState(0);
-
-        wanderingDelay = Random.Range(0, 8);
         wanderingIndex = Random.Range(0, 4);
-        basePos = owner.transform.position;
+
+        owner.isWandering = true;
+
+        owner.SetState(0);
     }
 
     public void Execute()
     {
-        Debug.Log("execute Wandering state");
-        if (wanderingDelay <= 0)
-        {
-            wanderingDelay = 9;
-            owner.Agent.SetDestination(basePos + wanderingSpotPos[wanderingIndex]);
-        }
-        else if (wanderingDelay <= 8 && wanderingDelay > 0)
-            wanderingDelay -= Time.deltaTime;
+        owner.Agent.SetDestination(owner.spawnPos + wanderingSpotPos[wanderingIndex]);
 
-        if (owner.Agent.pathStatus == NavMeshPathStatus.PathComplete)
+        if (owner.Agent.remainingDistance < 0.1f)
+        {
+            owner.isWandering = false;
             owner.EnemyStateMachine.ChangeState(owner.Detect);
+        }
     }
 
     public void Exit()
@@ -91,6 +86,7 @@ public class Detect : IState
     {
         this.owner = owner;
     }
+
     public void Enter()
     {
         owner.SetState(1);
@@ -102,15 +98,16 @@ public class Detect : IState
             distanceMin = float.MaxValue;
             nearestObject = null;
 
+            owner.isWandering = false;
+
             Execute();
         }
-        else
+        else if (!owner.isWandering)
             owner.EnemyStateMachine.ChangeState(owner.Wandering);
     }
     
     public void Execute()
     {
-        Debug.Log("execute Detect state");
         foreach (Collider hitCollider in hit)
         {
             if (hitCollider.TryGetComponent(out BuildingStockageUI _bsui))
@@ -142,15 +139,8 @@ public class Detect : IState
         if (hit.Count() > 0 && nearestObject != null)
         {
             owner.CurrentTarget = nearestObject;
-            //Debug.Log($"New target is {owner.CurrentTarget} !");
 
-            if (owner.CurrentTarget != null)
-            {
-                if (owner.CurrentTarget.TryGetComponent(out BuildingStockageUI bsui))
-                    owner.EnemyStateMachine.ChangeState(owner.StandAttack);
-                else if (owner.CurrentTarget.TryGetComponent(out CharacterManager cm))
-                    owner.EnemyStateMachine.ChangeState(owner.FollowAttack);
-            }
+            owner.EnemyStateMachine.ChangeState(owner.DefineTargetType);
         }
     }
     
@@ -160,11 +150,11 @@ public class Detect : IState
     }
 }
 
-public class Follow : IState
+public class DefineTargetType : IState
 {
     EnemyAI owner;
 
-    public Follow(EnemyAI owner)
+    public DefineTargetType(EnemyAI owner)
     {
         this.owner = owner;
     }
@@ -173,25 +163,16 @@ public class Follow : IState
     {
         owner.SetState(2);
 
-        Debug.Log($"{owner.gameObject.name} is entering Follow");
         if (owner.CurrentTarget == null)
             owner.EnemyStateMachine.ChangeState(owner.Detect);
     }
 
     public void Execute()
     {
-        if (owner.CompareDistance <= owner.DetectionRange)
-        {
-            owner.Agent.destination = owner.CurrentTarget.transform.position;
-
-            if (owner.CompareDistance <= owner.DamageRange)
-            {
-                if (owner.CurrentTarget.TryGetComponent(out BuildingStockageUI bsui))
-                    owner.EnemyStateMachine.ChangeState(owner.StandAttack);
-                else if (owner.CurrentTarget.TryGetComponent(out CharacterManager cm))
-                    owner.EnemyStateMachine.ChangeState(owner.FollowAttack);
-            }
-        }
+        if (owner.CurrentTarget.TryGetComponent(out BuildingStockageUI bsui))
+            owner.EnemyStateMachine.ChangeState(owner.StandAttack);
+        else if (owner.CurrentTarget.TryGetComponent(out CharacterManager cm))
+            owner.EnemyStateMachine.ChangeState(owner.FollowAttack);
     }
 
     public void Exit()
@@ -213,13 +194,12 @@ public class FollowAttack : IState
     {
         owner.SetState(3);
 
-        Debug.Log($"{owner.gameObject.name} is entering FollowAttack");
         owner.AttackCooldown = owner.MaxAttackCooldown;
     }
 
     public void Execute()
     {
-        if (owner.CompareDistance <= owner.DetectionRange)
+        if (owner.CompareDistance <= owner.DetectionRange && owner.CurrentTarget != null)
             owner.Agent.destination = owner.CurrentTarget.transform.position;
 
         if (owner.CompareDistance <= owner.DamageRange)
@@ -262,7 +242,6 @@ public class StandAttack : IState
     {
         owner.SetState(4);
 
-        Debug.Log($"{owner.gameObject.name} is entering StandAttack");
         owner.AttackCooldown = owner.MaxAttackCooldown;
 
         owner.Agent.destination = owner.CurrentTarget.transform.position;
