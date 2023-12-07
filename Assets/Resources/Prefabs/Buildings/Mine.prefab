@@ -8592,8 +8592,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 3, y: 3, z: 3}
-  m_Center: {x: 0, y: 1.5, z: 0}
+  m_Size: {x: 3, y: 3, z: 5.0175157}
+  m_Center: {x: 0, y: 1.5, z: -0.12801576}
 --- !u!114 &6043932349711789998
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8724,7 +8724,6 @@ MonoBehaviour:
     inventorySlots: []
   workersFound: []
   buildingManager: {fileID: 6043932349711789998}
-  resourceSpot: {fileID: 0}
 --- !u!114 &4071348802955819878
 MonoBehaviour:
   m_ObjectHideFlags: 0
