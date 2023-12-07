@@ -9,6 +9,7 @@ public class UnitManager : MonoBehaviour
 {
     [Header("Statistics")]
     public int HealthPoints;
+    public UnitData unitData;
 
     public Material OutilineMaterial;
 
@@ -17,12 +18,16 @@ public class UnitManager : MonoBehaviour
 
     [SerializeField] protected Slider healthBar;
 
-    private void Awake()
+    protected virtual void Awake()
     {
         buildingActionSelection = GetComponentInChildren<BuildingActionSelection>();
+
+        HealthPoints = unitData.healthPoints;
+        healthBar.maxValue = HealthPoints;
+        healthBar.value = healthBar.maxValue;
     }
 
-    public virtual void  HealthUpdate()
+    public virtual void HealthUpdate()
     {
         healthBar.value = HealthPoints;
     }

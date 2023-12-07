@@ -14,8 +14,6 @@ public enum BuildingType
 }
 public class BuildingManager : UnitManager
 {
-
-
     public BuildingType TypeOfBuilding;
 
     [SerializeField] private Building building;
@@ -30,8 +28,10 @@ public class BuildingManager : UnitManager
         set { building = value is Building ? (Building)value : null; }
     }
 
-    private void Awake()
+    protected override void Awake()
     {
+        base.Awake();
+
         gameResourceManager = FindAnyObjectByType<GameResourceManager>();
         hasBeenBuilt = false;
     }

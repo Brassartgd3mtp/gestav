@@ -208,10 +208,11 @@ public class FollowAttack : IState
             {
                 if (owner.CurrentTarget != null)
                 {
-                    if (owner.CurrentTarget.TryGetComponent(out BuildingStockageUI _bsui))
-                        _bsui.HealthPoints -= owner.AttackDamage;
-                    else if (owner.CurrentTarget.TryGetComponent(out CharacterManager _cm))
-                        _cm.HealthPoints -= owner.AttackDamage;
+                    if (owner.CurrentTarget.TryGetComponent(out WorkerManager _wm))
+                    {
+                        _wm.HealthPoints -= owner.AttackDamage;
+                        _wm.HealthUpdate();
+                    }
 
                     owner.AttackCooldown = owner.MaxAttackCooldown;
                 }
@@ -253,10 +254,11 @@ public class StandAttack : IState
         {
             if (owner.CurrentTarget != null)
             {
-                if (owner.CurrentTarget.TryGetComponent(out BuildingStockageUI _bsui))
-                    _bsui.HealthPoints -= owner.AttackDamage;
-                else if (owner.CurrentTarget.TryGetComponent(out CharacterManager _cm))
-                    _cm.HealthPoints -= owner.AttackDamage;
+                if (owner.CurrentTarget.TryGetComponent(out BuildingManager _bm))
+                {
+                    _bm.HealthPoints -= owner.AttackDamage;
+                    _bm.HealthUpdate();
+                }
 
                 owner.AttackCooldown = owner.MaxAttackCooldown;
             }
