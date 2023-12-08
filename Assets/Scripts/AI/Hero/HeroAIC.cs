@@ -33,11 +33,6 @@ public class HeroAIC : MonoBehaviour
     }
     private void Update()
     {
-        updateTimer += Time.deltaTime;
-        if (updateTimer >= updateInterval)
-        {
-            updateTimer += Time.deltaTime;
-
             currentBehaviour.ApplyBehaviour();
 
             // Vérifier la transition
@@ -48,11 +43,6 @@ public class HeroAIC : MonoBehaviour
             {
                 ChangeBehaviour(nextBehaviour);
             }
-            updateTimer = 0f;
-        }
-
-
-
     }
 
     public void ChangeBehaviour(BehaviourName behaviour)

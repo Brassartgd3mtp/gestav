@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Threading;
+using Unity.VisualScripting;
 using UnityEngine;
 using static HeroAIC;
 
@@ -26,14 +27,27 @@ public class HeroAIAttack : HeroBehaviour
     {
         HeroManagerRef.canBeMovedByPlayer = true;
 
-        if(Vector3.Distance(HeroManagerRef.CurrentTarget.transform.position, transform.position)  > HeroManagerRef.AttackRange + HeroManagerRef.CurrentTarget.GetComponent<BoxCollider>().size.z)
+        if(HeroManagerRef.CurrentTarget != null)
         {
-            HeroManagerRef.MoveTo(HeroManagerRef.CurrentTarget.transform.position, HeroManagerRef.CurrentTarget.GetComponent<BoxCollider>().size.z + HeroManagerRef.AttackRange/2);
+            if (Vector3.Distance(HeroManagerRef.CurrentTarget.transform.position, transform.position) > HeroManagerRef.AttackRange + HeroManagerRef.CurrentTarget.GetComponent<BoxCollider>().size.z)
+            {
+                HeroManagerRef.MoveTo(HeroManagerRef.CurrentTarget.transform.position, HeroManagerRef.CurrentTarget.GetComponent<BoxCollider>().size.z + HeroManagerRef.AttackRange / 2);
+            }
+            else if (HeroManagerRef.agent.remainingDistance > HeroManagerRef.AttackRange + HeroManagerRef.CurrentTarget.GetComponent<BoxCollider>().size.z)
+            {
+                return;
+            }
+            else if (timer <= 0f)
+            {
+                Attack();
+            }
+            else
+            {
+
+                return;
+            }
         }
-        else if(timer <= 0f) 
-        {
-            Attack();
-        }
+
     }
 
     public override BehaviourName CheckTransition()

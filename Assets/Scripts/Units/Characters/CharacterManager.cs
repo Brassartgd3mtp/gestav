@@ -22,7 +22,7 @@ public class CharacterManager : UnitManager
 
     [Header("Navigation")]
 
-    [SerializeField] protected NavMeshAgent agent;
+    public NavMeshAgent agent;
     [SerializeField] protected float stoppingDistance;
     protected Vector3 targetPosition;
 

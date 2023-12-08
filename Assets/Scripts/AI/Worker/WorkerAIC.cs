@@ -39,11 +39,6 @@ public class WorkerAIC : MonoBehaviour
     }
     private void Update()
     {
-        updateTimer += Time.deltaTime;
-        if (updateTimer >= updateInterval)
-        {
-            updateTimer += Time.deltaTime;
-
             currentBehaviour.ApplyBehaviour();
 
             // Vérifier la transition
@@ -54,11 +49,6 @@ public class WorkerAIC : MonoBehaviour
             {
                 ChangeBehaviour(nextBehaviour);
             }
-            updateTimer = 0f;
-        }
-
-
-
     }
 
     public void ChangeBehaviour(BehaviourName behaviour)

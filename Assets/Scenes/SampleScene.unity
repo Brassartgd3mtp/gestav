@@ -268,12 +268,12 @@ PrefabInstance:
     - target: {fileID: 1019006193472766131, guid: 697aad4bde3560a44b06a11d0126f2ea,
         type: 3}
       propertyPath: m_AnchorMax.x
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1019006193472766131, guid: 697aad4bde3560a44b06a11d0126f2ea,
         type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1131769259582519196, guid: 697aad4bde3560a44b06a11d0126f2ea,
         type: 3}
@@ -329,6 +329,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Enemy
+      objectReference: {fileID: 0}
+    - target: {fileID: 4202299266704800787, guid: 697aad4bde3560a44b06a11d0126f2ea,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -1785,12 +1790,12 @@ PrefabInstance:
     - target: {fileID: 1019006193472766131, guid: 697aad4bde3560a44b06a11d0126f2ea,
         type: 3}
       propertyPath: m_AnchorMax.x
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1019006193472766131, guid: 697aad4bde3560a44b06a11d0126f2ea,
         type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1131769259582519196, guid: 697aad4bde3560a44b06a11d0126f2ea,
         type: 3}
@@ -1847,6 +1852,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Enemy (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 4202299266704800787, guid: 697aad4bde3560a44b06a11d0126f2ea,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -1873,7 +1883,7 @@ PrefabInstance:
     - target: {fileID: 7599736339656111044, guid: ab23cc663f918d642ae11d0294499b1b,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 1.25
+      value: 0.84
       objectReference: {fileID: 0}
     - target: {fileID: 7599736339656111044, guid: ab23cc663f918d642ae11d0294499b1b,
         type: 3}
@@ -2046,12 +2056,12 @@ PrefabInstance:
     - target: {fileID: 1019006193472766131, guid: 697aad4bde3560a44b06a11d0126f2ea,
         type: 3}
       propertyPath: m_AnchorMax.x
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1019006193472766131, guid: 697aad4bde3560a44b06a11d0126f2ea,
         type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1131769259582519196, guid: 697aad4bde3560a44b06a11d0126f2ea,
         type: 3}
@@ -2107,6 +2117,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Enemy (2)
+      objectReference: {fileID: 0}
+    - target: {fileID: 4202299266704800787, guid: 697aad4bde3560a44b06a11d0126f2ea,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -3919,12 +3934,12 @@ PrefabInstance:
     - target: {fileID: 1019006193472766131, guid: 697aad4bde3560a44b06a11d0126f2ea,
         type: 3}
       propertyPath: m_AnchorMax.x
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1019006193472766131, guid: 697aad4bde3560a44b06a11d0126f2ea,
         type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1131769259582519196, guid: 697aad4bde3560a44b06a11d0126f2ea,
         type: 3}
@@ -3980,6 +3995,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Enemy (3)
+      objectReference: {fileID: 0}
+    - target: {fileID: 4202299266704800787, guid: 697aad4bde3560a44b06a11d0126f2ea,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

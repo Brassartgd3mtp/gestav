@@ -10,6 +10,7 @@ public class WorkerManager : CharacterManager
 
     private WorkerAIC workerAIC;
     public WorkerBehaviour workerBehaviour;
+    public bool CanDoAction = true;
 
     [Header("Collect")]
 

@@ -32,10 +32,11 @@ public class WorkerAITransfer : WorkerBehaviour
     public override void ApplyBehaviour()
     {
         WorkerManagerRef.canBeMovedByPlayer = false;
-
-        if (WorkerManagerRef.isTransferingItems)
+        
+        if (WorkerManagerRef.isTransferingItems && WorkerManagerRef.CanDoAction)
         {
             DoTransferActions();
+            WorkerManagerRef.CanDoAction = false;
         }
     }
     public override BehaviourName CheckTransition()
@@ -101,6 +102,7 @@ public class WorkerAITransfer : WorkerBehaviour
 
         buildingReached = false;
         WorkerManagerRef.isTransferingItems = false;
+        WorkerManagerRef.CanDoAction = true;
     }
 
     public void DoTake()
@@ -129,6 +131,7 @@ public class WorkerAITransfer : WorkerBehaviour
 
         buildingReached = false;
         WorkerManagerRef.isTransferingItems = false;
+        WorkerManagerRef.CanDoAction = true;
     }
 
     public async void DoTransfer()
@@ -281,6 +284,7 @@ public class WorkerAITransfer : WorkerBehaviour
                 WorkerManagerRef.isTransferingItems = false;
                 buildingReached = false;
                 TransferStarted = false;
+                WorkerManagerRef.CanDoAction = true;
             }
         }
         else
@@ -398,6 +402,7 @@ public class WorkerAITransfer : WorkerBehaviour
                 Debug.Log("transfer done");
                 TransferStarted = false;
                 WorkerManagerRef.isTransferingItems = false;
+                WorkerManagerRef.CanDoAction = true;
             }
             else
             {
@@ -405,6 +410,7 @@ public class WorkerAITransfer : WorkerBehaviour
                 WorkerManagerRef.isTransferingItems = false;
                 buildingReached = false;
                 TransferStarted = false;
+                WorkerManagerRef.CanDoAction = true;
             }
         }
     }

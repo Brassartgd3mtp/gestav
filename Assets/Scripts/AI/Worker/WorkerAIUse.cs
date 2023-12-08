@@ -24,19 +24,25 @@ public class WorkerAIUse : WorkerBehaviour
     public override void ApplyBehaviour()
     {
         WorkerManagerRef.canBeMovedByPlayer = false;
+        if(WorkerManagerRef.CanDoAction) 
+        {
+            if (WorkerManagerRef.isAssignedToABuilding && WorkerManagerRef.buildingAssigned != null && WorkerManagerRef.buildingAssigned.hasBeenBuilt)
+            {
+                UseBuilding();
+                WorkerManagerRef.CanDoAction = false;
+            }
+            else if (WorkerManagerRef.isAssignedToABuilding && WorkerManagerRef.buildingAssigned != null && !WorkerManagerRef.buildingAssigned.hasBeenBuilt)
+            {
+                DoBuild();
+                WorkerManagerRef.CanDoAction = false;
+            }
+            else if (WorkerManagerRef.isAssignedToABuilding && WorkerManagerRef.resourceAssigned != null)
+            {
+                Collect();
+                WorkerManagerRef.CanDoAction = false;
+            }
+        }
 
-        if (WorkerManagerRef.isAssignedToABuilding && WorkerManagerRef.buildingAssigned != null && WorkerManagerRef.buildingAssigned.hasBeenBuilt)
-        {
-            UseBuilding();
-        }
-        else if(WorkerManagerRef.isAssignedToABuilding && WorkerManagerRef.buildingAssigned != null && !WorkerManagerRef.buildingAssigned.hasBeenBuilt)
-        {
-            DoBuild();
-        }
-        else if (WorkerManagerRef.isAssignedToABuilding && WorkerManagerRef.resourceAssigned != null)
-        {
-            Collect();
-        }
     }
     public override BehaviourName CheckTransition()
     {
@@ -93,7 +99,7 @@ public class WorkerAIUse : WorkerBehaviour
 
     }
 
-    public void Collect()
+    public async void Collect()
     {
         currentActionText.text = "Collecting Items . . .";
         currentActionText.outlineColor = Color.black;
@@ -109,24 +115,36 @@ public class WorkerAIUse : WorkerBehaviour
             WorkerManagerRef.MoveTo(targetLocation, distanceToStop); //Va a la position de la mine
             WorkerManagerRef.EnterGatheringMode();
         }
-        if(WorkerManagerRef.Inventory.InventorySystem.AmountOfSlotsAvaliable() == 0) 
+
+        while (WorkerManagerRef.resourceAssigned != null)
         {
-            WorkerManagerRef.isAssignedToABuilding = false;
-
-            AssignWorkerInventory assignInv = WorkerManagerRef.resourceAssigned.GetComponent<AssignWorkerInventory>();
-
-            for (int i = 0; i < assignInv.InventorySystem.InventorySize; i++)
+            if (WorkerManagerRef.Inventory.InventorySystem.AmountOfSlotsAvaliable() == 0)
             {
-                if (assignInv.InventorySystem.InventorySlots[i].ItemData != null)
+                AssignWorkerInventory assignInv = WorkerManagerRef.resourceAssigned.GetComponent<AssignWorkerInventory>();
+
+                for (int i = 0; i < assignInv.InventorySystem.InventorySize; i++)
                 {
-                    assignInv.InventorySystem.InventorySlots[i].ClearSlot();
-                    break;
+                    if (assignInv.InventorySystem.InventorySlots[i].ItemData != null)
+                    {
+                        assignInv.InventorySystem.InventorySlots[i].ClearSlot();
+                        break;
+                    }
                 }
+
+                WorkerManagerRef.resourceAssigned = null;
+                WorkerManagerRef.ExitGatheringMode();
+                WorkerManagerRef.isAssignedToABuilding = false;
             }
 
-            WorkerManagerRef.resourceAssigned = null;
-            WorkerManagerRef.ExitGatheringMode();
+            await Task.Delay(100);
         }
+
+        WorkerManagerRef.resourceAssigned = null;
+        WorkerManagerRef.ExitGatheringMode();
+        WorkerManagerRef.isAssignedToABuilding = false;
+
+        WorkerManagerRef.CanDoAction = true;
+
     }
 
     public void GoMining()
@@ -163,6 +181,7 @@ public class WorkerAIUse : WorkerBehaviour
             Vector3 targetLocation = targetTransform.position;
             WorkerManagerRef.MoveTo(targetLocation, distanceToStop); //Va a la position de la mine
         }
+        WorkerManagerRef.CanDoAction = true;
     }
 
     public Transform GetClosestResource(List<ItemRef> correspondingItems)
@@ -255,6 +274,7 @@ public class WorkerAIUse : WorkerBehaviour
             }
 
         }
+        WorkerManagerRef.CanDoAction = true;
     }
 
     public async void DoBuild()
@@ -381,6 +401,7 @@ public class WorkerAIUse : WorkerBehaviour
                                 }
                             }
                             WorkerManagerRef.resourceAssigned = null;
+                            WorkerManagerRef.CanDoAction = true;
                         }
 
                         Destroy(constructionInventory);
@@ -637,7 +658,7 @@ public class WorkerAIUse : WorkerBehaviour
             WorkerManagerRef.resourceAssigned = null;
         }
 
-
+        WorkerManagerRef.CanDoAction = true;
     }
     public void DoCancelBuild()
     {

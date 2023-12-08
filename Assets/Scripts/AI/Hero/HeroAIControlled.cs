@@ -12,7 +12,7 @@ public class HeroAIControlled : HeroBehaviour
 
     public override BehaviourName CheckTransition()
     {
-        if (!Global.SELECTED_CHARACTERS.Contains(this.gameObject.GetComponentInParent<CharacterManager>()) && !HeroManagerRef.IsInBattle)
+        if (!Global.SELECTED_CHARACTERS.Contains(this.gameObject.GetComponentInParent<CharacterManager>()) && HeroManagerRef.CurrentTarget == null)
         {
             return BehaviourName.Wait;
         }

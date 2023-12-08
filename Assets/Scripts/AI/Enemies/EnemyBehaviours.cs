@@ -208,10 +208,10 @@ public class FollowAttack : IState
             {
                 if (owner.CurrentTarget != null)
                 {
-                    if (owner.CurrentTarget.TryGetComponent(out WorkerManager _wm))
+                    if (owner.CurrentTarget.TryGetComponent(out CharacterManager _cm))
                     {
-                        _wm.HealthPoints -= owner.AttackDamage;
-                        _wm.HealthUpdate();
+                        _cm.HealthPoints -= owner.AttackDamage;
+                        _cm.HealthUpdate();
                     }
 
                     owner.AttackCooldown = owner.MaxAttackCooldown;
