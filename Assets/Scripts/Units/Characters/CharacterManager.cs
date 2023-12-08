@@ -32,8 +32,6 @@ public class CharacterManager : UnitManager
     public Animator Animator => animator;
     [SerializeField] protected GameObject corpse;
 
-    [SerializeField] private Transform meshTrasnform;
-
 
     protected override Unit Unit
     {
@@ -60,7 +58,6 @@ public class CharacterManager : UnitManager
     public virtual async void MoveTo(Vector3 _targetPosition, float _rangeToStop)
     {
         bool positionReached = false;
-        meshTrasnform.rotation = transform.rotation;
         // Stop the current movement
         agent.velocity = Vector3.zero;
         agent.isStopped = true;

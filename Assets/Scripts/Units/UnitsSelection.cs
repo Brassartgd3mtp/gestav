@@ -43,6 +43,7 @@ public class UnitsSelection : MonoBehaviour
             if (Input.GetMouseButtonDown(0))
             {
                 ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+
                bool isNotOverUI = UnityEngine.EventSystems.EventSystem.current.IsPointerOverGameObject();
                 if (Physics.Raycast(
                     ray,
@@ -50,6 +51,7 @@ public class UnitsSelection : MonoBehaviour
                     1000f
                 ))
                 {
+                    Debug.DrawRay(Camera.main.transform.position, raycastHit.point, Color.green, Mathf.Infinity);
                     if (raycastHit.collider.gameObject.TryGetComponent(out EnemyManager em))
                     {
                         foreach (UnitManager um in Global.SELECTED_CHARACTERS)
