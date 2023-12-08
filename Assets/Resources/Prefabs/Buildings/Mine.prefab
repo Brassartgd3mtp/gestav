@@ -8592,8 +8592,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 3, y: 3, z: 3}
-  m_Center: {x: 0, y: 1.5, z: 0}
+  m_Size: {x: 3.2, y: 2.5, z: 4}
+  m_Center: {x: 0, y: 1.25, z: 0.2}
 --- !u!114 &6043932349711789998
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8606,7 +8606,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 13a6db4cd5f4fa8418feada410ee4c16, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  HealthPoints: 0
+  unitData: {fileID: 11400000, guid: 42e84a968f1cfcb4dac12f895fbd4f99, type: 2}
   OutilineMaterial: {fileID: 2100000, guid: 0634b05414478cc439d03427eaa410a3, type: 2}
+  healthBar: {fileID: 8045698910305767349}
   TypeOfBuilding: 1
   hasBeenBuilt: 0
 --- !u!54 &4476076860485327923
@@ -8674,7 +8677,6 @@ MonoBehaviour:
   OutilineMaterial: {fileID: 2100000, guid: 0634b05414478cc439d03427eaa410a3, type: 2}
   buildingData: {fileID: 11400000, guid: 42e84a968f1cfcb4dac12f895fbd4f99, type: 2}
   healthBar: {fileID: 8045698910305767349}
-  HealthPoints: 0
 --- !u!114 &8079430522156623552
 MonoBehaviour:
   m_ObjectHideFlags: 0

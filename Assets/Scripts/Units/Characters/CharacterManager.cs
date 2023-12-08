@@ -12,7 +12,6 @@ public class CharacterManager : UnitManager
     [Header("Scripts")]
 
     [SerializeField] protected Find findingScript;
-    public UnitData unitData;
     protected Character character;
 
     protected ResourceSpot resourceSpot;
@@ -42,10 +41,9 @@ public class CharacterManager : UnitManager
         set { character = value is Character ? (Character)value : null; }
     }
 
-    protected virtual void Awake()
+    protected override void Awake()
     {
-        healthBar.maxValue = unitData.healthPoints;
-        HealthPoints = unitData.healthPoints;
+        base.Awake();
     }
 
     public override void HealthUpdate()
@@ -59,7 +57,7 @@ public class CharacterManager : UnitManager
         }
             
     }
-    public async void MoveTo(Vector3 _targetPosition, float _rangeToStop)
+    public virtual async void MoveTo(Vector3 _targetPosition, float _rangeToStop)
     {
         bool positionReached = false;
         meshTrasnform.rotation = transform.rotation;

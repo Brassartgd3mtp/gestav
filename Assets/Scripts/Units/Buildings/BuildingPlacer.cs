@@ -33,7 +33,7 @@ public class BuildingPlacer : MonoBehaviour
             if (Physics.Raycast(ray, out raycastHit, 1000f, Global.TERRAIN_LAYER_MASK))
             {
                 // Set the position of the building to the cursor's position
-                placedBuilding.SetPosition(new Vector3(raycastHit.point.x, 0 , raycastHit.point.z));
+                placedBuilding.SetPosition(new Vector3(raycastHit.point.x, raycastHit.point.y , raycastHit.point.z));
                 if (lastPlacementPosition != raycastHit.point)
                 {
                     placedBuilding.CheckValidPlacement();

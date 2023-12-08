@@ -30,9 +30,17 @@ public class HeroManager : CharacterManager
         damage = Attack;
         target.HealthPoints -= damage;
         target.HealthUpdate();
+        if (target.HealthPoints <= 0) 
+        {
+        CurrentTarget = null;
+        }
     }
-    private void Update()
+    
+    public override async void MoveTo(Vector3 _targetPosition, float _rangeToStop)
     {
-        Debug.Log(CurrentTarget);
+        CurrentTarget = null;
+        base.MoveTo(_targetPosition, _rangeToStop);
+
     }
+
 }

@@ -1,153 +1,95 @@
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 using UnityEngine.AI;
 
 public class EnemyAI : MonoBehaviour
 {
-    [SerializeField] private GameObject currentTarget;
-    [SerializeField] private Collider[] colliders;
+    public GameObject CurrentTarget;
 
     [Space]
-    [SerializeField] private int detectionRange = 12;
-    [SerializeField] private int damageRange = 2;
-    [SerializeField] private int attackDamage = 2;
-    [SerializeField] private float attackCooldown = 3f;
-    [SerializeField] private LayerMask detectable;
+    public int DetectionRange = 12;
+    public int DamageRange = 2;
+    public int AttackDamage = 2;
+    public float MaxAttackCooldown = 3f;
+    public LayerMask Detectable;
+    [HideInInspector] public float AttackCooldown = 3f;
 
     [Space]
-    private NavMeshAgent agent;
-    private float compareDistance = 0;
+    [Tooltip("Don't modify this variable in Runtime !")]
+    public float CompareDistance = 0;
+    [Tooltip("Don't modify this variable in Runtime !")]
+    public CurrentState State = new CurrentState();
+    [Tooltip("Don't modify this variable in Runtime !")]
+    public Vector3 spawnPos;
+    [Tooltip("Don't modify this variable in Runtime !")]
+    public bool isWandering = false;
+    [HideInInspector] public NavMeshAgent Agent;
+
+    public EnemySM EnemyStateMachine = new EnemySM();
+    public Wandering Wandering;
+    public Detect Detect;
+    public DefineTargetType DefineTargetType;
+    public FollowAttack FollowAttack;
+    public StandAttack StandAttack;
 
     void Awake()
     {
-        agent = GetComponent<NavMeshAgent>();
+        Agent = GetComponent<NavMeshAgent>();
+    }
+
+    private void Start()
+    {
+        spawnPos = transform.position;
+
+        Wandering = new Wandering(this);
+        Detect = new Detect(this);
+        DefineTargetType = new DefineTargetType(this);
+        FollowAttack = new FollowAttack(this);
+        StandAttack = new StandAttack(this);
+
+        EnemyStateMachine.ChangeState(Detect);
     }
 
     private void FixedUpdate()
     {
-        if (currentTarget == null)
+        EnemyStateMachine.Update();
+
+        if (CurrentTarget != null)
         {
-            if (Detect())
+            if (State != CurrentState.StandAttack)
             {
-                StartCoroutine(ApplyDamage());
-            }
-            else
-                Debug.Log("Target not found !");
-        }       
-        else
-        {
-            compareDistance = Vector3.Distance(transform.position, currentTarget.transform.position);
+                CompareDistance = Agent.remainingDistance;
 
-            if (compareDistance > detectionRange)
-            {
-                currentTarget = null;
-            }
-        }
-    }
-
-    private bool Detect()
-    {
-        Debug.Log("Start detection");
-        Collider[] hit = Physics.OverlapSphere(transform.position, detectionRange, detectable);
-        colliders = hit;
-
-        float distanceMin = float.MaxValue;
-        GameObject nearestObject = null;
-
-        foreach (Collider hitCollider in hit)
-        {
-            if (hitCollider.TryGetComponent(out BuildingStockageUI _bsui))
-            {
-                float nearestCollider = Vector3.Distance(transform.position, hitCollider.transform.position);
-
-                if (nearestCollider < distanceMin)
+                if (Agent.hasPath && CompareDistance > DetectionRange)
                 {
-                    distanceMin = nearestCollider;
-                    nearestObject = _bsui.gameObject;
+                    Debug.LogWarning("Target is out of range !");
+                    CurrentTarget = null;
                 }
             }
-            else if (hitCollider.TryGetComponent(out CharacterManager _cm))
-            {
-                float nearestCollider = Vector3.Distance(transform.position, hitCollider.transform.position);
-
-                if (nearestCollider < distanceMin)
-                {
-                    distanceMin = nearestCollider;
-                    nearestObject = _cm.gameObject;
-                }
-            }
-            else
-            {
-                Debug.LogError($"{hitCollider} don't have any of the required component !");
-                return false;
-            }
-        }
-
-        if (hit.Count() > 0 && nearestObject != null)
-        {
-            currentTarget = nearestObject;
-            Debug.Log($"New target is {currentTarget} !");
-            if (currentTarget != null)
-                StartCoroutine(FollowTarget());
-            return true;
         }
         else
-            return false;
+            EnemyStateMachine.ChangeState(Detect);
     }
 
-    private IEnumerator ApplyDamage()
+    public void SetState(int _cs)
     {
-        while(true)
-        {
-            while (compareDistance <= damageRange)
-            {
-                yield return new WaitForSeconds(attackCooldown);
-
-                if (currentTarget != null)
-                {
-                    if (currentTarget.TryGetComponent(out UnitManager _um))
-                        _um.HealthPoints -= attackDamage;
-                }
-                else
-                    yield break;
-
-                yield return null;
-            }
-            yield return null;
-        }
+        State = (CurrentState)_cs;
     }
-
-    private IEnumerator FollowTarget()
-    {
-        while (true)
-        {
-            if (currentTarget != null)
-            {
-                if (compareDistance <= detectionRange)
-                {
-                    agent.destination = currentTarget.transform.position;
-                }
-            }
-            else
-                yield break;
-
-            yield return new WaitForSeconds(.1f);
-        }
-    }
-
-    //private Vector3 OffsetPosition(GameObject _gameObject)
-    //{
-    //    return _gameObject.transform.position + _gameObject.GetComponent<BoxCollider>().size;
-    //}
 
     private void OnDrawGizmos()
     {
         Gizmos.color = Color.blue;
-        Gizmos.DrawWireSphere(transform.position, detectionRange);
+        Gizmos.DrawWireSphere(transform.position, DetectionRange);
 
         Gizmos.color = Color.red;
-        Gizmos.DrawWireSphere(transform.position, damageRange);
+        Gizmos.DrawWireSphere(transform.position, DamageRange);
     }
+}
+
+public enum CurrentState
+{
+    Wandering,
+    Detect,
+    DefineTargetType,
+    FollowAttack,
+    StandAttack
 }
