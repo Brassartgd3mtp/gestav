@@ -580,6 +580,7 @@ MonoBehaviour:
   animator: {fileID: 0}
   healthBar: {fileID: 640792597918926589}
   corpse: {fileID: 4202299266704800787, guid: 1d0a73574fb8f9745a140fa56391dc3f, type: 3}
+  outlineMaterial: {fileID: 2100000, guid: 0dc14e407b7dc3746b58b75cf09ac968, type: 2}
 --- !u!1 &4493655452644344707
 GameObject:
   m_ObjectHideFlags: 0
