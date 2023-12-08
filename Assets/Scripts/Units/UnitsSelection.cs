@@ -56,7 +56,11 @@ public class UnitsSelection : MonoBehaviour
                             if (um is HeroManager)
                             {
                                 HeroManager hm = um as HeroManager;
-                                hm.CurrentTarget = em;
+                                if(hm.CurrentTarget != em)
+                                {
+                                    hm.CurrentTarget = em;
+                                }
+                                
                             }
                     }
                     else if (raycastHit.transform.tag == "Terrain" /*&& !isNotOverUI */)
