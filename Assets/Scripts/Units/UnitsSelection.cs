@@ -43,7 +43,7 @@ public class UnitsSelection : MonoBehaviour
             if (Input.GetMouseButtonDown(0))
             {
                 ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-              // bool isNotOverUI = UnityEngine.EventSystems.EventSystem.current.IsPointerOverGameObject();
+               bool isNotOverUI = UnityEngine.EventSystems.EventSystem.current.IsPointerOverGameObject();
                 if (Physics.Raycast(
                     ray,
                     out raycastHit,
@@ -63,7 +63,7 @@ public class UnitsSelection : MonoBehaviour
                                 
                             }
                     }
-                    else if (raycastHit.transform.tag == "Terrain" /*&& !isNotOverUI */)
+                    else if (raycastHit.transform.tag == "Terrain" && !isNotOverUI)
                         DeselectAllUnits();
                 }
             }

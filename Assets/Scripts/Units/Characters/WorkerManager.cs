@@ -23,7 +23,8 @@ public class WorkerManager : CharacterManager
     public bool IsGathering => isGathering;
     public InventoryResourceType LastGatheredResource;
 
-    private float miningDuration = 3f;
+    private float baseMiningDuration;
+    private float miningDuration;
     public float MiningDuration => miningDuration;
     private int depositDuration = 350; //en milisecondes
     public int DepositDuration => depositDuration;
@@ -65,6 +66,7 @@ public class WorkerManager : CharacterManager
         workerBehaviour = gameObject.GetComponentInChildren<WorkerBehaviour>();
 
         base.Awake();
+        baseMiningDuration = unitData.gatheringTime;
     }
     private void Update()
     {
@@ -80,10 +82,22 @@ public class WorkerManager : CharacterManager
                 {
                     if (resourceSpot.Quantity > 0)
                     {
+                        
                         resourceSpot.GatherResources(resourceToGather);
+
+                        if (buildingAssigned == null) 
+                        {
+                            HealthPoints -= 2;
+                            HealthUpdate();
+                            miningDuration = baseMiningDuration * 2;
+                        }
+                        else
+                        {
+                            miningDuration = baseMiningDuration;
+                        }
                         inventory.InventorySystem.AddToInventory(item.item, resourceToGather);
                         LastGatheredResource = item.item.resourceType;
-
+                        
                         //change the bag according to how much there is inside
                         ShowBag();
                         ChangeBagSize(CalculateBagSize());

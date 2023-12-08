@@ -20,4 +20,5 @@ MonoBehaviour:
   damages: 2
   attackSpeed: 0.4
   moveSpeed: 0
-  attackRange: 5.5
+  attackRange: 1.8
+  gatheringTime: 0

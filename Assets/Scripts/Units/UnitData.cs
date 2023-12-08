@@ -14,5 +14,5 @@ public class UnitData : ScriptableObject
     public float attackSpeed;
     public float moveSpeed;
     public float attackRange;
-
+    public float gatheringTime;
 }

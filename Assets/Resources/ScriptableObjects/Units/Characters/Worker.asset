@@ -14,6 +14,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   code: Worker
   unitName: Worker
-  healthPoints: 20
-  prefab: {fileID: 0}
+  healthPoints: 10
+  prefab: {fileID: 2019966834684936119, guid: 79873b0bb66d20d4aa775b9aadf014f2, type: 3}
   resourcesToBuild: []
+  damages: 0
+  attackSpeed: 0
+  moveSpeed: 0
+  attackRange: 0
+  gatheringTime: 5
