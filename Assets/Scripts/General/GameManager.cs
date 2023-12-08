@@ -59,6 +59,7 @@ public class GameManager : MonoBehaviour
                             {
                                 ((HeroManager)um).MoveTo(raycastHit.point, 1f);
                                 hm.CurrentTarget = null;
+                                
                             }
                             
                         }

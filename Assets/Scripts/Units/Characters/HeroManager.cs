@@ -35,12 +35,5 @@ public class HeroManager : CharacterManager
         CurrentTarget = null;
         }
     }
-    
-    public override async void MoveTo(Vector3 _targetPosition, float _rangeToStop)
-    {
-        CurrentTarget = null;
-        base.MoveTo(_targetPosition, _rangeToStop);
-
-    }
 
 }
