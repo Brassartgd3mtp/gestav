@@ -15,7 +15,7 @@ public class HeroManager : CharacterManager
     public bool IsInBattle => inIsBattle;
 
     public bool canBeMovedByPlayer;
-    public EnemyManager CurrentTarget;
+    public EnemyUnitManager CurrentTarget;
 
     protected override void Awake()
     {
@@ -25,7 +25,7 @@ public class HeroManager : CharacterManager
         AttackRange = unitData.attackRange;
     }
 
-    public void InflictDamage(EnemyManager target, int damage)
+    public void InflictDamage(EnemyUnitManager target, int damage)
     {
         damage = Attack;
         target.HealthPoints -= damage;

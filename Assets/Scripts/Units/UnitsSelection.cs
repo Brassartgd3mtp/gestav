@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Threading;
+using Unity.AI.Navigation;
 using UnityEngine;
 
 public class UnitsSelection : MonoBehaviour
@@ -52,7 +53,7 @@ public class UnitsSelection : MonoBehaviour
                 ))
                 {
                     Debug.DrawRay(Camera.main.transform.position, raycastHit.point, Color.green, Mathf.Infinity);
-                    if (raycastHit.collider.gameObject.TryGetComponent(out EnemyManager em))
+                    if (raycastHit.collider.gameObject.TryGetComponent(out EnemyUnitManager em))
                     {
                         foreach (UnitManager um in Global.SELECTED_CHARACTERS)
                             if (um is HeroManager)
@@ -65,7 +66,7 @@ public class UnitsSelection : MonoBehaviour
                                 
                             }
                     }
-                    else if (raycastHit.transform.tag == "Terrain" && !isNotOverUI)
+                    else if (raycastHit.collider.gameObject.TryGetComponent(out NavMeshSurface nms) && !isNotOverUI)
                         DeselectAllUnits();
                 }
             }
@@ -85,7 +86,7 @@ public class UnitsSelection : MonoBehaviour
                     1000f
                 ))
                 {
-                    if (raycastHit.transform.tag == "Terrain" && !isNotOverUI)
+                    if (raycastHit.collider.gameObject.TryGetComponent(out NavMeshSurface nms) && !isNotOverUI)
                         DeselectAllBuildings();
 
                 }

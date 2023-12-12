@@ -17,7 +17,7 @@ public class EnemySpawner : MonoBehaviour
     {
         unitsInArea = 0;
         spawnInterval = Random.Range(minSpawnInterval, maxSpawnInterval);
-        maxSpawnDistance = detectionArea.GetComponent<SphereCollider>().radius;
+        maxSpawnDistance = detectionArea.GetComponent<SphereCollider>().radius / 2;
     }
     private void Update()
     {
