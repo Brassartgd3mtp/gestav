@@ -19,12 +19,12 @@ public class BuildingUIController : MonoBehaviour
 
     private void Update()
     {
-        if (Global.SELECTED_BUILDINGS.Contains(unitAssociated) && Global.SELECTED_BUILDINGS.Count == 1 && unitAssociated.hasBeenBuilt)
+        if (Global.SELECTED_BUILDINGS.Contains(unitAssociated) && Global.SELECTED_BUILDINGS.Count == 1 && unitAssociated.HasBeenBuilt)
         {
             DisplayActionsUIPopUp();
             HideBuildPopUp();
         }
-        else if (Global.SELECTED_BUILDINGS.Contains(unitAssociated) && Global.SELECTED_BUILDINGS.Count == 1 && !unitAssociated.hasBeenBuilt)
+        else if (Global.SELECTED_BUILDINGS.Contains(unitAssociated) && Global.SELECTED_BUILDINGS.Count == 1 && !unitAssociated.HasBeenBuilt)
         {
             HideActionsUIPopUp();
             DisplayBuildPopUp();
