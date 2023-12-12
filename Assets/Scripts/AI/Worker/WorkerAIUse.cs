@@ -354,7 +354,6 @@ public class WorkerAIUse : WorkerBehaviour
                                     }
 
                                 }
-                                constructionInventory = null;
                                 locationReached = true;
 
                                 if (WorkerManagerRef.Inventory.InventorySystem.KnowIfInventoryIsEmpty())
@@ -405,6 +404,7 @@ public class WorkerAIUse : WorkerBehaviour
                         }
 
                         Destroy(constructionInventory);
+                        constructionInventory = null;
                     }
                 }
 
@@ -524,16 +524,10 @@ public class WorkerAIUse : WorkerBehaviour
                                     constructionInventory.GetComponent<BuildingStockageUI>().UpdateSpaceInUI();
                                     //change the UI pop up on top of the building
 
-                                    if (constructionInventory.InventorySystem.AmountOfSlotsAvaliable() == 0)
-                                    {
-                                        WorkerManagerRef.isAssignedToABuilding = false;
-                                        WorkerManagerRef.buildingAssigned = null;
-                                        return;
-                                    }
+
                                 }
 
                             }
-                            constructionInventory = null;
                             locationReached = true;
 
                             if (WorkerManagerRef.Inventory.InventorySystem.KnowIfInventoryIsEmpty())
@@ -544,6 +538,16 @@ public class WorkerAIUse : WorkerBehaviour
                         }
                         await Task.Delay(250);
                     }
+                    if (constructionInventory.InventorySystem.AmountOfSlotsAvaliable() == 0 || amountTransfered >= amountToTransfer)
+                    {
+                        WorkerManagerRef.isAssignedToABuilding = false;
+                        WorkerManagerRef.buildingAssigned = null;
+
+                        Destroy(constructionInventory);
+                        constructionInventory = null;
+                    }
+
+
                 }
 
                 if(amountTransfered >= amountToTransfer)
