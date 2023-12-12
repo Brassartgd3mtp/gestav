@@ -542,6 +542,7 @@ public class WorkerAIUse : WorkerBehaviour
                     {
                         WorkerManagerRef.isAssignedToABuilding = false;
                         WorkerManagerRef.buildingAssigned = null;
+                        WorkerManagerRef.CanDoAction = true;
 
                         Destroy(constructionInventory);
                         constructionInventory = null;
@@ -623,7 +624,9 @@ public class WorkerAIUse : WorkerBehaviour
                     WorkerManagerRef.resourceAssigned = null;
                 }
 
+                WorkerManagerRef.CanDoAction = true;
                 Destroy(constructionInventory);
+                constructionInventory = null;
             }
 
         }
@@ -663,6 +666,8 @@ public class WorkerAIUse : WorkerBehaviour
         }
 
         WorkerManagerRef.CanDoAction = true;
+        Destroy(constructionInventory);
+        constructionInventory = null;
     }
     public void DoCancelBuild()
     {
