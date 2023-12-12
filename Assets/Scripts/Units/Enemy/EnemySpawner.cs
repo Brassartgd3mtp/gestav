@@ -11,22 +11,26 @@ public class EnemySpawner : MonoBehaviour
     [SerializeField] private GameObject detectionArea;
     private float maxSpawnDistance;
     public int unitsInArea;
+    private int maxEnemiesAtSameTime = 4;
+    public List<GameObject> Enemies = new List<GameObject>();
 
 
     private void Awake()
     {
         unitsInArea = 0;
         spawnInterval = Random.Range(minSpawnInterval, maxSpawnInterval);
-        maxSpawnDistance = detectionArea.GetComponent<SphereCollider>().radius;
+        maxSpawnDistance = detectionArea.GetComponent<SphereCollider>().radius / 2;
     }
     private void Update()
     {
-        if (unitsInArea > 0)
+        if (unitsInArea > 0 && Enemies.Count < maxEnemiesAtSameTime)
         {
             if (spawnInterval < 0)
             {
                 Vector3 _spawnPosition = new Vector3(transform.position.x + Random.Range(0, maxSpawnDistance), transform.position.y,transform.position.z + Random.Range(0, maxSpawnDistance));
-                Instantiate(enemyToSpawn, _spawnPosition, Quaternion.identity);
+                GameObject enemy = Instantiate(enemyToSpawn, _spawnPosition, Quaternion.identity);
+                Enemies.Add(enemy);
+                enemy.GetComponent<EnemyManager>().Spawner = this;
                 spawnInterval = Random.Range(minSpawnInterval, maxSpawnInterval);
             }
             else

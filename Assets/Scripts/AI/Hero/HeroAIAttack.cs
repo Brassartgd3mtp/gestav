@@ -34,7 +34,7 @@ public class HeroAIAttack : HeroBehaviour
             if (!HeroManagerRef.agent.hasPath)
             {
                 Debug.Log("Creating path");
-                HeroManagerRef.MoveTo(HeroManagerRef.CurrentTarget.transform.position, HeroManagerRef.CurrentTarget.GetComponent<BoxCollider>().size.z + HeroManagerRef.AttackRange / 2);
+                HeroManagerRef.MoveTo(HeroManagerRef.CurrentTarget.transform.position, HeroManagerRef.CurrentTarget.GetComponent<BoxCollider>().size.z + 1 + HeroManagerRef.AttackRange / 2);
             }
             else if (Vector3.Distance(transform.position, HeroManagerRef.CurrentTarget.transform.position) < HeroManagerRef.AttackRange + HeroManagerRef.CurrentTarget.GetComponent<BoxCollider>().size.z)
             {
