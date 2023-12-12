@@ -30,6 +30,10 @@ public class EnemyUnitManager : MonoBehaviour
     public virtual void HealthUpdate()
     {
         healthBar.value = HealthPoints;
+        if (HealthPoints <= 0)
+        {
+            Destroy(gameObject);
+        }
     }
 
     private void OnMouseEnter()

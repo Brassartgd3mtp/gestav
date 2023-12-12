@@ -24,6 +24,8 @@ public class EnemyManager : EnemyUnitManager
     [SerializeField] private GameObject corpse;
 
 
+    public EnemySpawner Spawner;
+
     protected override void Awake()
     {
         base.Awake();
@@ -32,12 +34,15 @@ public class EnemyManager : EnemyUnitManager
     }
     public override void HealthUpdate()
     {
-        base.HealthUpdate();
         if (HealthPoints <= 0)
         {
+            if(Spawner != null)
+            {
+                Spawner.Enemies.Remove(this.gameObject);
+            }
             Instantiate(corpse, transform.position, Quaternion.identity);
-            Destroy(gameObject);
         }
+        base.HealthUpdate();
     }
     private void InflictDamage(UnitManager target, int damage)
     {
