@@ -47,7 +47,7 @@ public class BuildingStockageUI : MonoBehaviour
 
     private void OnMouseEnter()
     {
-        if (buildingManager.hasBeenBuilt)
+        if (buildingManager.HasBeenBuilt)
         {
             PopUpPanel.gameObject.SetActive(true);
             BuildProgresionPanel.gameObject.SetActive(false);

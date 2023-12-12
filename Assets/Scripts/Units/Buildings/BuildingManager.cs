@@ -20,7 +20,7 @@ public class BuildingManager : UnitManager
     public Building Building => building;
     private GameResourceManager gameResourceManager;
 
-    public bool hasBeenBuilt;
+    public bool HasBeenBuilt;
 
     protected override Unit Unit
     {
@@ -33,7 +33,7 @@ public class BuildingManager : UnitManager
         base.Awake();
 
         gameResourceManager = FindAnyObjectByType<GameResourceManager>();
-        hasBeenBuilt = false;
+        HasBeenBuilt = false;
     }
 
     private int nCollisions = 0;  // Counter for collision events

@@ -31,7 +31,7 @@ public class Dissolve : MonoBehaviour
 
     private void Update()
     {
-        if (buildingManager != null && buildingManager.hasBeenBuilt)
+        if (buildingManager != null && buildingManager.HasBeenBuilt)
         {
             StartCoroutine(Appear(true, false));
             transparencyMine.SetActive(false);
