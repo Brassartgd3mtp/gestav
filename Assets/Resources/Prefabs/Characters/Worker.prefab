@@ -326,6 +326,7 @@ GameObject:
   - component: {fileID: 3261263250596637997}
   - component: {fileID: 6828548498444926733}
   - component: {fileID: 2005762523665065977}
+  - component: {fileID: 6994142336696757651}
   m_Layer: 12
   m_Name: Worker
   m_TagString: Unit
@@ -497,16 +498,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   HealthPoints: 0
+  unitData: {fileID: 11400000, guid: c8e1b7a7471415240882f5812752ef31, type: 2}
   OutilineMaterial: {fileID: 2100000, guid: 0634b05414478cc439d03427eaa410a3, type: 2}
   healthBar: {fileID: 9160698491249958942}
   findingScript: {fileID: 8466157469576545125}
-  unitData: {fileID: 11400000, guid: c8e1b7a7471415240882f5812752ef31, type: 2}
   agent: {fileID: 1689742863027917839}
   stoppingDistance: 0.25
   animator: {fileID: 3177651736305246939}
   corpse: {fileID: 2019966834684936119, guid: 28fd9c1cc7730b14781022000e6c94bc, type: 3}
-  meshTrasnform: {fileID: 8861225615376611489}
   workerBehaviour: {fileID: 0}
+  CanDoAction: 1
   resourceToGather: 1
   GatheringMode: 0
   BuildingMode: 0
@@ -520,6 +521,60 @@ MonoBehaviour:
   resourceAssigned: {fileID: 0}
   canBeMovedByPlayer: 0
   isTransferingItems: 0
+--- !u!114 &6994142336696757651
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2019966834684936119}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5c8c92e8943a9914ba89720ba5fcf806, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ViewRadius: 15
+  SoftenDistance: 3
+  ViewAngle: 360
+  UnobscuredRadius: 1
+  Opacity: 1
+  AddCorners: 1
+  RevealHiderInFadeOutZonePercentage: 0.5
+  EyeOffset: 0
+  VisionHeight: 3
+  VisionHeightSoftenDistance: 1.5
+  ObstacleMask:
+    serializedVersion: 2
+    m_Bits: 0
+  RaycastResolution: 0.5
+  ResolveEdge: 1
+  MaxEdgeResolveIterations: 10
+  NumExtraIterations: 4
+  NumExtraRaysOnIteration: 3
+  MaxAcceptableEdgeAngleDifference: 0.005
+  EdgeDstThreshold: 0.1
+  DoubleHitMaxAngleDelta: 15
+  StartRevealerAsStatic: 0
+  StaticRevealer: 0
+  FogOfWarID: 0
+  IndexID: 0
+  NumberOfPoints: 0
+  Angles: []
+  Radii: []
+  AreHits: 
+  DebugMode: 0
+  DrawInitialRays: 0
+  SegmentTest: 0
+  DrawSegments: 0
+  DrawOutline: 0
+  DrawExpectedNextPoints: 0
+  DrawIteritiveRays: 0
+  DrawEdgeResolveRays: 0
+  LogNumRaycasts: 0
+  NumRayCasts: 0
+  DrawRayNoise: 0
+  DrawExtraCastLines: 0
+  hidersSeen: []
 --- !u!1 &2077983242471989877
 GameObject:
   m_ObjectHideFlags: 0

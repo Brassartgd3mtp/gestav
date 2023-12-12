@@ -101,6 +101,7 @@ GameObject:
   - component: {fileID: 9152607663828230570}
   - component: {fileID: 383454507321897915}
   - component: {fileID: 851149025857833745}
+  - component: {fileID: 4866496498684853517}
   m_Layer: 12
   m_Name: Hero
   m_TagString: Unit
@@ -228,15 +229,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   HealthPoints: 0
+  unitData: {fileID: 11400000, guid: 95c7a526d13053e41b0db307fa02e668, type: 2}
   OutilineMaterial: {fileID: 2100000, guid: 0634b05414478cc439d03427eaa410a3, type: 2}
   healthBar: {fileID: 9160698491249958942}
   findingScript: {fileID: 851149025857833745}
-  unitData: {fileID: 11400000, guid: 95c7a526d13053e41b0db307fa02e668, type: 2}
   agent: {fileID: 1689742863027917839}
   stoppingDistance: 0.25
   animator: {fileID: 1277535324797957342}
   corpse: {fileID: 2019966834684936119, guid: 8cdd8fc15319a404b8ca0d2f623d8812, type: 3}
-  meshTrasnform: {fileID: 5141592690145996452}
   Attack: 0
   AttackSpeed: 0
   AttackRange: 0
@@ -254,6 +254,60 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 22e2940f5c9b0454e92275953cbd8f29, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &4866496498684853517
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2019966834684936119}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5c8c92e8943a9914ba89720ba5fcf806, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ViewRadius: 15
+  SoftenDistance: 3
+  ViewAngle: 360
+  UnobscuredRadius: 1
+  Opacity: 1
+  AddCorners: 1
+  RevealHiderInFadeOutZonePercentage: 0.5
+  EyeOffset: 0
+  VisionHeight: 3
+  VisionHeightSoftenDistance: 1.5
+  ObstacleMask:
+    serializedVersion: 2
+    m_Bits: 0
+  RaycastResolution: 0.5
+  ResolveEdge: 1
+  MaxEdgeResolveIterations: 10
+  NumExtraIterations: 4
+  NumExtraRaysOnIteration: 3
+  MaxAcceptableEdgeAngleDifference: 0.005
+  EdgeDstThreshold: 0.1
+  DoubleHitMaxAngleDelta: 15
+  StartRevealerAsStatic: 0
+  StaticRevealer: 0
+  FogOfWarID: 0
+  IndexID: 0
+  NumberOfPoints: 0
+  Angles: []
+  Radii: []
+  AreHits: 
+  DebugMode: 0
+  DrawInitialRays: 0
+  SegmentTest: 0
+  DrawSegments: 0
+  DrawOutline: 0
+  DrawExpectedNextPoints: 0
+  DrawIteritiveRays: 0
+  DrawEdgeResolveRays: 0
+  LogNumRaycasts: 0
+  NumRayCasts: 0
+  DrawRayNoise: 0
+  DrawExtraCastLines: 0
+  hidersSeen: []
 --- !u!1 &3103786832743425920
 GameObject:
   m_ObjectHideFlags: 0
