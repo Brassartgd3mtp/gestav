@@ -11,7 +11,6 @@ GameObject:
   - component: {fileID: 5037021438160593347}
   - component: {fileID: 7936925083504754183}
   - component: {fileID: 3380058508283872681}
-  - component: {fileID: 5787476576811868995}
   m_Layer: 0
   m_Name: mesh
   m_TagString: Untagged
@@ -84,27 +83,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!65 &5787476576811868995
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 134124232996574232}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &4534770218059686555
 GameObject:
   m_ObjectHideFlags: 0
@@ -230,7 +208,9 @@ GameObject:
   m_Component:
   - component: {fileID: 1901669338260745966}
   - component: {fileID: 6128352068611560961}
-  - component: {fileID: 7885597227704091863}
+  - component: {fileID: 124680228500732224}
+  - component: {fileID: 6026108126447409545}
+  - component: {fileID: 1743709630628469268}
   m_Layer: 0
   m_Name: spawner
   m_TagString: Untagged
@@ -270,12 +250,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   enemyToSpawn: {fileID: 4202299266704800787, guid: 697aad4bde3560a44b06a11d0126f2ea,
     type: 3}
-  minSpawnInterval: 5
-  maxSpawnInterval: 20
+  minSpawnInterval: 4
+  maxSpawnInterval: 10
   spawnInterval: 0
   detectionArea: {fileID: 8019785331138048329}
   unitsInArea: 0
---- !u!114 &7885597227704091863
+--- !u!114 &124680228500732224
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -284,19 +264,61 @@ MonoBehaviour:
   m_GameObject: {fileID: 5159349394831718155}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e94f3c2b0c464df41bc812494e436d0a, type: 3}
+  m_Script: {fileID: 11500000, guid: 1f4396594024a504186a8f3ca8c53a75, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  HealthPoints: 0
-  Attack: 0
-  AttackSpeed: 0
+  HealthPoints: 35
   EnemyData: {fileID: 11400000, guid: 181506570e9027842999652e7a1cc617, type: 2}
-  agent: {fileID: 0}
-  stoppingDistance: 0
-  animator: {fileID: 0}
   healthBar: {fileID: 874083917147735265}
-  corpse: {fileID: 0}
   outlineMaterial: {fileID: 2100000, guid: 0dc14e407b7dc3746b58b75cf09ac968, type: 2}
+--- !u!65 &6026108126447409545
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5159349394831718155}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 2, y: 2, z: 2}
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!54 &1743709630628469268
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5159349394831718155}
+  serializedVersion: 4
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 0
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 126
+  m_CollisionDetection: 0
 --- !u!1 &5321268283159370703
 GameObject:
   m_ObjectHideFlags: 0

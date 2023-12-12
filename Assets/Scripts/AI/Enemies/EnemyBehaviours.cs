@@ -200,15 +200,22 @@ public class FollowAttack : IState
     public void Execute()
     {
         if (owner.CompareDistance <= owner.DetectionRange && owner.CurrentTarget != null)
+        {
+            owner.Agent.isStopped = false;
             owner.Agent.destination = owner.CurrentTarget.transform.position;
+        }
+
 
         if (owner.CompareDistance <= owner.DamageRange)
         {
+
+            owner.Agent.isStopped = true;
+
             if (owner.AttackCooldown <= 0)
             {
                 if (owner.CurrentTarget != null)
                 {
-                    if (owner.CurrentTarget.TryGetComponent(out CharacterManager _cm))
+                    if (owner.CurrentTarget.TryGetComponent(out CharacterManager _cm) && owner.CompareDistance <= owner.DamageRange)
                     {
                         _cm.HealthPoints -= owner.AttackDamage;
                         _cm.HealthUpdate();
