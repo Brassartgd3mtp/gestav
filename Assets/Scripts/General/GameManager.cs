@@ -3,8 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 using Unity.AI.Navigation;
-using Unity.Burst.CompilerServices;
-using UnityEditor.Experimental.GraphView;
 
 public class GameManager : MonoBehaviour
 {

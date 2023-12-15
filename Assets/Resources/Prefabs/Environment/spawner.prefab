@@ -287,8 +287,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   enemyToSpawn: {fileID: 4202299266704800787, guid: 697aad4bde3560a44b06a11d0126f2ea,
     type: 3}
-  minSpawnInterval: 8
-  maxSpawnInterval: 12
+  minSpawnInterval: 12
+  maxSpawnInterval: 14
   spawnInterval: 0
   detectionArea: {fileID: 8019785331138048329}
   unitsInArea: 0

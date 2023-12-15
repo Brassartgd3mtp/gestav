@@ -3,8 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using static WorkerAIC;
 using System.Threading.Tasks;
-using System.Runtime.InteropServices.WindowsRuntime;
-using UnityEditor.Experimental.GraphView;
 
 public class WorkerAITransfer : WorkerBehaviour
 {
@@ -13,7 +11,6 @@ public class WorkerAITransfer : WorkerBehaviour
     private UnitInventory inventory;
     public BuildingActionSelection ActionSelection;
     private BuildingStockageUI buildingStockageUI;
-    private Find findingScript;
 
     List<ItemTypeAndCount> items = new List<ItemTypeAndCount>();
 
@@ -27,7 +24,6 @@ public class WorkerAITransfer : WorkerBehaviour
         WorkerManagerRef.canBeMovedByPlayer = false;
         TransferStarted = false;
         buildingStockageUI = null;
-        findingScript = GetComponentInParent<Find>();
     }
     public override void ApplyBehaviour()
     {

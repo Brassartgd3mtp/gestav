@@ -3,8 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using Unity.AI.Navigation;
 using UnityEngine.AI;
-using static UnityEditor.Progress;
-
 
 // Enumeration to represent the building placement state
 public enum BuildingPlacement
