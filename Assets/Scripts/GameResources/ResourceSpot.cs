@@ -35,7 +35,7 @@ public class ResourceSpot : MonoBehaviour
         if (Quantity <= 0)
         {
             Destroy(parentObject);
-            Global.RebuildNavMesh();
+        //    Global.RebuildNavMesh();
         }
 
         if (onQuantityChange != null)

@@ -217,7 +217,6 @@ public class FollowAttack : IState
                 {
                     if (owner.CurrentTarget.TryGetComponent(out CharacterManager _cm) && owner.CompareDistance <= owner.DamageRange)
                     {
-
                         _cm.HealthPoints -= owner.AttackDamage;
                         _cm.HealthUpdate();
                     }

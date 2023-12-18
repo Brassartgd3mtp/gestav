@@ -88,7 +88,7 @@ public class Building : Unit
             SetMaterials();
 
             //rebuild the navmesh
-            Global.RebuildNavMesh();
+     //       Global.RebuildNavMesh();
      //   }
 
     }
