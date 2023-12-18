@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -13,6 +14,9 @@ public class EnemyUnitManager : MonoBehaviour
 
     [Header("Animations & graphics")]
     [SerializeField] private Slider healthBar;
+    [SerializeField] protected TextMeshProUGUI currentHPText;
+    [SerializeField] protected TextMeshProUGUI maxHPText;
+
     [SerializeField] private Material outlineMaterial;
 
 
@@ -20,6 +24,8 @@ public class EnemyUnitManager : MonoBehaviour
     {
         healthBar.maxValue = EnemyData.healthPoints;
         HealthPoints = EnemyData.healthPoints;
+        maxHPText.text = healthBar.maxValue.ToString();
+        HealthUpdate();
     }
 
     protected void FixedUpdate()
@@ -30,9 +36,18 @@ public class EnemyUnitManager : MonoBehaviour
     public virtual void HealthUpdate()
     {
         healthBar.value = HealthPoints;
+        currentHPText.text = healthBar.value.ToString();
         if (HealthPoints <= 0)
         {
             Destroy(gameObject);
+        }
+        if (HealthPoints == EnemyData.healthPoints)
+        {
+            healthBar.gameObject.SetActive(false);
+        }
+        else
+        {
+            healthBar.gameObject.SetActive(true);
         }
     }
 

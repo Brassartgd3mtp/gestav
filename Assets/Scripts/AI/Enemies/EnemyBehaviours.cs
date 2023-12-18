@@ -1,8 +1,8 @@
 using System.Buffers;
 using System.IO;
 using System.Linq;
+using TMPro;
 using UnityEngine;
-using UnityEngine.AI;
 
 public interface IState
 {
@@ -217,6 +217,7 @@ public class FollowAttack : IState
                 {
                     if (owner.CurrentTarget.TryGetComponent(out CharacterManager _cm) && owner.CompareDistance <= owner.DamageRange)
                     {
+
                         _cm.HealthPoints -= owner.AttackDamage;
                         _cm.HealthUpdate();
                     }

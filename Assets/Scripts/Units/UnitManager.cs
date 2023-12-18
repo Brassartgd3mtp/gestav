@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -17,6 +18,8 @@ public class UnitManager : MonoBehaviour
     protected BuildingActionSelection buildingActionSelection;
 
     [SerializeField] protected Slider healthBar;
+    [SerializeField] protected TextMeshProUGUI currentHPText;
+    [SerializeField] protected TextMeshProUGUI maxHPText;
 
     protected virtual void Awake()
     {
@@ -25,11 +28,24 @@ public class UnitManager : MonoBehaviour
         HealthPoints = unitData.healthPoints;
         healthBar.maxValue = HealthPoints;
         healthBar.value = healthBar.maxValue;
+        maxHPText.text = healthBar.maxValue.ToString();
+        HealthUpdate();
     }
 
     public virtual void HealthUpdate()
     {
+
+
         healthBar.value = HealthPoints;
+        currentHPText.text = healthBar.value.ToString();
+        if(HealthPoints == unitData.healthPoints) 
+        {
+            healthBar.gameObject.SetActive(false);
+        }
+        else
+        {
+            healthBar.gameObject.SetActive(true);
+        }
     }
     protected virtual Unit Unit { get; set; }
 
