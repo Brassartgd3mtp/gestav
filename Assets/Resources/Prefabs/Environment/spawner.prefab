@@ -245,6 +245,7 @@ GameObject:
   - component: {fileID: 1743709630628469268}
   - component: {fileID: 2481462928023965791}
   - component: {fileID: 7786643418787333369}
+  - component: {fileID: 2224315669573209752}
   m_Layer: 0
   m_Name: spawner
   m_TagString: Untagged
@@ -391,6 +392,22 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ObjectsToHide:
   - {fileID: 134124232996574232}
+--- !u!208 &2224315669573209752
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5159349394831718155}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 0.5, y: 0.5, z: 0.5}
+  m_MoveThreshold: 0.1
+  m_Carve: 0
+  m_CarveOnlyStationary: 1
+  m_Center: {x: 0, y: 0, z: 0}
+  m_TimeToStationary: 0.5
 --- !u!1 &5321268283159370703
 GameObject:
   m_ObjectHideFlags: 0

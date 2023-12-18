@@ -8,9 +8,8 @@ using JetBrains.Annotations;
 
 public class Extractioninventory : MonoBehaviour
 {
-    private InventoryHolder workerInventory;
-    private InventoryHolder thisInventory;
-    private CharacterManager characterManager;
+    private UnitInventory workerInventory;
+    private BuildingInventory thisInventory;
     private int resourcesExtracted = 0;
     private int amountToExtract;
     //private bool amountExctracted;
@@ -24,9 +23,9 @@ public class Extractioninventory : MonoBehaviour
 
     private void Awake()
     {
-        thisInventory = GetComponent<InventoryHolder>();
+        thisInventory = GetComponent<BuildingInventory>();
         //amountExctracted = false;
-        amountToExtract = 5;
+        amountToExtract = 10;
         VictoryUI.SetActive(false);
         totalResourcesText.text = amountToExtract.ToString();
         currentResourcesText.text = resourcesExtracted.ToString();
@@ -41,8 +40,6 @@ public class Extractioninventory : MonoBehaviour
             //amountExctracted = true;
             VictoryUI.SetActive(true);
         }
-
-
         
     }
 
@@ -56,4 +53,24 @@ public class Extractioninventory : MonoBehaviour
             }
         }
     }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.TryGetComponent(out UnitInventory inv))
+        {
+            for (int i = 0; i < inv.InventorySystem.InventorySize; i++)
+            {
+                if (inv.InventorySystem.InventorySlots[i].ItemData != null)
+                {
+                    thisInventory.InventorySystem.InventorySlots.Add(new InventorySlot());
+                    thisInventory.InventorySystem.AddToInventory(inv.InventorySystem.InventorySlots[i].ItemData, 1);
+                    inv.InventorySystem.InventorySlots[i].ClearSlot();
+                    UpdateInventoryInfo();
+                }
+            }
+            UpdateaSlotsAmount();
+
+        }
+    }
+
 }

@@ -64,8 +64,11 @@ public class WorkerManager : CharacterManager
         workerAIC = gameObject.GetComponentInChildren<WorkerAIC>();
         workerBehaviour = gameObject.GetComponentInChildren<WorkerBehaviour>();
 
+
         base.Awake();
         baseMiningDuration = unitData.gatheringTime;
+        miningDuration = baseMiningDuration;
+        timer = miningDuration;
     }
     private void Update()
     {

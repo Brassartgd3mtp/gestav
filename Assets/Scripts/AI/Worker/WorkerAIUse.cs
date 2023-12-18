@@ -107,14 +107,17 @@ public class WorkerAIUse : WorkerBehaviour
 
         if (targetTransform != null) //Si a trouvé une ressource
         {
-            float distanceToStop = targetTransform.GetComponentInParent<BoxCollider>().size.z + 1.5f;
+            float distanceToStop = targetTransform.GetComponentInParent<BoxCollider>().size.z + 2f;
             Vector3 targetLocation = targetTransform.position;
             WorkerManagerRef.MoveTo(targetLocation, distanceToStop); //Va a la position de la mine
             WorkerManagerRef.EnterGatheringMode();
         }
 
+
+
         while (WorkerManagerRef.resourceAssigned != null)
         {
+
             if (WorkerManagerRef.Inventory.InventorySystem.AmountOfSlotsAvaliable() == 0)
             {
                 AssignWorkerInventory assignInv = WorkerManagerRef.resourceAssigned.GetComponent<AssignWorkerInventory>();
