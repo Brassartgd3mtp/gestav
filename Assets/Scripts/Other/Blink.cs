@@ -5,14 +5,14 @@ using UnityEngine;
 public class Blink : MonoBehaviour
 {
     public float blinkSpeed = 0.5f;  // Adjust the speed of the blink
-    private MeshRenderer meshRenderer;
+    private SkinnedMeshRenderer meshRenderer;
     private bool isBlinking = false;
     private bool blinkState = false;
     private Color originalColor;
 
     private void Awake()
     {
-        meshRenderer = GetComponent<MeshRenderer>();
+        meshRenderer = GetComponent<SkinnedMeshRenderer>();
         originalColor = meshRenderer.material.color;
     }
 
@@ -42,7 +42,7 @@ public class Blink : MonoBehaviour
             while (t < 1f)
             {
                 t += Time.deltaTime / blinkSpeed;
-                meshRenderer.material.color = Color.Lerp(GetComponent<MeshRenderer>().material.color, targetColor, t);
+                meshRenderer.material.color = Color.Lerp(GetComponent<SkinnedMeshRenderer>().material.color, targetColor, t);
                 yield return null;
             }
 

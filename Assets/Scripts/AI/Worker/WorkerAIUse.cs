@@ -11,9 +11,11 @@ public class WorkerAIUse : WorkerBehaviour
     private bool buildingReached;
     private Find findingScript;
     private CharacterUI characterUI;
+    private UnitInventory inventory;
     protected override void Awake()
     {
         base.Awake();
+        inventory = GetComponentInParent<UnitInventory>();
         findingScript = GetComponentInParent<Find>();
         WorkerManagerRef.canBeMovedByPlayer = false;
         characterUI = FindAnyObjectByType<CharacterUI>();
@@ -54,7 +56,7 @@ public class WorkerAIUse : WorkerBehaviour
 
     public void UseBuilding()
     {
-
+        Debug.Log("UseBuilding");
         if (!buildingReached)
         {
             GoToUsedBuilding();
@@ -66,10 +68,12 @@ public class WorkerAIUse : WorkerBehaviour
                 case BuildingType.Collect:
                     if (WorkerManagerRef.GatheringMode)
                     {
+                        Debug.Log("Switch Mine");
                         GoMining();
                     }
                     else
                     {
+                        Debug.Log("Switch Store");
                         GoStoreResources();
                     }
 
@@ -81,21 +85,37 @@ public class WorkerAIUse : WorkerBehaviour
         }
     }
 
+    #region Use
     public void GoToUsedBuilding()
     {
+        Debug.Log("Going To Used Building");
         buildingReached = false;
         Transform targetTransform = WorkerManagerRef.buildingAssigned.gameObject.transform;
         float distanceToStop = targetTransform.GetComponent<BoxCollider>().size.z + 1.5f;
 
         WorkerManagerRef.MoveTo(targetTransform.position, distanceToStop);
-        if (Vector3.Distance(transform.position, targetTransform.position) < distanceToStop)
-        {
-            buildingReached = true;
-            WorkerManagerRef.EnterGatheringMode();
-        }
 
+        StartCoroutine(CheckForBuildingReached(targetTransform, distanceToStop));
     }
 
+    private IEnumerator CheckForBuildingReached(Transform targetTransform, float distanceToStop)
+    {
+        while (!buildingReached)
+        {
+            yield return new WaitForSeconds(1);
+            if (Vector3.Distance(transform.position, targetTransform.position) < distanceToStop)
+            {
+                buildingReached = true;
+                Debug.Log("Reached");
+                WorkerManagerRef.EnterGatheringMode();
+                WorkerManagerRef.CanDoAction = true;
+            }
+        }
+    }
+
+    #endregion
+
+    #region Collect
     public async void Collect()
     {
         currentActionText.text = "Collecting Items . . .";
@@ -147,8 +167,11 @@ public class WorkerAIUse : WorkerBehaviour
 
     }
 
+    #endregion
     public void GoMining()
     {
+        Debug.Log("Going to the mine");
+
         currentActionText.text = "Collecting Items . . .";
         currentActionText.outlineColor = Color.black;
         currentActionText.color = Color.white;
@@ -181,7 +204,21 @@ public class WorkerAIUse : WorkerBehaviour
             Vector3 targetLocation = targetTransform.position;
             WorkerManagerRef.MoveTo(targetLocation, distanceToStop); //Va a la position de la mine
         }
-        WorkerManagerRef.CanDoAction = true;
+
+        StartCoroutine(CheckForInventory());
+    }
+    private IEnumerator CheckForInventory()
+    {
+        while (WorkerManagerRef.GatheringMode)
+        {
+            yield return new WaitForSeconds(1);
+            if (inventory.InventorySystem.AmountOfSlotsAvaliable() == 0)
+            {
+                WorkerManagerRef.ExitGatheringMode();
+                Debug.Log("Inv plein");
+            }
+            WorkerManagerRef.CanDoAction = true;
+        }
     }
 
     public Transform GetClosestResource(List<ItemRef> correspondingItems)
@@ -202,9 +239,9 @@ public class WorkerAIUse : WorkerBehaviour
     }
 
 
-    public async void GoStoreResources() // The method that tell the worker to go store the resources he gathered in a building
+    public void GoStoreResources() // The method that tell the worker to go store the resources he gathered in a building
     {
-        WorkerManagerRef.ExitGatheringMode();
+        Debug.Log("Go Store");
 
         Transform targetTransform = WorkerManagerRef.buildingAssigned.gameObject.transform;
 
@@ -213,70 +250,70 @@ public class WorkerAIUse : WorkerBehaviour
             float distanceToStop = targetTransform.GetComponent<BoxCollider>().size.z + 1.5f;
             bool locationReached = false;
             Vector3 targetLocation = targetTransform.position;
-            WorkerManagerRef.MoveTo(targetLocation, distanceToStop); //Va a la position de la mine
+            WorkerManagerRef.MoveTo(targetLocation, distanceToStop); //Va a la position de la mine 
 
-            while (locationReached == false)
+            StartCoroutine(CheckForResourcesStored(targetTransform, distanceToStop, locationReached));
+        }
+    }
+
+    private IEnumerator CheckForResourcesStored(Transform targetTransform, float distanceToStop, bool locationReached) 
+    {
+        while (!locationReached)
+        {
+            if (Vector3.Distance(transform.position, targetTransform.position) <= distanceToStop) //Si l'ouvrier est suffisament près de la mine
             {
-                if (Vector3.Distance(transform.position, targetLocation) <= distanceToStop) //Si l'ouvrier est suffisament près de la mine
+                BuildingInventory _buildInv = targetTransform.GetComponent<BuildingInventory>();
+                for (int i = 0; i < WorkerManagerRef.Inventory.InventorySystem.InventorySlots.Count; i++) //transfert les objets de son inventaire à celui de la mine
                 {
-                    BuildingInventory _buildInv = targetTransform.GetComponent<BuildingInventory>();
-                    for (int i = 0; i < WorkerManagerRef.Inventory.InventorySystem.InventorySlots.Count; i++) //transfert les objets de son inventaire à celui de la mine
+
+                    //Put worker items into the building
+
+                    if (WorkerManagerRef.Inventory.InventorySystem.InventorySlots[i].ItemData != null && _buildInv.validType.Contains(WorkerManagerRef.Inventory.InventorySystem.InventorySlots[i].ItemData.resourceType))
                     {
+                        _buildInv.InventorySystem.AddToInventory(WorkerManagerRef.Inventory.InventorySystem.InventorySlots[i].ItemData, 1);
+                        WorkerManagerRef.Inventory.InventorySystem.InventorySlots[i].ClearSlot();
 
-                        //Put worker items into the building
+                        WorkerManagerRef.ChangeBagSize(WorkerManagerRef.CalculateBagSize()); // change the bag size
 
-                        if (WorkerManagerRef.Inventory.InventorySystem.InventorySlots[i].ItemData != null && _buildInv.validType.Contains(WorkerManagerRef.Inventory.InventorySystem.InventorySlots[i].ItemData.resourceType))
+                        yield return new WaitForSeconds(WorkerManagerRef.DepositDuration / 100);
+
+                        //change the UI pop up on top of the building
+                        BuildingStockageUI buildingStockageUI = _buildInv.gameObject.GetComponent<BuildingStockageUI>();
+                        if (buildingStockageUI != null)
                         {
-                            _buildInv.InventorySystem.AddToInventory(WorkerManagerRef.Inventory.InventorySystem.InventorySlots[i].ItemData, 1);
-                            WorkerManagerRef.Inventory.InventorySystem.InventorySlots[i].ClearSlot();
+                            buildingStockageUI.UpdateSpaceInUI();
+                        }
 
-                            WorkerManagerRef.ChangeBagSize(WorkerManagerRef.CalculateBagSize()); // change the bag size
+                        //Dynamic display of character inventory if he is selected
+                        WorkerManagerRef.DisplayThisIventory();
 
-                            await Task.Delay(WorkerManagerRef.DepositDuration);
-
-                            //change the UI pop up on top of the building
-                            BuildingStockageUI buildingStockageUI = _buildInv.gameObject.GetComponent<BuildingStockageUI>();
-                            if (buildingStockageUI != null)
-                            {
-                                buildingStockageUI.UpdateSpaceInUI();
-                            }
-
-                            //Dynamic display of character inventory if he is selected
-                            WorkerManagerRef.DisplayThisIventory();
-
-                            //Dynamic display of building inventory if it is selected
-                            if (Global.SELECTED_BUILDINGS.Count == 1 && Global.SELECTED_BUILDINGS[0] == _buildInv.gameObject.GetComponent<UnitManager>())
-                            {
-                                WorkerManagerRef.ShowInventoryUI(_buildInv.InventorySystem);
-                            }
-
+                        //Dynamic display of building inventory if it is selected
+                        if (Global.SELECTED_BUILDINGS.Count == 1 && Global.SELECTED_BUILDINGS[0] == _buildInv.gameObject.GetComponent<UnitManager>())
+                        {
+                            WorkerManagerRef.ShowInventoryUI(_buildInv.InventorySystem);
                         }
 
                     }
-                    _buildInv = null;
-                    locationReached = true;
-
-                    // If inventory is empty go mine, else find the new destination to empty his inventory
-                    if (WorkerManagerRef.Inventory.InventorySystem.KnowIfInventoryIsEmpty())
-                    {
-                        WorkerManagerRef.HideBag();
-                        WorkerManagerRef.EnterGatheringMode();
-                    }
-                    else
-                    {
-
-                    }
-
-
 
                 }
-                await Task.Delay(250);
-            }
+                _buildInv = null;
+                locationReached = true;
 
+                // If inventory is empty go mine, else find the new destination to empty his inventory
+                if (WorkerManagerRef.Inventory.InventorySystem.AmountOfSlotsAvaliable() == WorkerManagerRef.Inventory.InventorySystem.InventorySize)
+                {
+                    WorkerManagerRef.HideBag();
+                    WorkerManagerRef.EnterGatheringMode();
+                }
+            }
+            yield return new WaitForSeconds(0.25f);
         }
+        Debug.Log("can do action");
         WorkerManagerRef.CanDoAction = true;
     }
 
+
+    #region Build
     public async void DoBuild()
     {
         currentActionText.text = "Building . . .";
@@ -366,7 +403,10 @@ public class WorkerAIUse : WorkerBehaviour
                         }
 
                     }
-                     CheckForBuildingCompletion(constructionInventory, amountTransfered, amountToTransfer);
+                    if (CheckForBuildingCompletion(constructionInventory, amountTransfered, amountToTransfer))
+                    {
+                        return;
+                    }
                 }
 
                 // STEP THREE : Check for resources in other buildings
@@ -494,8 +534,11 @@ public class WorkerAIUse : WorkerBehaviour
                         await Task.Delay(250);
                     }
 
-                    CheckForBuildingCompletion(constructionInventory, amountTransfered, amountToTransfer);
-
+                    if(CheckForBuildingCompletion(constructionInventory, amountTransfered, amountToTransfer))
+                    {
+                        return;
+                    }
+                    
                 }
 
                 if(amountTransfered >= amountToTransfer)
@@ -616,12 +659,15 @@ public class WorkerAIUse : WorkerBehaviour
         Destroy(constructionInventory);
         constructionInventory = null;
     }
+
+    #endregion
+
     public void DoCancelBuild()
     {
 
     }
 
-    public void CheckForBuildingCompletion(ConstructionInventory constructionInventory, int amountTransfered, int amountToTransfer)
+    public bool CheckForBuildingCompletion(ConstructionInventory constructionInventory, int amountTransfered, int amountToTransfer)
     {
         if (constructionInventory.InventorySystem.AmountOfSlotsAvaliable() == 0 || amountTransfered >= amountToTransfer)
         {
@@ -666,7 +712,11 @@ public class WorkerAIUse : WorkerBehaviour
 
                 Destroy(constructionInventory);
                 constructionInventory = null;
+                return true;
             }
+            else return false;
         }
+        else
+        { return false; }
     }
 }
