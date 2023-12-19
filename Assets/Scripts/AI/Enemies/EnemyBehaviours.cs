@@ -184,17 +184,22 @@ public class DefineTargetType : IState
 public class FollowAttack : IState
 {
     EnemyAI owner;
+    EnemyManager enemyManager;
 
-    public FollowAttack(EnemyAI owner)
+    public FollowAttack(EnemyAI owner, EnemyManager em)
     {
         this.owner = owner;
+        this.enemyManager = em;
     }
 
     public void Enter()
     {
         owner.SetState(3);
 
+        enemyManager.attackCdSlider.gameObject.SetActive(true);
         owner.AttackCooldown = owner.MaxAttackCooldown;
+        enemyManager.attackCdSlider.value = owner.MaxAttackCooldown - owner.AttackCooldown;
+
     }
 
     public void Execute()
@@ -222,17 +227,23 @@ public class FollowAttack : IState
                     }
 
                     owner.AttackCooldown = owner.MaxAttackCooldown;
+                    enemyManager.attackCdSlider.value = owner.MaxAttackCooldown - owner.AttackCooldown;
                 }
                 else
                     owner.EnemyStateMachine.ChangeState(owner.Detect);
             }
             else
+            {
                 owner.AttackCooldown -= Time.deltaTime;
+                enemyManager.attackCdSlider.value = owner.MaxAttackCooldown - owner.AttackCooldown;
+            }
+
         }
     }
 
     public void Exit()
     {
+        enemyManager.attackCdSlider.gameObject.SetActive(false);
         return;
     }
 }
@@ -240,17 +251,21 @@ public class FollowAttack : IState
 public class StandAttack : IState
 {
     EnemyAI owner;
+    EnemyManager enemyManager;
 
-    public StandAttack(EnemyAI owner)
+    public StandAttack(EnemyAI owner, EnemyManager em)
     {
         this.owner = owner;
+        this.enemyManager = em;
     }
 
     public void Enter()
     {
         owner.SetState(4);
 
+        enemyManager.attackCdSlider.gameObject.SetActive(true);
         owner.AttackCooldown = owner.MaxAttackCooldown;
+        enemyManager.attackCdSlider.value = owner.MaxAttackCooldown - owner.AttackCooldown;
 
         owner.Agent.destination = owner.CurrentTarget.transform.position;
     }
@@ -268,16 +283,22 @@ public class StandAttack : IState
                 }
 
                 owner.AttackCooldown = owner.MaxAttackCooldown;
+                enemyManager.attackCdSlider.value = owner.MaxAttackCooldown - owner.AttackCooldown;
             }
             else
                 owner.EnemyStateMachine.ChangeState(owner.Detect);
         }
         else
+        {
             owner.AttackCooldown -= Time.deltaTime;
+            enemyManager.attackCdSlider.value = owner.MaxAttackCooldown - owner.AttackCooldown;
+        }
+
     }
 
     public void Exit()
     {
+        enemyManager.attackCdSlider.gameObject.SetActive(false);
         return;
     }
 }

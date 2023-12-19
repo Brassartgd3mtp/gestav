@@ -21,6 +21,7 @@ public class HeroAIAttack : HeroBehaviour
         if (timer > 0) 
         {
         timer -= Time.deltaTime;
+            HeroManagerRef.attackCdSlider.value = HeroManagerRef.attackCdSlider.maxValue - timer;
         }
     }
 
@@ -32,6 +33,7 @@ public class HeroAIAttack : HeroBehaviour
         if(HeroManagerRef.CurrentTarget != null)
         {
             HeroManagerRef.battleIcon.SetActive(true);
+            HeroManagerRef.attackCdSlider.gameObject.SetActive(true);
             if (!HeroManagerRef.agent.hasPath)
             {
                 Debug.Log("Creating path");
@@ -77,6 +79,7 @@ public class HeroAIAttack : HeroBehaviour
         if (HeroManagerRef.CurrentTarget == null)
         {
             HeroManagerRef.battleIcon.SetActive(false);
+            HeroManagerRef.attackCdSlider.gameObject.SetActive(false);
             if(Global.SELECTED_CHARACTERS.Contains(this.gameObject.GetComponentInParent<CharacterManager>()))
             return BehaviourName.Controlled;
             else return BehaviourName.Wait;
@@ -88,6 +91,7 @@ public class HeroAIAttack : HeroBehaviour
     {
         HeroManagerRef.Animator.SetTrigger("Attack");
         timer = 1 / HeroManagerRef.AttackSpeed;
+        HeroManagerRef.attackCdSlider.value = timer;
         HeroManagerRef.gameObject.transform.LookAt(HeroManagerRef.CurrentTarget.transform.position);
         StartCoroutine(ApplyDamage());
     }

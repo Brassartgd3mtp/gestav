@@ -43,8 +43,8 @@ public class EnemyAI : MonoBehaviour
         Wandering = new Wandering(this);
         Detect = new Detect(this);
         DefineTargetType = new DefineTargetType(this);
-        FollowAttack = new FollowAttack(this);
-        StandAttack = new StandAttack(this);
+        FollowAttack = new FollowAttack(this,GetComponent<EnemyManager>());
+        StandAttack = new StandAttack(this, GetComponent<EnemyManager>());
 
         EnemyStateMachine.ChangeState(Detect);
     }

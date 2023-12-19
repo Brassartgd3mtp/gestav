@@ -22,15 +22,21 @@ public class EnemyManager : EnemyUnitManager
 
     [SerializeField] private Animator animator;
     [SerializeField] private GameObject corpse;
+    public Slider attackCdSlider;
 
 
     public EnemySpawner Spawner;
+    private EnemyAI thisEnemyAI;
 
     protected override void Awake()
     {
         base.Awake();
+        thisEnemyAI = GetComponent<EnemyAI>();
         Attack = EnemyData.damages;
         AttackSpeed = EnemyData.attackSpeed;
+        attackCdSlider.maxValue = thisEnemyAI.MaxAttackCooldown;
+        attackCdSlider.value = thisEnemyAI.MaxAttackCooldown - thisEnemyAI.AttackCooldown;
+        attackCdSlider.gameObject.SetActive(false);
     }
     public override void HealthUpdate()
     {

@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class HeroManager : CharacterManager
 {
@@ -11,6 +12,7 @@ public class HeroManager : CharacterManager
     public float AttackRange;
 
     public GameObject battleIcon;
+    public Slider attackCdSlider;
 
     public bool canBeMovedByPlayer;
     public EnemyUnitManager CurrentTarget;
@@ -22,6 +24,10 @@ public class HeroManager : CharacterManager
         Attack = unitData.damages;
         AttackSpeed = unitData.attackSpeed;
         AttackRange = unitData.attackRange;
+
+        attackCdSlider.maxValue = 1 / unitData.attackSpeed;
+        attackCdSlider.value = 0f;
+        attackCdSlider.gameObject.SetActive(false);
     }
 
     public void InflictDamage(EnemyUnitManager target, int damage)
