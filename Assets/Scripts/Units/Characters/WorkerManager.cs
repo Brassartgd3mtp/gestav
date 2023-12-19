@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Resources;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class WorkerManager : CharacterManager
 {
@@ -39,6 +40,7 @@ public class WorkerManager : CharacterManager
     [SerializeField] GameObject bag;
     [SerializeField] GameObject bagContainer;
     private Vector3 startingBagScale;
+    [SerializeField] private Slider miningSlider;
 
 
     [Header("Building assignation")]
@@ -69,6 +71,9 @@ public class WorkerManager : CharacterManager
         baseMiningDuration = unitData.gatheringTime;
         miningDuration = baseMiningDuration;
         timer = miningDuration;
+        miningSlider.maxValue = timer;
+        miningSlider.value = 0;
+        miningSlider.gameObject.SetActive(false);
     }
     private void Update()
     {
@@ -79,7 +84,9 @@ public class WorkerManager : CharacterManager
                 animator.SetBool("Walking", false);
                 animator.SetBool("Interaction", true);
 
+                miningSlider.gameObject.SetActive(true);
                 timer -= Time.deltaTime;
+                miningSlider.value = miningSlider.maxValue - timer;
                 if (timer <= 0f)
                 {
                     if (resourceSpot.Quantity > 0)

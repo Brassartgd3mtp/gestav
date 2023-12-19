@@ -16,6 +16,7 @@ public class CollisionOpenPanel : MonoBehaviour
             if(tutorialScript.tutorialStep == 2)
             {
                 tutorialScript.panelStepTwo.SetActive(true);
+                Time.timeScale = 0f;
             }
         }
     }
