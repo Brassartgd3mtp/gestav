@@ -31,6 +31,7 @@ public class HeroAIAttack : HeroBehaviour
 
         if(HeroManagerRef.CurrentTarget != null)
         {
+            HeroManagerRef.battleIcon.SetActive(true);
             if (!HeroManagerRef.agent.hasPath)
             {
                 Debug.Log("Creating path");
@@ -52,12 +53,16 @@ public class HeroAIAttack : HeroBehaviour
                 Vector3 targetPos;
                 targetPos = HeroManagerRef.CurrentTarget.transform.position;
                 await Task.Delay(500);
-                Vector3 nextTargetPos = HeroManagerRef.CurrentTarget.transform.position;
-
-                if (Vector3.Distance(nextTargetPos, transform.position) > Vector3.Distance(targetPos, transform.position))
+                if(HeroManagerRef.CurrentTarget != null)
                 {
-                    HeroManagerRef.agent.isStopped = true;
-                    HeroManagerRef.agent.ResetPath();
+                    Vector3 nextTargetPos = HeroManagerRef.CurrentTarget.transform.position;
+
+                    if (Vector3.Distance(nextTargetPos, transform.position) > Vector3.Distance(targetPos, transform.position))
+                    {
+                        HeroManagerRef.agent.isStopped = true;
+                        HeroManagerRef.agent.ResetPath();
+                    }
+
                 }
                 isExecuting = false;
             }
@@ -71,6 +76,7 @@ public class HeroAIAttack : HeroBehaviour
     {
         if (HeroManagerRef.CurrentTarget == null)
         {
+            HeroManagerRef.battleIcon.SetActive(false);
             if(Global.SELECTED_CHARACTERS.Contains(this.gameObject.GetComponentInParent<CharacterManager>()))
             return BehaviourName.Controlled;
             else return BehaviourName.Wait;

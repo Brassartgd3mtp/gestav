@@ -10,9 +10,7 @@ public class HeroManager : CharacterManager
     public float AttackSpeed;
     public float AttackRange;
 
-
-    private bool inIsBattle;
-    public bool IsInBattle => inIsBattle;
+    public GameObject battleIcon;
 
     public bool canBeMovedByPlayer;
     public EnemyUnitManager CurrentTarget;
@@ -20,6 +18,7 @@ public class HeroManager : CharacterManager
     protected override void Awake()
     {
         base.Awake();
+        battleIcon.SetActive(false);
         Attack = unitData.damages;
         AttackSpeed = unitData.attackSpeed;
         AttackRange = unitData.attackRange;
@@ -27,12 +26,15 @@ public class HeroManager : CharacterManager
 
     public void InflictDamage(EnemyUnitManager target, int damage)
     {
-        damage = Attack;
-        target.HealthPoints -= damage;
-        target.HealthUpdate();
-        if (target.HealthPoints <= 0) 
+        if(target != null)
         {
-        CurrentTarget = null;
+            damage = Attack;
+            target.HealthPoints -= damage;
+            target.HealthUpdate();
+            if (target.HealthPoints <= 0)
+            {
+                CurrentTarget = null;
+            }
         }
     }
 
