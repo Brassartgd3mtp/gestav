@@ -5,8 +5,8 @@ using UnityEngine;
 public class EnemySpawner : MonoBehaviour
 {
     [SerializeField] private GameObject enemyToSpawn;
-    [SerializeField] private float minSpawnInterval = 5f;
-    [SerializeField] private float maxSpawnInterval = 20f;
+    [SerializeField] private float minSpawnInterval;
+    [SerializeField] private float maxSpawnInterval;
     [SerializeField] private float spawnInterval;
     [SerializeField] private GameObject detectionArea;
     private float maxSpawnDistance;
@@ -20,7 +20,7 @@ public class EnemySpawner : MonoBehaviour
         unitsInArea = 0;
         spawnInterval = Random.Range(minSpawnInterval, maxSpawnInterval);
         maxSpawnDistance = detectionArea.GetComponent<SphereCollider>().radius / 2;
-        spawnInterval = 6f;
+        spawnInterval = 5f;
     }
     private void Update()
     {

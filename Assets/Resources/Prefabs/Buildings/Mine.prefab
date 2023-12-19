@@ -8879,7 +8879,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   validType: 01000000
-  inventorySize: 3
+  inventorySize: 1
   inventorySystem:
     inventorySlots: []
   items: []

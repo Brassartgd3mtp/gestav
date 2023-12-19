@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   code: 
   unitName: Hero
-  healthPoints: 30
+  healthPoints: 20
   prefab: {fileID: 2019966834684936119, guid: c0b7016f66761424bbad399a99092846, type: 3}
   resourcesToBuild: []
   damages: 4

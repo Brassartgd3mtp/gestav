@@ -461,8 +461,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   enemyToSpawn: {fileID: 4202299266704800787, guid: 697aad4bde3560a44b06a11d0126f2ea,
     type: 3}
-  minSpawnInterval: 12
-  maxSpawnInterval: 14
+  minSpawnInterval: 9
+  maxSpawnInterval: 12
   spawnInterval: 0
   detectionArea: {fileID: 8019785331138048329}
   unitsInArea: 0
@@ -479,7 +479,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1f4396594024a504186a8f3ca8c53a75, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  HealthPoints: 35
+  HealthPoints: 25
   EnemyData: {fileID: 11400000, guid: 181506570e9027842999652e7a1cc617, type: 2}
   healthBar: {fileID: 874083917147735265}
   currentHPText: {fileID: 5495278872331847898}

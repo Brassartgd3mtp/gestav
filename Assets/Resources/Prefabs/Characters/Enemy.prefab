@@ -891,8 +891,8 @@ MonoBehaviour:
   CurrentTarget: {fileID: 0}
   DetectionRange: 15
   DamageRange: 3
-  AttackDamage: 2
-  MaxAttackCooldown: 2.5
+  AttackDamage: 1
+  MaxAttackCooldown: 2
   Detectable:
     serializedVersion: 2
     m_Bits: 119808
