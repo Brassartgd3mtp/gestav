@@ -889,10 +889,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   CurrentTarget: {fileID: 0}
-  DetectionRange: 14
+  DetectionRange: 15
   DamageRange: 3
   AttackDamage: 2
-  MaxAttackCooldown: 4
+  MaxAttackCooldown: 2.5
   Detectable:
     serializedVersion: 2
     m_Bits: 119808
