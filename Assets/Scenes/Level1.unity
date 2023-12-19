@@ -6685,7 +6685,7 @@ GameObject:
   - component: {fileID: 196797136}
   - component: {fileID: 196797138}
   - component: {fileID: 196797137}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: SpawnerText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -10259,7 +10259,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Button
+  m_text: BUILD
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -17661,7 +17661,7 @@ GameObject:
   - component: {fileID: 474628747}
   - component: {fileID: 474628746}
   - component: {fileID: 474628745}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: TextCanvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -18457,7 +18457,7 @@ GameObject:
   - component: {fileID: 493925641}
   - component: {fileID: 493925643}
   - component: {fileID: 493925642}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: EnemiesHiddenText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -21174,7 +21174,7 @@ GameObject:
   - component: {fileID: 566647595}
   - component: {fileID: 566647597}
   - component: {fileID: 566647596}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: FOWText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -31466,7 +31466,7 @@ MonoBehaviour:
   tutorialStep: 1
   panelStepOne: {fileID: 667055578}
   panelStepTwo: {fileID: 2071931792}
-  panelStepThree: {fileID: 0}
+  panelStepThree: {fileID: 1265652716}
 --- !u!1 &850394979
 GameObject:
   m_ObjectHideFlags: 0
@@ -42224,7 +42224,7 @@ GameObject:
   - component: {fileID: 1133840674}
   - component: {fileID: 1133840673}
   - component: {fileID: 1133840675}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: FightInfo
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -71954,7 +71954,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1824727520}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: _TUTO
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -75209,7 +75209,7 @@ GameObject:
   - component: {fileID: 1937360132}
   - component: {fileID: 1937360134}
   - component: {fileID: 1937360133}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: BeCarefulInfo
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -76095,8 +76095,8 @@ GameObject:
   m_Component:
   - component: {fileID: 1954171178}
   - component: {fileID: 1954171180}
-  - component: {fileID: 1954171179}
-  m_Layer: 0
+  - component: {fileID: 1954171181}
+  m_Layer: 2
   m_Name: CollectInfo
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -76111,7 +76111,7 @@ RectTransform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1954171177}
   m_LocalRotation: {x: -0, y: 0.64353585, z: -0, w: 0.765416}
-  m_LocalPosition: {x: 0, y: 0, z: 13.77}
+  m_LocalPosition: {x: 0, y: 0, z: 13.25}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -76119,21 +76119,9 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 80.112, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 26.96, y: 4.0200005}
+  m_AnchoredPosition: {x: 26.97, y: 4.0200005}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &1954171179
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1954171177}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6cf4afeecdb715a45bc23c3f19f13158, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!65 &1954171180
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -76153,8 +76141,20 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 13, y: 3, z: 9}
+  m_Size: {x: 8, y: 3, z: 9}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &1954171181
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1954171177}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fb69bd63e6c7fa04f9e651bb7aed1d40, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1956976910
 GameObject:
   m_ObjectHideFlags: 0
@@ -76303,7 +76303,7 @@ GameObject:
   - component: {fileID: 1957721897}
   - component: {fileID: 1957721896}
   - component: {fileID: 1957721895}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: TextCanvas (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -76439,7 +76439,7 @@ GameObject:
   - component: {fileID: 1961136134}
   - component: {fileID: 1961136133}
   - component: {fileID: 1961136132}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: TextCanvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -78568,7 +78568,7 @@ GameObject:
   - component: {fileID: 2020984638}
   - component: {fileID: 2020984640}
   - component: {fileID: 2020984639}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Fog info
   m_TagString: Untagged
   m_Icon: {fileID: 0}
