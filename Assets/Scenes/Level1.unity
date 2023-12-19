@@ -67216,7 +67216,9 @@ MonoBehaviour:
   m_text: 'Select a unit by left clicking on it.
 
     Then move it by right clicking
-    on the ground.'
+    on the ground.
+
+    ZQSD to move Camera.'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -76582,7 +76584,7 @@ RectTransform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1957721893}
   m_LocalRotation: {x: -0, y: -0.23286071, z: -0, w: 0.9725101}
-  m_LocalPosition: {x: 0, y: 0, z: 11.66}
+  m_LocalPosition: {x: 0, y: 0, z: 18.58}
   m_LocalScale: {x: 0.02, y: 0.02, z: 0.02}
   m_ConstrainProportionsScale: 1
   m_Children:
@@ -76591,7 +76593,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: -26.931, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 63.49, y: 54.75}
+  m_AnchoredPosition: {x: 64.7, y: 54.75}
   m_SizeDelta: {x: 300, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1957721895
