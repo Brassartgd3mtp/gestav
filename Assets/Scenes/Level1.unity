@@ -51050,6 +51050,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7331059258964303252, guid: 37bb2036e42e587488fb595ca6b13a03,
         type: 3}
+      propertyPath: _speed
+      value: 0.25
+      objectReference: {fileID: 0}
+    - target: {fileID: 7331059258964303252, guid: 37bb2036e42e587488fb595ca6b13a03,
+        type: 3}
       propertyPath: _range.x
       value: 500
       objectReference: {fileID: 0}
